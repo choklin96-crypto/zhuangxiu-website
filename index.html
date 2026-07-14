@@ -1758,6 +1758,60 @@
     return parseFloat(document.getElementById('calcAreaInput').value) || 80;
   }
 
+  // 面积变化时更新所有关联项
+  function onAreaChange() {
+    const area = getCalcArea();
+
+    // 更新所有半包中按面积计算的项目
+    document.querySelectorAll('.calc-semi[data-unit="area"]').forEach(input => {
+      if (!input.value || input.dataset.autoFill === 'true') {
+        input.value = area;
+        calcSemiItem(input);
+      }
+    });
+
+    // 更新所有主材中按面积计算的项目
+    document.querySelectorAll('.calc-main[data-unit="area"]').forEach(input => {
+      if (!input.value || input.dataset.autoFill === 'true') {
+        const row = input.closest('tr');
+        const qtyInput = row.querySelector('.calc-main-qty');
+        if (qtyInput && (!qtyInput.value || qtyInput.dataset.autoFill === 'true')) {
+          qtyInput.value = area;
+          qtyInput.dataset.autoFill = 'true';
+          calcGenericItem(input, 'main');
+        }
+      }
+    });
+
+    // 更新所有卫浴中按面积计算的项目
+    document.querySelectorAll('.calc-bath[data-unit="area"]').forEach(input => {
+      if (!input.value || input.dataset.autoFill === 'true') {
+        const row = input.closest('tr');
+        const qtyInput = row.querySelector('.calc-bath-qty');
+        if (qtyInput && (!qtyInput.value || qtyInput.dataset.autoFill === 'true')) {
+          qtyInput.value = area;
+          qtyInput.dataset.autoFill = 'true';
+          calcGenericItem(input, 'bath');
+        }
+      }
+    });
+
+    // 更新所有设备中按面积计算的项目
+    document.querySelectorAll('.calc-equip[data-unit="area"]').forEach(input => {
+      if (!input.value || input.dataset.autoFill === 'true') {
+        const row = input.closest('tr');
+        const qtyInput = row.querySelector('.calc-equip-qty');
+        if (qtyInput && (!qtyInput.value || qtyInput.dataset.autoFill === 'true')) {
+          qtyInput.value = area;
+          qtyInput.dataset.autoFill = 'true';
+          calcGenericItem(input, 'equip');
+        }
+      }
+    });
+
+    updateCalcSemiTotal();
+  }
+
   // 半包计算
   function calcSemiItem(input) {
     const row = input.closest('tr');
@@ -1877,6 +1931,8 @@
       ['main', 'bath', 'equip', 'appliance', 'furniture'].forEach(cls => {
         document.querySelectorAll(`.calc-${cls}`).forEach(i => { if (i.value) calcGenericItem(i, cls); });
       });
+      // 更新面积关联项
+      onAreaChange();
     } catch (e) {}
   }
 
@@ -1913,7 +1969,7 @@
       <div style="font-size:16px;font-weight:600;margin-bottom:12px;">📐 房屋面积</div>
       <div style="display:inline-flex;align-items:center;gap:10px;background:#f8f9ff;border-radius:10px;padding:10px 20px;">
         <label style="font-size:13px;color:#86868b;">面积</label>
-        <input type="number" id="calcAreaInput" value="80" min="30" max="500" style="width:80px;padding:6px;border:2px solid #e0e0e5;border-radius:8px;font-size:20px;font-weight:700;text-align:center;outline:none;" onchange="updateCalcSemiTotal()">
+        <input type="number" id="calcAreaInput" value="80" min="30" max="500" style="width:80px;padding:6px;border:2px solid #e0e0e5;border-radius:8px;font-size:20px;font-weight:700;text-align:center;outline:none;" onchange="onAreaChange()">
         <span style="font-size:13px;color:#86868b;">㎡</span>
       </div>
     </div>
