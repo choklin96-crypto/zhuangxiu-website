@@ -273,7 +273,7 @@
 </div>
 
 <!-- ============ 第一页：面积计算器 ============ -->
-<div class="page page-home" id="pageHome">
+<div class="page page-home active" id="pageHome">
   <div class="title-row"><span class="slogan" style="font-size:42px;letter-spacing:12px;">装修零距离</span></div>
   <div class="tagline">透明报价 · 所见即所得</div>
 
@@ -315,7 +315,7 @@
     </div>
     <div style="margin-top:16px;text-align:center;">
       <div id="welcomeUser" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;"></div>
-      <button onclick="doLogout()" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
+      <button id="logoutBtn" onclick="doLogout()" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
     </div>
   </div>
 
@@ -1133,6 +1133,20 @@
     document.getElementById('regUser').focus();
   }
 
+  // 显示需要登录提示
+  function showLoginRequired() {
+    // 隐藏所有页面
+    document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+    // 显示登录页
+    document.getElementById('pageLogin').classList.add('active');
+    document.getElementById('loginForm').style.display = 'block';
+    document.getElementById('registerForm').style.display = 'none';
+    // 显示提示信息
+    document.getElementById('loginError').textContent = '⚠️ 查看详细内容需要先登录';
+    document.getElementById('loginError').style.display = 'block';
+    document.getElementById('loginUser').focus();
+  }
+
   // 切换到登录表单
   function showLogin() {
     document.getElementById('registerForm').style.display = 'none';
@@ -1213,8 +1227,21 @@
       sessionStorage.setItem('isLoggedIn', 'true');
       sessionStorage.setItem('currentUser', user);
       document.getElementById('pageLogin').classList.remove('active');
-      document.getElementById('pageHome').classList.add('active');
+
+      // 如果有待跳转的页面，跳转到那里
+      if (pendingRedirect === 'detail') {
+        document.getElementById('pageDetail').classList.add('active');
+        pendingRedirect = null;
+      } else if (pendingRedirect === 'calculator') {
+        document.getElementById('pageCalculator').classList.add('active');
+        pendingRedirect = null;
+        loadCalcData();
+      } else {
+        document.getElementById('pageHome').classList.add('active');
+      }
       showWelcome();
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+      document.getElementById('welcomeUser').style.display = 'block';
     } else {
       errorEl.textContent = '❌ 手机号或密码错误';
       errorEl.style.display = 'block';
@@ -1230,12 +1257,14 @@
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.remove('active');
     document.getElementById('pageCalculator').classList.remove('active');
-    document.getElementById('pageLogin').classList.add('active');
+    document.getElementById('pageHome').classList.add('active');
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerForm').style.display = 'none';
     document.getElementById('loginUser').value = '';
     document.getElementById('loginPass').value = '';
     document.getElementById('loginError').style.display = 'none';
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('welcomeUser').style.display = 'none';
   }
 
   // 显示欢迎信息
@@ -1248,10 +1277,15 @@
 
   // 页面加载时检查登录状态
   window.addEventListener('DOMContentLoaded', function() {
+    // 首页默认显示，不需要登录
+    // 如果已登录，显示欢迎信息和退出按钮
     if (checkLogin()) {
-      document.getElementById('pageLogin').classList.remove('active');
-      document.getElementById('pageHome').classList.add('active');
       showWelcome();
+      document.getElementById('logoutBtn').style.display = 'inline-block';
+      document.getElementById('welcomeUser').style.display = 'block';
+    } else {
+      document.getElementById('logoutBtn').style.display = 'none';
+      document.getElementById('welcomeUser').style.display = 'none';
     }
   });
 
@@ -1289,7 +1323,15 @@
   areaInput.addEventListener('input', calcPrice);
   calcPrice();
 
+  // 记录用户想去的页面
+  let pendingRedirect = null;
+
   function showDetail() {
+    if (!checkLogin()) {
+      pendingRedirect = 'detail';
+      showLoginRequired();
+      return;
+    }
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.add('active');
     window.scrollTo(0, 0);
@@ -1514,6 +1556,11 @@
 
   // ============ 装修费用计算器功能 ============
   function showCalculator() {
+    if (!checkLogin()) {
+      pendingRedirect = 'calculator';
+      showLoginRequired();
+      return;
+    }
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.remove('active');
     document.getElementById('pageCalculator').classList.add('active');
