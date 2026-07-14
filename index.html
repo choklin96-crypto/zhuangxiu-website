@@ -1,0 +1,1696 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>个性半包 · 报价说明</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Helvetica Neue", sans-serif; background: #f5f5f7; color: #1d1d1f; line-height: 1.6; }
+
+  /* 页面切换 */
+  .page { display: none; min-height: 100vh; }
+  .page.active { display: block; }
+  .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
+
+  /* ====== 第一页：面积计算器 ====== */
+  .page-home {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 40px 20px;
+    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1920&q=80') center/cover no-repeat;
+    color: #fff;
+  }
+  .page-home .logo { font-size: 48px; margin-bottom: 16px; }
+  .page-home .title-row { font-size: 36px; font-weight: 800; letter-spacing: 3px; margin-bottom: 10px; text-shadow: 0 2px 10px rgba(0,0,0,0.4); }
+  .page-home .title-row .slogan { font-size: 28px; font-weight: 700; color: #ffba08; letter-spacing: 2px; margin-left: 6px; text-shadow: 0 2px 4px rgba(0,0,0,0.3); }
+  .page-home .tagline { font-size: 15px; opacity: 0.85; margin-bottom: 48px; }
+
+  .home-card {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px); border-radius: 24px; padding: 40px 36px; width: 100%; max-width: 480px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3); color: #1d1d1f; text-align: center;
+  }
+  .home-card .ask { font-size: 18px; font-weight: 600; margin-bottom: 24px; }
+  .home-card .input-wrap {
+    display: flex; align-items: center; justify-content: center; gap: 12px; margin-bottom: 28px;
+  }
+  .home-card input {
+    width: 140px; padding: 14px 16px; border: 2px solid #e0e0e5; border-radius: 14px;
+    font-size: 36px; font-weight: 700; text-align: center; outline: none;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+  .home-card input:focus { border-color: #667eea; box-shadow: 0 0 0 4px rgba(102,126,234,0.15); }
+  .home-card .unit { font-size: 20px; color: #86868b; font-weight: 500; }
+
+  .home-result {
+    background: #f8f9ff; border-radius: 16px; padding: 24px; margin-bottom: 20px;
+  }
+  .home-result .label { font-size: 13px; color: #86868b; margin-bottom: 8px; }
+  .home-result .price { font-size: 42px; font-weight: 800; color: #e85d04; letter-spacing: -1px; }
+  .home-result .price-note { font-size: 13px; color: #86868b; margin-top: 6px; }
+
+  .home-breakdown {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 10px; text-align: left; margin-bottom: 28px;
+  }
+  .home-breakdown .item {
+    background: #f5f5f7; border-radius: 10px; padding: 12px 14px;
+  }
+  .home-breakdown .item .cat { font-size: 12px; color: #86868b; }
+  .home-breakdown .item .val { font-size: 16px; font-weight: 700; color: #1d1d1f; margin-top: 2px; }
+
+  .btn-detail {
+    display: inline-block; padding: 14px 36px; border-radius: 14px;
+    background: linear-gradient(135deg, #e85d04, #f48c06); color: #fff;
+    font-size: 16px; font-weight: 600; border: none; cursor: pointer;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(232,93,4,0.3);
+  }
+  .btn-detail:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,93,4,0.4); }
+  .btn-detail:active { transform: translateY(0); }
+
+  .home-footer { margin-top: 20px; font-size: 12px; color: rgba(255,255,255,0.6); }
+
+  /* ====== 第二页起：明细页 ====== */
+  .page-detail { background: #f5f5f7; }
+
+  /* 顶部导航 */
+  .top-nav {
+    background: #fff; padding: 12px 20px; display: flex; align-items: center;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06); position: sticky; top: 0; z-index: 100;
+  }
+  .top-nav .back { font-size: 14px; color: #667eea; cursor: pointer; display: flex; align-items: center; gap: 4px; }
+  .top-nav .back:hover { text-decoration: underline; }
+  .top-nav .title { flex: 1; text-align: center; font-size: 16px; font-weight: 600; }
+  .top-nav .spacer { width: 60px; }
+
+  /* 面积摘要条 */
+  .area-bar {
+    background: #fff; border-radius: 14px; padding: 14px 20px; margin: 16px 0;
+    display: flex; align-items: center; justify-content: space-between;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+  }
+  .area-bar .left { display: flex; align-items: center; gap: 10px; }
+  .area-bar .area-num { font-size: 24px; font-weight: 700; color: #667eea; }
+  .area-bar .area-label { font-size: 13px; color: #86868b; }
+  .area-bar .total { font-size: 22px; font-weight: 700; color: #e85d04; }
+
+  /* 总览卡片 */
+  .summary-cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap: 10px; margin-bottom: 20px; }
+  .summary-card { background: #fff; border-radius: 14px; padding: 14px; text-align: center; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .summary-card .num { font-size: 22px; font-weight: 700; color: #667eea; }
+  .summary-card .label { font-size: 11px; color: #86868b; margin-top: 2px; }
+
+  /* 分区标题 */
+  .section { background: #fff; border-radius: 14px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); overflow: hidden; }
+  .section-header { padding: 14px 18px; display: flex; align-items: center; justify-content: space-between; cursor: pointer; user-select: none; transition: background 0.15s; }
+  .section-header:hover { background: #f9f9fb; }
+  .section-header .left { display: flex; align-items: center; gap: 10px; }
+  .section-header .icon { width: 34px; height: 34px; border-radius: 9px; display: flex; align-items: center; justify-content: center; font-size: 17px; }
+  .section-header .title { font-size: 15px; font-weight: 600; }
+  .section-header .badge { font-size: 10px; padding: 2px 7px; border-radius: 20px; font-weight: 500; }
+  .section-header .price-summary { text-align: right; }
+  .section-header .price-summary .sale { font-size: 17px; font-weight: 700; color: #e85d04; }
+  .section-header .price-summary .cost { font-size: 11px; color: #86868b; }
+  .section-header .arrow { font-size: 11px; color: #86868b; transition: transform 0.25s; margin-left: 8px; }
+  .section-header.open .arrow { transform: rotate(90deg); }
+
+  /* 表格 */
+  .section-body { display: none; border-top: 1px solid #f0f0f2; }
+  .section-body.show { display: block; }
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  thead th { background: #fafafa; padding: 9px 12px; text-align: left; font-weight: 600; font-size: 12px; color: #86868b; border-bottom: 1px solid #f0f0f2; position: sticky; top: 0; }
+  tbody td { padding: 9px 12px; border-bottom: 1px solid #f5f5f7; vertical-align: middle; }
+  tbody tr:last-child td { border-bottom: none; }
+  tbody tr:hover { background: #f9f9fb; }
+  td.name { font-weight: 500; }
+  td.spec { color: #86868b; font-size: 12px; }
+  td.price { text-align: right; font-variant-numeric: tabular-nums; }
+  td.price.sale { color: #e85d04; font-weight: 600; }
+  .included-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: #e8f5e9; color: #2e7d32; font-weight: 500; margin-left: 4px; vertical-align: middle; }
+  .extra-tag { display: inline-block; font-size: 10px; padding: 1px 6px; border-radius: 4px; background: #fff3e0; color: #e65100; font-weight: 500; margin-left: 4px; vertical-align: middle; }
+
+  /* 说明区 */
+  .notes { background: #fff; border-radius: 14px; padding: 18px 22px; margin-bottom: 12px; box-shadow: 0 1px 3px rgba(0,0,0,0.06); }
+  .notes h3 { font-size: 15px; font-weight: 600; margin-bottom: 10px; }
+  .notes ul { padding-left: 20px; }
+  .notes li { font-size: 13px; color: #515154; margin-bottom: 5px; }
+  .notes li strong { color: #1d1d1f; }
+
+  .case-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-top: 10px; }
+  .case-table th { background: #f5f5f7; padding: 8px 10px; text-align: center; font-size: 12px; color: #86868b; }
+  .case-table td { padding: 8px 10px; text-align: center; border-bottom: 1px solid #f5f5f7; }
+
+  .footer { text-align: center; padding: 24px 0; font-size: 12px; color: #86868b; }
+
+  .bg-blue { background: #e3f2fd; color: #1565c0; }
+  .bg-orange { background: #fff3e0; color: #e65100; }
+  .bg-green { background: #e8f5e9; color: #2e7d32; }
+  .bg-purple { background: #f3e5f5; color: #7b1fa2; }
+  .bg-red { background: #fce4ec; color: #c62828; }
+  .bg-teal { background: #e0f2f1; color: #00695c; }
+  .bg-brown { background: #efebe9; color: #4e342e; }
+  .bg-pink { background: #fce4ec; color: #ad1457; }
+  .bg-indigo { background: #e8eaf6; color: #283593; }
+  .bg-cyan { background: #e0f7fa; color: #00838f; }
+
+  .badge-included { background: #e8f5e9; color: #2e7d32; }
+  .badge-extra { background: #fff3e0; color: #e65100; }
+
+  @media (max-width: 600px) {
+    .page-home { padding: 30px 16px; }
+    .home-card { padding: 28px 20px; }
+    .home-card input { width: 110px; font-size: 28px; }
+    .home-result .price { font-size: 32px; }
+    .home-breakdown { grid-template-columns: 1fr 1fr; }
+    .section-header .price-summary { display: none; }
+    table { font-size: 12px; }
+    thead th, tbody td { padding: 8px 6px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ============ 第一页：面积计算器 ============ -->
+<div class="page page-home active" id="pageHome">
+  <div class="title-row"><span class="slogan" style="font-size:42px;letter-spacing:12px;">装修零距离</span></div>
+  <div class="tagline">透明报价 · 所见即所得</div>
+
+  <div class="home-card">
+    <div class="ask">房屋实际使用面积</div>
+    <div class="input-wrap">
+      <input type="number" id="areaInput" value="80" min="30" max="500" step="1" autofocus>
+      <span class="unit">㎡</span>
+    </div>
+
+    <div class="home-result">
+      <div class="label">半包总价参考</div>
+      <div class="price" id="totalPrice">¥68,000 ~ ¥91,200</div>
+      <div class="price-note">900 ~ 1,150 元/㎡ · 含基础项 + 常规增项</div>
+    </div>
+
+    <div class="home-breakdown">
+      <div class="item">
+        <div class="cat">⚡ 水电工程</div>
+        <div class="val" id="b-water">¥14,400</div>
+      </div>
+      <div class="item">
+        <div class="cat">🏗️ 贴砖工程</div>
+        <div class="val" id="b-tile">¥8,000 ~ ¥12,000</div>
+      </div>
+      <div class="item">
+        <div class="cat">🎨 油漆工程</div>
+        <div class="val" id="b-paint">¥8,000 ~ ¥12,000</div>
+      </div>
+      <div class="item">
+        <div class="cat">🪵 木工工程</div>
+        <div class="val" id="b-wood">¥4,000 ~ ¥6,400</div>
+      </div>
+    </div>
+
+    <button class="btn-detail" onclick="showDetail()">📋 查看全部项目明细</button>
+    <div style="margin-top:12px;">
+      <button class="btn-detail" onclick="showCalculator()" style="background:linear-gradient(135deg, #2e7d32, #43a047);box-shadow:0 4px 15px rgba(46,125,50,0.3);">🧮 装修费用计算器</button>
+    </div>
+  </div>
+
+  <div class="home-footer">以上为模板参考价 · 实际以量房后报价为准</div>
+</div>
+
+<!-- ============ 第二页：明细 ============ -->
+<div class="page page-detail" id="pageDetail">
+  <div class="top-nav">
+    <div class="back" onclick="showHome()">← 返回</div>
+    <div class="title">个性半包 · 全部项目明细</div>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="container">
+    <!-- 面积摘要 -->
+    <div class="area-bar">
+      <div class="left">
+        <span class="area-num" id="areaNum">80</span>
+        <span class="area-label">㎡ · 半包总价</span>
+      </div>
+      <div class="total" id="areaTotal">¥68,000 ~ ¥91,200</div>
+    </div>
+
+    <!-- 总览 -->
+    <div class="summary-cards">
+      <div class="summary-card"><div class="num" id="cardTotal">7~9万</div><div class="label">总价参考</div></div>
+      <div class="summary-card"><div class="num">900~1,150</div><div class="label">元/㎡</div></div>
+      <div class="summary-card"><div class="num">8 大类</div><div class="label">工程分类</div></div>
+      <div class="summary-card"><div class="num">210</div><div class="label">报价细项</div></div>
+    </div>
+
+    <!-- 1. 水电工程 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-blue">⚡</div>
+          <div><div class="title">水电工程</div><div style="font-size:11px;color:#86868b;">71项 · 全屋强弱电、冷热水管、防水</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">基础包含</span>
+          <div class="price-summary"><div class="sale" id="p-water">¥14,400</div><div class="cost">约 180 元/㎡</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">强弱电布线<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>全屋电路重新铺设，含强电+弱电+网线</td><td class="price sale">¥180/㎡</td></tr>
+            <tr><td class="name">一厨一卫布冷热水管<span class="included-tag">必选</span></td><td class="spec">项</td><td>厨房+卫生间冷热水管路铺设</td><td class="price sale">¥1,800</td></tr>
+            <tr><td class="name">增加一卫布冷热水管</td><td class="spec">间</td><td>多一个卫生间加收</td><td class="price sale">¥1,100</td></tr>
+            <tr><td class="name">阳台布冷水管</td><td class="spec">间</td><td>阳台洗衣机用水</td><td class="price sale">¥700</td></tr>
+            <tr><td class="name">220V强电箱<span class="included-tag">必选</span></td><td class="spec">套</td><td>含空开模块</td><td class="price sale">¥850</td></tr>
+            <tr><td class="name">弱电光纤箱</td><td class="spec">套</td><td>弱电集中管理</td><td class="price sale">¥230</td></tr>
+            <tr><td class="name">水电检测费<span class="included-tag">必选</span></td><td class="spec">套</td><td>打压测试、电路检测</td><td class="price sale">¥1,300</td></tr>
+            <tr><td class="name">墙面雨虹防水<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>卫生间墙面防水</td><td class="price sale">¥56/㎡</td></tr>
+            <tr><td class="name">EP地面防水<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>卫生间地面防水</td><td class="price sale">¥91/㎡</td></tr>
+            <tr><td class="name">线管开槽人工</td><td class="spec">㎡</td><td>墙面地面开槽</td><td class="price sale">¥13/㎡</td></tr>
+            <tr><td class="name">空调外机线（3根6㎡）</td><td class="spec">m</td><td>空调专用线路</td><td class="price sale">¥49/m</td></tr>
+            <tr><td class="name">弱电点位增加</td><td class="spec">路</td><td>额外网络/电视点位</td><td class="price sale">¥160/路</td></tr>
+            <tr><td class="name">马桶移位器</td><td class="spec">套</td><td>马桶位置调整</td><td class="price sale">¥250</td></tr>
+            <tr><td class="name">下水管隔音</td><td class="spec">间</td><td>包隔音棉</td><td class="price sale">¥330</td></tr>
+            <tr><td class="name">灯具多控增加</td><td class="spec">路</td><td>双控/三控开关</td><td class="price sale">¥110/路</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 2. 砌墙/土建 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-orange">🧱</div>
+          <div><div class="title">砌墙 / 土建工程</div><div style="font-size:11px;color:#86868b;">17项 · 砌墙、包管、浇筑、拆改</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-extra">按需</span>
+          <div class="price-summary"><div class="sale" id="p-wall">¥4,000~¥15,000</div><div class="cost">看拆改量</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">砌墙半墙</td><td class="spec">㎡</td><td>半墙隔断（12cm厚）</td><td class="price sale">¥250/㎡</td></tr>
+            <tr><td class="name">砌墙整墙</td><td class="spec">㎡</td><td>全墙隔断（24cm厚）</td><td class="price sale">¥370/㎡</td></tr>
+            <tr><td class="name">包下水管/烟道管<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>立管包裹降噪</td><td class="price sale">¥395/㎡</td></tr>
+            <tr><td class="name">拆除后老墙面粉刷</td><td class="spec">㎡</td><td>拆墙后修补</td><td class="price sale">¥65/㎡</td></tr>
+            <tr><td class="name">卫生间防水梁<span class="included-tag">必选</span></td><td class="spec">m</td><td>卫生间底部防水翻边</td><td class="price sale">¥170/m</td></tr>
+            <tr><td class="name">下沉卫生间浇混凝土</td><td class="spec">㎡</td><td>下沉式卫生间回填</td><td class="price sale">¥716/㎡</td></tr>
+            <tr><td class="name">卫生间壁龛（3格）</td><td class="spec">项</td><td>墙体内置储物格</td><td class="price sale">¥310</td></tr>
+            <tr><td class="name">砖墙过桥梁</td><td class="spec">m</td><td>门洞上方加固</td><td class="price sale">¥150/m</td></tr>
+            <tr><td class="name">门洞加大拆除及修补</td><td class="spec">项</td><td>扩大门洞</td><td class="price sale">¥500</td></tr>
+            <tr><td class="name">阳台泥工拆修</td><td class="spec">工</td><td>阳台墙地拆除翻新</td><td class="price sale">¥470/工</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 3. 拆除工程 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-red">🔨</div>
+          <div><div class="title">拆除工程</div><div style="font-size:11px;color:#86868b;">旧房翻新必做，新房无需</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-extra">按需</span>
+          <div class="price-summary"><div class="sale">¥0~¥7,000</div><div class="cost">看原房状况</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">拆除工程（整包）</td><td class="spec">项</td><td>含墙地门窗拆除</td><td class="price sale">¥7,000</td></tr>
+            <tr><td class="name">拆除地面地砖</td><td class="spec">㎡</td><td>单独拆地砖</td><td class="price sale">¥38/㎡</td></tr>
+            <tr><td class="name">拆除墙面瓷砖</td><td class="spec">㎡</td><td>单独拆墙砖</td><td class="price sale">¥19/㎡</td></tr>
+            <tr><td class="name">拆除1/2隔墙</td><td class="spec">㎡</td><td>12cm墙体拆除</td><td class="price sale">¥34/㎡</td></tr>
+            <tr><td class="name">拆除1砖隔墙</td><td class="spec">㎡</td><td>24cm墙体拆除</td><td class="price sale">¥58/㎡</td></tr>
+            <tr><td class="name">垃圾外运</td><td class="spec">车</td><td>建筑垃圾清运</td><td class="price sale">¥900/车</td></tr>
+            <tr><td class="name">铲原老粉层</td><td class="spec">㎡</td><td>墙面老腻子铲除</td><td class="price sale">¥7/㎡</td></tr>
+            <tr><td class="name">旧家具外运</td><td class="spec">项</td><td>旧家具清运</td><td class="price sale">¥800</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 4. 木工 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-brown">🪵</div>
+          <div><div class="title">木工工程</div><div style="font-size:11px;color:#86868b;">39项 · 吊顶、柜体、基层、造型</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">基础包含</span>
+          <div class="price-summary"><div class="sale">¥2,000~¥8,000</div><div class="cost">看设计方案</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">石膏板平面一级吊顶<span class="included-tag">常用</span></td><td class="spec">㎡</td><td>客餐厅/卧室平顶</td><td class="price sale">¥136/㎡</td></tr>
+            <tr><td class="name">防水石膏板吊顶</td><td class="spec">㎡</td><td>卫生间吊顶</td><td class="price sale">¥158/㎡</td></tr>
+            <tr><td class="name">板材基层·单面石膏板</td><td class="spec">㎡</td><td>背景墙基层</td><td class="price sale">¥308/㎡</td></tr>
+            <tr><td class="name">单面石膏板隔墙</td><td class="spec">㎡</td><td>轻质隔墙</td><td class="price sale">¥138/㎡</td></tr>
+            <tr><td class="name">双面石膏板隔墙</td><td class="spec">㎡</td><td>隔音隔墙</td><td class="price sale">¥226/㎡</td></tr>
+            <tr><td class="name">窗帘箱/投影幕布盒</td><td class="spec">m</td><td>窗帘盒制作</td><td class="price sale">¥126/m</td></tr>
+            <tr><td class="name">灯带补差</td><td class="spec">m</td><td>灯带槽制作</td><td class="price sale">¥75/m</td></tr>
+            <tr><td class="name">石膏板双眼皮补差</td><td class="spec">m</td><td>双眼皮吊顶造型</td><td class="price sale">¥34/m</td></tr>
+            <tr><td class="name">吊灯顶部加固</td><td class="spec">只</td><td>大型灯具加固</td><td class="price sale">¥164</td></tr>
+            <tr><td class="name">空调风口连接</td><td class="spec">只</td><td>中央空调风口</td><td class="price sale">¥192</td></tr>
+            <tr><td class="name">现场制作生态板柜体</td><td class="spec">㎡</td><td>鞋柜/储物柜</td><td class="price sale">¥562/㎡</td></tr>
+            <tr><td class="name">塌塌米地台柜</td><td class="spec">㎡</td><td>卧室地台+储物</td><td class="price sale">¥971/㎡</td></tr>
+            <tr><td class="name">单边门套</td><td class="spec">m</td><td>门套基层</td><td class="price sale">¥139/m</td></tr>
+            <tr><td class="name">套装单开门</td><td class="spec">套</td><td>含门扇+五金</td><td class="price sale">¥1,766</td></tr>
+            <tr><td class="name">抽屉制作</td><td class="spec">只</td><td>柜体抽屉</td><td class="price sale">¥240</td></tr>
+            <tr><td class="name">磁吸灯/线型灯镶嵌</td><td class="spec">m</td><td>嵌入式灯具</td><td class="price sale">¥48/m</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 5. 贴砖 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-teal">🏗️</div>
+          <div><div class="title">贴砖工程</div><div style="font-size:11px;color:#86868b;">32项 · 墙地砖铺贴、找平、防水</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">基础包含</span>
+          <div class="price-summary"><div class="sale" id="p-tile">¥8,000~¥12,000</div><div class="cost">约 100~150 元/㎡</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">地面找平<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>全屋地面找平（铺地板前）</td><td class="price sale">¥64/㎡</td></tr>
+            <tr><td class="name">地砖普通铺贴<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>客餐厅/阳台地砖</td><td class="price sale">¥128/㎡</td></tr>
+            <tr><td class="name">墙砖普通铺贴<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>厨卫墙砖</td><td class="price sale">¥117/㎡</td></tr>
+            <tr><td class="name">卫生间地面二次防水</td><td class="spec">间</td><td>二次防水加强</td><td class="price sale">¥465</td></tr>
+            <tr><td class="name">淋浴房挡水条安装</td><td class="spec">m</td><td>干湿分离挡水</td><td class="price sale">¥76/m</td></tr>
+            <tr><td class="name">内嵌踢脚线</td><td class="spec">m</td><td>暗藏踢脚线</td><td class="price sale">¥45/m</td></tr>
+            <tr><td class="name">地砖踢脚线</td><td class="spec">m</td><td>普通踢脚线</td><td class="price sale">¥22/m</td></tr>
+            <tr><td class="name">窗台/门槛大理石安装</td><td class="spec">m</td><td>过门石/窗台石</td><td class="price sale">¥79/m</td></tr>
+            <tr><td class="name">墙砖背胶工艺</td><td class="spec">㎡</td><td>大砖上墙加固</td><td class="price sale">¥12/㎡</td></tr>
+            <tr><td class="name">大砖挂片</td><td class="spec">㎡</td><td>超大砖挂件</td><td class="price sale">¥35/㎡</td></tr>
+            <tr><td class="name">砖砌浴缸基座</td><td class="spec">项</td><td>浴缸底座</td><td class="price sale">¥1,200</td></tr>
+            <tr><td class="name">楼梯铺贴</td><td class="spec">步</td><td>楼梯踏步贴砖</td><td class="price sale">¥166/步</td></tr>
+            <tr><td class="name">水泥自流平</td><td class="spec">㎡</td><td>精细找平</td><td class="price sale">¥45/㎡</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 6. 油漆 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-purple">🎨</div>
+          <div><div class="title">油漆工程</div><div style="font-size:11px;color:#86868b;">15项 · 墙面处理、乳胶漆、石膏线</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">基础包含</span>
+          <div class="price-summary"><div class="sale" id="p-paint">¥8,000~¥12,000</div><div class="cost">约 100~150 元/㎡</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">墙面乳胶漆<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>全屋墙面涂料（含腻子找平）</td><td class="price sale">¥78/㎡</td></tr>
+            <tr><td class="name">顶面乳胶漆<span class="included-tag">必选</span></td><td class="spec">㎡</td><td>全屋顶面涂料</td><td class="price sale">¥79/㎡</td></tr>
+            <tr><td class="name">墙面防水乳胶漆</td><td class="spec">㎡</td><td>厨卫阳台用防水涂料</td><td class="price sale">¥88/㎡</td></tr>
+            <tr><td class="name">顶面防水乳胶漆</td><td class="spec">㎡</td><td>厨卫阳台顶面</td><td class="price sale">¥88/㎡</td></tr>
+            <tr><td class="name">墙面垂直找平补差</td><td class="spec">㎡</td><td>墙面不平需额外找平</td><td class="price sale">¥50/㎡</td></tr>
+            <tr><td class="name">石膏线<span class="included-tag">常用</span></td><td class="spec">m</td><td>顶面石膏线条</td><td class="price sale">¥32/m</td></tr>
+            <tr><td class="name">石膏模具</td><td class="spec">只</td><td>石膏造型角花</td><td class="price sale">¥300</td></tr>
+            <tr><td class="name">网格布</td><td class="spec">㎡</td><td>防开裂处理</td><td class="price sale">¥10/㎡</td></tr>
+            <tr><td class="name">乳胶漆浅颜色补差</td><td class="spec">色</td><td>非白色涂料加价</td><td class="price sale">¥300/色</td></tr>
+            <tr><td class="name">背景墙刷基膜</td><td class="spec">㎡</td><td>贴墙纸前处理</td><td class="price sale">¥14/㎡</td></tr>
+            <tr><td class="name">墙角抹小圆补差</td><td class="spec">m</td><td>圆角处理</td><td class="price sale">¥30/m</td></tr>
+            <tr><td class="name">超高层人工费</td><td class="spec">㎡</td><td>层高>3m加收</td><td class="price sale">¥56/㎡</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 7. 杂项/搬运 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-indigo">📦</div>
+          <div><div class="title">搬运 / 杂项</div><div style="font-size:11px;color:#86868b;">26项 · 搬楼、垃圾清运、保护、保洁</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">基础包含</span>
+          <div class="price-summary"><div class="sale">¥2,000~¥6,000</div><div class="cost">看楼层/电梯</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">有电梯搬上楼</td><td class="spec">层</td><td>有电梯按层数</td><td class="price sale">¥147/层</td></tr>
+            <tr><td class="name">无电梯搬上楼</td><td class="spec">层</td><td>无电梯按层数</td><td class="price sale">¥441/层</td></tr>
+            <tr><td class="name">垃圾外运</td><td class="spec">车</td><td>建筑垃圾清运</td><td class="price sale">¥900/车</td></tr>
+            <tr><td class="name">垃圾清运</td><td class="spec">项</td><td>施工期间垃圾</td><td class="price sale">¥2,940</td></tr>
+            <tr><td class="name">成品保护</td><td class="spec">㎡</td><td>已完工区域保护</td><td class="price sale">¥10/㎡</td></tr>
+            <tr><td class="name">门口围挡制作</td><td class="spec">m</td><td>施工围挡</td><td class="price sale">¥69/m</td></tr>
+            <tr><td class="name">初级保洁</td><td class="spec">㎡</td><td>完工后粗保洁</td><td class="price sale">¥10/㎡</td></tr>
+            <tr><td class="name">材料运输费</td><td class="spec">㎡</td><td>材料配送</td><td class="price sale">¥12/㎡</td></tr>
+            <tr><td class="name">PC放样</td><td class="spec">㎡</td><td>激光放线定位</td><td class="price sale">¥8/㎡</td></tr>
+            <tr><td class="name">专业机械开孔</td><td class="spec">只</td><td>空调/烟道开孔</td><td class="price sale">¥42/只</td></tr>
+            <tr><td class="name">多层施工综合补差</td><td class="spec">层</td><td>多层别墅施工难度加收</td><td class="price sale">¥2,800/层</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 8. 按需增加项目 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-pink">✨</div>
+          <div><div class="title">按需增加项目（可选）</div><div style="font-size:11px;color:#86868b;">根据设计方案额外增加</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-extra">可选</span>
+          <div class="price-summary"><div class="sale">¥3,000~¥10,000</div><div class="cost">看个性化需求</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>说明</th><th style="text-align:right">参考价</th></tr></thead>
+          <tbody>
+            <tr><td class="name">空调外机线（3根6㎡）</td><td class="spec">m</td><td>空调专用粗线</td><td class="price sale">¥49/m</td></tr>
+            <tr><td class="name">3根10㎡电线</td><td class="spec">m</td><td>入户主线升级</td><td class="price sale">¥78/m</td></tr>
+            <tr><td class="name">智能线布空管</td><td class="spec">m</td><td>智能家居预埋管</td><td class="price sale">¥24/m</td></tr>
+            <tr><td class="name">开关智能增加零线补差</td><td class="spec">㎡</td><td>智能开关零线</td><td class="price sale">¥15/㎡</td></tr>
+            <tr><td class="name">地暖过渡控制面板预埋</td><td class="spec">处</td><td>地暖控制线预埋</td><td class="price sale">¥100/处</td></tr>
+            <tr><td class="name">前置净水器安装</td><td class="spec">只</td><td>全屋净水前置</td><td class="price sale">¥165</td></tr>
+            <tr><td class="name">暗埋花洒/台盆龙头安装</td><td class="spec">只</td><td>暗装洁具</td><td class="price sale">¥360</td></tr>
+            <tr><td class="name">壁挂坐便器</td><td class="spec">只</td><td>壁挂马桶安装</td><td class="price sale">¥272</td></tr>
+            <tr><td class="name">坐便器安装</td><td class="spec">只</td><td>普通马桶安装</td><td class="price sale">¥225</td></tr>
+            <tr><td class="name">浴缸安装</td><td class="spec">只</td><td>浴缸安装调试</td><td class="price sale">¥350</td></tr>
+            <tr><td class="name">卫浴五金安装</td><td class="spec">间</td><td>毛巾架/花洒等</td><td class="price sale">¥250</td></tr>
+            <tr><td class="name">水管喷氟碳漆</td><td class="spec">项</td><td>外露水管美化</td><td class="price sale">¥1,125</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 参考案例 -->
+    <div class="notes">
+      <h3>📊 80㎡ 真实案例参考</h3>
+      <table class="case-table">
+        <thead><tr><th>案例</th><th>地址</th><th>总价</th><th>每平方</th><th>主要差异</th></tr></thead>
+        <tbody>
+          <tr><td>韩教授</td><td>现代印象</td><td style="color:#2e7d32;font-weight:600">¥59,285</td><td>741 元/㎡</td><td>拆改少，标准户型</td></tr>
+          <tr><td>冯总</td><td>理想城</td><td style="color:#e65100;font-weight:600">¥78,274</td><td>978 元/㎡</td><td>有下沉卫生间土建</td></tr>
+          <tr><td>卢教授</td><td>景云村</td><td style="color:#c62828;font-weight:600">¥90,942</td><td>1,137 元/㎡</td><td>砌墙多、无电梯搬运</td></tr>
+        </tbody>
+      </table>
+      <p style="font-size:12px;color:#86868b;margin-top:8px;">💡 同样 80㎡，差价可达 3 万+，主要差异在拆改量、砌墙面积、是否有电梯</p>
+    </div>
+
+    <!-- 说明 -->
+    <div class="notes">
+      <h3>💡 半包费用说明</h3>
+      <ul>
+        <li><strong>半包包含：</strong>人工 + 辅材（水泥黄沙、电线线管、水管、防水涂料、腻子、石膏板等）</li>
+        <li><strong>半包不包含：</strong>主材（瓷砖、地板、木门、橱柜、洁具、灯具、五金、开关面板、集成吊顶、淋浴房、浴室柜、马桶、水槽、油烟机灶具、热水器、空调、新风、地暖等）</li>
+        <li><strong>主材选购：</strong>业主可自行采购主材，或参考上方「主材品牌清单」选购</li>
+        <li><strong>价格透明：</strong>每个项目都有明确单价和计量方式，按实际发生量结算</li>
+        <li><strong>先量房再报价：</strong>以上为模板参考价，实际报价需现场量房后出具精确预算</li>
+        <li><strong>零增项承诺：</strong>签约后无被动增项，设计方案不变则价格不变</li>
+      </ul>
+    </div>
+
+    <div class="notes">
+      <h3>📌 为什么半包价格差异大？</h3>
+      <ul>
+        <li><strong>水电改造（占比 25%+）：</strong>全屋重新布线是最大开销，80㎡约 ¥14,000-16,000，这是安全底线不能省</li>
+        <li><strong>砌墙/拆改（差距 3 倍+）：</strong>拆改多的工地砌墙费可达 ¥15,000+，少的只要 ¥4,000</li>
+        <li><strong>吊顶面积：</strong>全屋吊顶 vs 只做必要区域，差价可达 ¥5,000+</li>
+        <li><strong>楼层搬运：</strong>有电梯 ¥147/层 vs 无电梯 ¥441/层，差 3 倍</li>
+        <li><strong>土建项目：</strong>下沉卫生间浇混凝土、新建楼梯等特殊项目会大幅增加费用</li>
+      </ul>
+    </div>
+
+    <!-- 辅材品牌展示 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-cyan">🏷️</div>
+          <div><div class="title">辅材品牌清单</div><div style="font-size:11px;color:#86868b;">半包包含的所有辅材品牌</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-included">全部包含</span>
+          <div class="price-summary"><div class="sale">品质保障</div><div class="cost">一线品牌</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <!-- 水电强电 -->
+        <div style="padding:16px;">
+          <h4 style="font-size:14px;font-weight:600;color:#1565c0;margin-bottom:12px;">⚡ 水电改造（强电）</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>2.5mm²照明回路穿线</td><td>国标铜芯电线</td><td style="color:#2e7d32">正泰 / 熊猫 / 飞利浦 / 中大元通 / 普睿司曼</td></tr>
+              <tr><td>4mm²普通插座专线布线</td><td>国标铜芯电线</td><td style="color:#2e7d32">正泰 / 熊猫 / 飞利浦 / 中大元通 / 普睿司曼</td></tr>
+              <tr><td>6mm²柜机/中央空调专线</td><td>国标铜芯电线</td><td style="color:#2e7d32">正泰 / 熊猫 / 飞利浦 / 中大元通 / 普睿司曼</td></tr>
+              <tr><td>Φ16PVC阻燃线管铺设</td><td>PVC穿线管</td><td style="color:#2e7d32">日丰 / 中财 / 保利</td></tr>
+              <tr><td>Φ20加厚阻燃线管铺设</td><td>加厚PVC线管</td><td style="color:#2e7d32">日丰 / 中财 / 保利</td></tr>
+              <tr><td>86型暗装底盒安装</td><td>塑料接线底盒</td><td style="color:#2e7d32">日丰 / 保利 / 施耐德 / 正泰</td></tr>
+              <tr><td>配电箱移位/新增空开</td><td>配电箱+空气开关</td><td style="color:#2e7d32">德力西 / 正泰 / 施耐德 / 西门子</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 水电弱电 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#1565c0;margin-bottom:12px;">📡 水电（弱电）</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>六类千兆网线铺设</td><td>超六类非屏蔽网线</td><td style="color:#2e7d32">飞利浦 / 秋叶原 / 安普 / 普睿司曼</td></tr>
+              <tr><td>闭路电视线布设</td><td>同轴高清电视线</td><td style="color:#2e7d32">飞利浦 / 秋叶原 / 普睿司曼</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 水电给排水 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#1565c0;margin-bottom:12px;">🚿 水电（给排水）</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>PPR4分冷水管铺设</td><td>PPR冷水管</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>PPR4分热水管+保温棉</td><td>热水管+橡塑保温</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>水管弯头/直接/三通配件</td><td>PPR热熔管件</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>马桶移位</td><td>PVC扁管</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>Φ50PVC厨房下水改造</td><td>UPVC排水管</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>Φ75/110排污主管改造</td><td>加厚排污管</td><td style="color:#2e7d32">日丰 / 伟星 / 保利 / 中财</td></tr>
+              <tr><td>地漏预埋安装</td><td>深水封地漏</td><td style="color:#2e7d32">雨虹 / 潜水艇 / 科勒 / 箭牌 / 九牧</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 泥瓦工 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#e65100;margin-bottom:12px;">🧱 泥瓦工辅材</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>防水梁浇筑</td><td>水泥+中沙</td><td style="color:#2e7d32">海螺水泥 / 马贝 / 华润水泥</td></tr>
+              <tr><td>下水管包隔音棉</td><td>阻尼片 + 隔音棉</td><td style="color:#2e7d32">福美斯 / 森曼 / 威尔登 / 琦欣</td></tr>
+              <tr><td>管道根部堵漏加固</td><td>速凝堵漏王</td><td style="color:#2e7d32">雨虹 / 德高 / 三棵树 / 立邦 / 科顺</td></tr>
+              <tr><td>地面K11柔性防水双遍涂刷</td><td>K11柔性防水涂料</td><td style="color:#2e7d32">雨虹 / 德高K11 / 科顺 / 三棵树 / 朴乐</td></tr>
+              <tr><td>干区墙面刚性JS防水</td><td>JS刚性防水涂料</td><td style="color:#2e7d32">雨虹 / 德高 / 西卡 / 科顺</td></tr>
+              <tr><td>下沉卫生间陶粒回填</td><td>找平砂浆</td><td style="color:#2e7d32">雨虹 / 德高 / 立邦 / 美巢</td></tr>
+              <tr><td>常规瓷砖铺贴</td><td>瓷砖胶</td><td style="color:#2e7d32">雨虹 / 德高 / 马贝 / 美巢 / 立邦</td></tr>
+              <tr><td>瓷砖填缝施工</td><td>填缝剂</td><td style="color:#2e7d32">马贝 / 德高 / 雨虹 / 皇氏工匠</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 木工 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#4e342e;margin-bottom:12px;">🪵 木工辅材</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>轻钢龙骨吊顶</td><td>轻钢龙骨 + 石膏板</td><td style="color:#2e7d32">得地 / 大王椰 / 圣戈班 / 千年舟 / 龙牌 / 兔宝宝</td></tr>
+              <tr><td>窗帘盒及背景基层</td><td>欧松板 / 木工板</td><td style="color:#2e7d32">莫干山 / 兔宝宝 / 千年舟 / 大王椰</td></tr>
+              <tr><td>石膏板防锈漆</td><td>钉眼防锈漆</td><td style="color:#2e7d32">马贝 / 立邦 / PPG / 佐敦 / 宣伟</td></tr>
+              <tr><td>木工白胶</td><td>白乳胶</td><td style="color:#2e7d32">大王椰 / 汉高百得 / 三棵树</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 油漆工 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#7b1fa2;margin-bottom:12px;">🎨 油漆工辅材</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>全屋墙固涂刷</td><td>渗透型墙固</td><td style="color:#2e7d32">立邦 / 美巢 / 马贝 / 雨虹 / 德高 / 法莱利</td></tr>
+              <tr><td>全屋地面地固施工</td><td>地固固化剂</td><td style="color:#2e7d32">立邦 / 美巢 / 雨虹 / 德高 / 圣戈班 / 明光</td></tr>
+              <tr><td>开槽/新旧墙接缝挂网</td><td>网格布</td><td style="color:#2e7d32">立邦 / 克里斯汀 / 圣戈班 / 美巢</td></tr>
+              <tr><td>全屋阴阳角PVC条找直</td><td>阴阳角护角条</td><td style="color:#2e7d32">汉得克 / 克里斯汀 / 立邦 / 百得</td></tr>
+              <tr><td>耐水腻子批刮（2遍）</td><td>腻子粉</td><td style="color:#2e7d32">邓禄普 / 美巢 / 立邦 / 德高 / 多乐士 / 雨虹</td></tr>
+              <tr><td>墙面抗碱底漆一遍</td><td>乳胶漆封闭底漆</td><td style="color:#2e7d32">立邦 / 嘉宝莉 / 多乐士 / 阿尔贝娜 / 威士伯</td></tr>
+              <tr><td>面漆两遍精涂</td><td>内墙乳胶漆</td><td style="color:#2e7d32">立邦 / 多乐士 / 嘉宝莉 / 阿尔贝娜 / 威士伯</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 杂项 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#283593;margin-bottom:12px;">📦 杂项辅材</h4>
+          <table>
+            <thead><tr><th>施工项目</th><th>所用辅材</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td>全屋施工成品保护</td><td>装修保护膜 / 美纹纸</td><td style="color:#2e7d32">标准配置</td></tr>
+              <tr><td>发泡胶</td><td>发泡胶</td><td style="color:#2e7d32">雨虹 / 速的奥 / 西卡 / 赛磊那</td></tr>
+              <tr><td>PC1:1彩绘放样</td><td>放样材料</td><td style="color:#2e7d32">标准配置</td></tr>
+              <tr><td>垃圾清理</td><td>垃圾袋</td><td style="color:#2e7d32">标准配置</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 主材品牌展示 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-orange">🏠</div>
+          <div><div class="title">主材品牌清单（业主自购）</div><div style="font-size:11px;color:#86868b;">半包不含主材 · 以下品牌供选购参考</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <span class="badge badge-extra">业主自理</span>
+          <div class="price-summary"><div class="sale">杭州主流</div><div class="cost">6家装修公司常用</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <!-- 瓷砖 -->
+        <div style="padding:16px;">
+          <h4 style="font-size:14px;font-weight:600;color:#e65100;margin-bottom:12px;">🏗️ 瓷砖（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">马可波罗</td><td>一线高端</td><td style="color:#2e7d32">铭品 / 中博 / 亚加</td></tr>
+              <tr><td class="name">诺贝尔</td><td>一线高端</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">东鹏</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">蒙娜丽莎</td><td>一线主流</td><td style="color:#2e7d32">圣都 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">冠珠</td><td>一线性价比</td><td style="color:#2e7d32">圣都 / 中博 / 麦丰</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 地板 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#4e342e;margin-bottom:12px;">🪵 地板（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">圣象</td><td>一线龙头</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">大自然</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">德尔</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 中博 / 亚加</td></tr>
+              <tr><td class="name">安信</td><td>一线实木</td><td style="color:#2e7d32">铭品 / 良工 / 亚加</td></tr>
+              <tr><td class="name">久盛</td><td>一线实木</td><td style="color:#2e7d32">圣都 / 良工 / 麦丰</td></tr>
+              <tr><td class="name">生活家</td><td>一线主流</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+              <tr><td class="name">菲林格尔</td><td>进口高端</td><td style="color:#2e7d32">中博</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 橱柜 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#1565c0;margin-bottom:12px;">🗄️ 橱柜（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">欧派</td><td>一线龙头</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">志邦</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">金牌</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">司米</td><td>法系高端</td><td style="color:#2e7d32">铭品 / 圣都 / 良工 / 亚加</td></tr>
+              <tr><td class="name">我乐</td><td>一线设计</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+              <tr><td class="name">博洛尼</td><td>高端定制</td><td style="color:#2e7d32">中博</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 卫浴 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#00838f;margin-bottom:12px;">🚿 卫浴洁具（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">科勒</td><td>国际高端</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">TOTO</td><td>日系高端</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">箭牌</td><td>国产一线</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">九牧</td><td>国产一线</td><td style="color:#2e7d32">铭品 / 良工</td></tr>
+              <tr><td class="name">恒洁</td><td>国产一线</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+              <tr><td class="name">法恩莎</td><td>国产一线</td><td style="color:#2e7d32">中博</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 木门 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#4e342e;margin-bottom:12px;">🚪 房门（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">TATA</td><td>静音门龙头</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">梦天</td><td>高端实木</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">尚品本色</td><td>一线主流</td><td style="color:#2e7d32">铭品 / 圣都 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">欧派</td><td>全屋定制</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">美心</td><td>一线性价比</td><td style="color:#2e7d32">中博 / 亚加</td></tr>
+              <tr><td class="name">展志天华</td><td>一线主流</td><td style="color:#2e7d32">圣都</td></tr>
+              <tr><td class="name">金迪</td><td>环保免漆</td><td style="color:#2e7d32">铭品 / 良工 / 麦丰</td></tr>
+              <tr><td class="name">开开</td><td>实木复合</td><td style="color:#2e7d32">中博 / 亚加</td></tr>
+              <tr><td class="name">千川</td><td>一线性价比</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 涂料 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#7b1fa2;margin-bottom:12px;">🎨 涂料/乳胶漆</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>常用装修公司</th></tr></thead>
+            <tbody>
+              <tr><td class="name">立邦</td><td>亚洲龙头</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">多乐士</td><td>国际一线</td><td style="color:#2e7d32">铭品 / 圣都 / 中博 / 良工 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">都芳</td><td>德国进口</td><td style="color:#2e7d32">铭品 / 中博 / 亚加 / 麦丰</td></tr>
+              <tr><td class="name">芬琳</td><td>芬兰进口</td><td style="color:#2e7d32">铭品 / 良工 / 麦丰</td></tr>
+              <tr><td class="name">大师</td><td>美国高端</td><td style="color:#2e7d32">圣都 / 亚加</td></tr>
+              <tr><td class="name">阿尔贝娜</td><td>德国高端</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+              <tr><td class="name">嘉宝莉</td><td>国产一线</td><td style="color:#2e7d32">圣都 / 麦丰</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 集成吊顶 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#00695c;margin-bottom:12px;">🏗️ 集成吊顶（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>特点</th></tr></thead>
+            <tbody>
+              <tr><td class="name">友邦</td><td>行业龙头</td><td>集成吊顶发明者，品质稳定，款式丰富</td></tr>
+              <tr><td class="name">容声</td><td>一线主流</td><td>家电大牌跨界，性价比高</td></tr>
+              <tr><td class="name">奥普</td><td>浴霸起家</td><td>专注厨卫吊顶，暖风技术强</td></tr>
+              <tr><td class="name">法狮龙</td><td>一线品牌</td><td>时尚设计，年轻化风格</td></tr>
+              <tr><td class="name">今顶</td><td>一线品牌</td><td>复古风格突出，中式/欧式选择多</td></tr>
+              <tr><td class="name">品格</td><td>一线品牌</td><td>健康环保，抗菌板材</td></tr>
+              <tr><td class="name">美尔凯特</td><td>高端定制</td><td>高端设计感，个性化定制</td></tr>
+              <tr><td class="name">楚楚</td><td>一线品牌</td><td>艺术吊顶，花纹丰富</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;padding:10px;background:#f5f5f7;border-radius:8px;font-size:12px;color:#86868b;">
+            💡 <strong>选购建议：</strong>厨卫吊顶建议选铝扣板或蜂窝板，厚度0.6-0.7mm即可；浴霸/照明/换气可选集成一体机，更美观省空间。
+          </div>
+        </div>
+
+        <!-- 开关插座面板 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#e65100;margin-bottom:12px;">🔌 开关插座面板（业主自购）</h4>
+          <table>
+            <thead><tr><th>品牌</th><th>定位</th><th>特点</th></tr></thead>
+            <tbody>
+              <tr><td class="name">施耐德</td><td>国际高端</td><td>法国品牌，品质一流，价格较高</td></tr>
+              <tr><td class="name">西门子</td><td>国际高端</td><td>德国品牌，耐用性强，款式经典</td></tr>
+              <tr><td class="name">罗格朗</td><td>国际高端</td><td>法国品牌，设计感强，高端系列出色</td></tr>
+              <tr><td class="name">松下</td><td>日系高端</td><td>日本品牌，做工精细，安全性能高</td></tr>
+              <tr><td class="name">公牛</td><td>国产龙头</td><td>国民品牌，性价比高，渠道广</td></tr>
+              <tr><td class="name">西蒙</td><td>西班牙品牌</td><td>欧式设计，色彩丰富</td></tr>
+              <tr><td class="name">正泰</td><td>国产一线</td><td>电工起家，品质可靠，价格实惠</td></tr>
+              <tr><td class="name">德力西</td><td>国产一线</td><td>电气大牌，性价比突出</td></tr>
+              <tr><td class="name">ABB</td><td>国际高端</td><td>瑞士品牌，工业级品质</td></tr>
+              <tr><td class="name">飞利浦</td><td>国际一线</td><td>荷兰品牌，照明+开关一体</td></tr>
+            </tbody>
+          </table>
+          <div style="margin-top:10px;padding:10px;background:#f5f5f7;border-radius:8px;font-size:12px;color:#86868b;">
+            💡 <strong>选购建议：</strong>开关建议选大板/纯平系列，手感好易清洁；插座选带USB的款式更实用；厨房建议选带开关插座，避免频繁插拔。
+          </div>
+        </div>
+
+        <!-- 灯具 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#ff8f00;margin-bottom:12px;">💡 灯具（业主自购）</h4>
+          <table>
+            <thead><tr><th>品类</th><th>说明</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td class="name">客厅主灯</td><td>业主自购，<span style="color:#e65100;font-weight:600">付费安装</span></td><td style="color:#2e7d32">欧普 / 雷士 / 飞利浦 / 松下</td></tr>
+              <tr><td class="name">主卧主灯</td><td>业主自购，<span style="color:#e65100;font-weight:600">付费安装</span></td><td style="color:#2e7d32">欧普 / 雷士 / 飞利浦 / 松下</td></tr>
+              <tr><td class="name">次卧主灯</td><td>业主自购，<span style="color:#e65100;font-weight:600">付费安装</span></td><td style="color:#2e7d32">欧普 / 雷士 / 飞利浦 / 松下</td></tr>
+              <tr><td class="name">筒灯/射灯</td><td>业主自购，公司安装</td><td style="color:#2e7d32">欧普 / 雷士 / 飞利浦 / 三雄极光</td></tr>
+              <tr><td class="name">灯带</td><td>业主自购，公司安装</td><td style="color:#2e7d32">欧普 / 雷士 / 三雄极光</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 五金 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#283593;margin-bottom:12px;">🔧 五金配件（业主自购）</h4>
+          <table>
+            <thead><tr><th>品类</th><th>说明</th><th>参考品牌</th></tr></thead>
+            <tbody>
+              <tr><td class="name">地漏</td><td>业主自购</td><td style="color:#2e7d32">潜水艇 / 科勒 / 箭牌 / 九牧</td></tr>
+              <tr><td class="name">角阀</td><td>业主自购</td><td style="color:#2e7d32">潜水艇 / 科勒 / 九牧 / 摩恩</td></tr>
+              <tr><td class="name">龙头</td><td>业主自购</td><td style="color:#2e7d32">科勒 / TOTO / 九牧 / 摩恩 / 箭牌</td></tr>
+              <tr><td class="name">花洒</td><td>业主自购</td><td style="color:#2e7d32">科勒 / TOTO / 九牧 / 摩恩 / 汉斯格雅</td></tr>
+              <tr><td class="name">毛巾架/挂件</td><td>业主自购</td><td style="color:#2e7d32">科勒 / 箭牌 / 九牧 / 帝朗</td></tr>
+              <tr><td class="name">铰链/滑轨</td><td>柜体五金</td><td style="color:#2e7d32">百隆 / 海蒂诗 / 格拉斯 / 东泰</td></tr>
+            </tbody>
+          </table>
+        </div>
+
+        <!-- 主材设备电气购买类目 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;">
+          <h4 style="font-size:14px;font-weight:600;color:#c62828;margin-bottom:16px;">📦 主材设备电气购买类目（业主自购）</h4>
+
+          <!-- 主材 -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:13px;font-weight:600;color:#e65100;margin-bottom:8px;padding:8px 12px;background:#fff3e0;border-radius:8px;">🏗️ 主材</div>
+            <div style="padding:0 12px;font-size:13px;color:#515154;line-height:2;">
+              瓷砖 · 地板 · 房门 · 门套 · 整体橱柜 · 淋浴房 · 马桶 · 浴室柜 · 龙头 · 花洒 · 地漏 · 集成吊顶及电器 · 开关面板 · 门槛石 · 窗台板
+            </div>
+          </div>
+
+          <!-- 定制 -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:13px;font-weight:600;color:#7b1fa2;margin-bottom:8px;padding:8px 12px;background:#f3e5f5;border-radius:8px;">🛋️ 定制</div>
+            <div style="padding:0 12px;font-size:13px;color:#515154;line-height:2;">
+              沙发 · 餐桌 · 床 · 灯具 · 窗帘 · 定制柜等
+            </div>
+          </div>
+
+          <!-- 门窗 -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:13px;font-weight:600;color:#1565c0;margin-bottom:8px;padding:8px 12px;background:#e3f2fd;border-radius:8px;">🚪 门窗</div>
+            <div style="padding:0 12px;font-size:13px;color:#515154;line-height:2;">
+              铝合金窗户 · 入户防盗门 · 阳光房等
+            </div>
+          </div>
+
+          <!-- 设备 -->
+          <div style="margin-bottom:16px;">
+            <div style="font-size:13px;font-weight:600;color:#00695c;margin-bottom:8px;padding:8px 12px;background:#e0f2f1;border-radius:8px;">⚙️ 设备</div>
+            <div style="padding:0 12px;font-size:13px;color:#515154;line-height:2;">
+              空调 · 地暖 · 新风 · 锅炉 · 空气能热水器 · 净水器 · 全屋智能等
+            </div>
+          </div>
+
+          <!-- 电器 -->
+          <div style="margin-bottom:0;">
+            <div style="font-size:13px;font-weight:600;color:#c62828;margin-bottom:8px;padding:8px 12px;background:#fce4ec;border-radius:8px;">📺 电器</div>
+            <div style="padding:0 12px;font-size:13px;color:#515154;line-height:2;">
+              厨电 · 洗衣机 · 烘干机 · 扫地机 · 电视机 · 投影仪等
+            </div>
+          </div>
+        </div>
+
+        <!-- 杭州6家公司对比 -->
+        <div style="padding:16px;border-top:1px solid #f0f0f2;background:#f8f9ff;">
+          <h4 style="font-size:14px;font-weight:600;color:#1d1d1f;margin-bottom:12px;">📊 杭州主流装修公司主材品牌对比</h4>
+          <table style="font-size:12px;">
+            <thead>
+              <tr>
+                <th>品类</th>
+                <th><a href="https://www.mpzs.com" target="_blank" style="color:#1565c0;text-decoration:none;">铭品 ↗</a></th>
+                <th><a href="https://shengdu.ke.com/hz/" target="_blank" style="color:#1565c0;text-decoration:none;">圣都 ↗</a></th>
+                <th><a href="https://www.zbzs.com" target="_blank" style="color:#1565c0;text-decoration:none;">中博 ↗</a></th>
+                <th><a href="https://www.lgzs.com" target="_blank" style="color:#1565c0;text-decoration:none;">良工 ↗</a></th>
+                <th><a href="https://www.yjzs.com" target="_blank" style="color:#1565c0;text-decoration:none;">亚加 ↗</a></th>
+                <th><a href="https://mfzs.com" target="_blank" style="color:#1565c0;text-decoration:none;">麦丰 ↗</a></th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="name">瓷砖</td>
+                <td>马可波罗/诺贝尔/东鹏</td>
+                <td>东鹏/蒙娜丽莎/诺贝尔/冠珠</td>
+                <td>马可波罗/东鹏/诺贝尔/冠珠</td>
+                <td>东鹏/蒙娜丽莎/诺贝尔/马可波罗</td>
+                <td>诺贝尔/东鹏/马可波罗/蒙娜丽莎</td>
+                <td>东鹏/蒙娜丽莎/诺贝尔/冠珠</td>
+              </tr>
+              <tr>
+                <td class="name">地板</td>
+                <td>圣象/大自然/德尔/安信</td>
+                <td>圣象/大自然/生活家/久盛</td>
+                <td>圣象/大自然/德尔/菲林格尔</td>
+                <td>圣象/大自然/安信/久盛</td>
+                <td>圣象/大自然/德尔/安信</td>
+                <td>圣象/大自然/生活家/久盛</td>
+              </tr>
+              <tr>
+                <td class="name">橱柜</td>
+                <td>欧派/志邦/金牌/司米</td>
+                <td>欧派/司米/志邦/我乐</td>
+                <td>欧派/志邦/金牌/博洛尼</td>
+                <td>欧派/志邦/金牌/司米</td>
+                <td>欧派/志邦/金牌/司米</td>
+                <td>欧派/志邦/金牌/我乐</td>
+              </tr>
+              <tr>
+                <td class="name">卫浴</td>
+                <td>科勒/TOTO/箭牌/九牧</td>
+                <td>科勒/TOTO/箭牌/恒洁</td>
+                <td>科勒/TOTO/箭牌/法恩莎</td>
+                <td>科勒/TOTO/九牧/箭牌</td>
+                <td>科勒/TOTO/箭牌/九牧</td>
+                <td>科勒/TOTO/箭牌/恒洁</td>
+              </tr>
+              <tr>
+                <td class="name">木门</td>
+                <td>TATA/梦天/尚品本色/欧派</td>
+                <td>TATA/梦天/尚品本色/展志天华</td>
+                <td>TATA/梦天/美心/尚品本色</td>
+                <td>TATA/梦天/尚品本色/欧派</td>
+                <td>TATA/梦天/尚品本色/美心</td>
+                <td>TATA/梦天/尚品本色/欧派</td>
+              </tr>
+              <tr>
+                <td class="name">涂料</td>
+                <td>立邦/多乐士/都芳/芬琳</td>
+                <td>立邦/多乐士/大师/芬琳</td>
+                <td>立邦/多乐士/都芳/大师</td>
+                <td>立邦/多乐士/芬琳/都芳</td>
+                <td>立邦/多乐士/都芳/大师</td>
+                <td>立邦/多乐士/芬琳/都芳</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      📍 以上价格为个性半包模板参考价 · 实际以量房后报价为准<br>
+      📞 咨询热线：XXX-XXXX-XXXX
+    </div>
+  </div>
+</div>
+
+<script>
+  const areaInput = document.getElementById('areaInput');
+
+  function calcPrice() {
+    const area = parseFloat(areaInput.value) || 80;
+    const low = Math.round(area * 900);
+    const high = Math.round(area * 1150);
+    const lowW = Math.round(low / 10000 * 10) / 10;
+    const highW = Math.round(high / 10000 * 10) / 10;
+    const priceStr = `¥${low.toLocaleString()} ~ ¥${high.toLocaleString()}`;
+
+    // 第一页
+    document.getElementById('totalPrice').textContent = priceStr;
+    document.getElementById('b-water').textContent = `¥${Math.round(area * 180).toLocaleString()}`;
+    document.getElementById('b-tile').textContent = `¥${Math.round(area * 100).toLocaleString()} ~ ¥${Math.round(area * 150).toLocaleString()}`;
+    document.getElementById('b-paint').textContent = `¥${Math.round(area * 100).toLocaleString()} ~ ¥${Math.round(area * 150).toLocaleString()}`;
+    document.getElementById('b-wood').textContent = `¥${Math.round(area * 50).toLocaleString()} ~ ¥${Math.round(area * 80).toLocaleString()}`;
+
+    // 第二页
+    document.getElementById('areaNum').textContent = area;
+    document.getElementById('areaTotal').textContent = priceStr;
+    document.getElementById('cardTotal').textContent = `${lowW}~${highW}万`;
+    document.getElementById('p-water').textContent = `¥${Math.round(area * 180).toLocaleString()}`;
+    document.getElementById('p-tile').textContent = `¥${Math.round(area * 100).toLocaleString()} ~ ¥${Math.round(area * 150).toLocaleString()}`;
+    document.getElementById('p-paint').textContent = `¥${Math.round(area * 100).toLocaleString()} ~ ¥${Math.round(area * 150).toLocaleString()}`;
+    document.getElementById('p-wall').textContent = `¥${Math.round(area * 50).toLocaleString()} ~ ¥${Math.round(area * 190).toLocaleString()}`;
+  }
+
+  areaInput.addEventListener('input', calcPrice);
+  calcPrice();
+
+  function showDetail() {
+    document.getElementById('pageHome').classList.remove('active');
+    document.getElementById('pageDetail').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function showHome() {
+    document.getElementById('pageDetail').classList.remove('active');
+    document.getElementById('pageHome').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+  function toggleSection(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('show');
+  }
+
+  // 装修公司官网链接
+  const companyLinks = {
+    '铭品': 'https://www.mpzs.com',
+    '圣都': 'https://shengdu.ke.com/hz/',
+    '中博': 'https://www.zbzs.com',
+    '良工': 'https://www.lgzs.com',
+    '亚加': 'https://www.yjzs.com',
+    '麦丰': 'https://m.mhoo.cn/'
+  };
+
+  // 品牌官网链接（主材 + 辅材）
+  const brandLinks = {
+    // ====== 主材品牌 ======
+    // 瓷砖
+    '马可波罗': 'https://www.marcopolo.cc',
+    '诺贝尔': 'https://www.nabel.cc',
+    '东鹏': 'https://www.dongpeng.net',
+    '蒙娜丽莎': 'https://www.monalisa.com.cn',
+    '冠珠': 'https://www.guanzhu.com',
+    // 地板
+    '圣象': 'https://www.powerdekor.com.cn',
+    '大自然': 'https://www.nature-cn.com',
+    '德尔': 'https://www.der.com.cn',
+    '安信': 'https://www.anxin.com',
+    '久盛': 'https://www.jiusheng.com',
+    '生活家': 'https://www.elegance-wood.com',
+    '菲林格尔': 'https://www.vohringer.com',
+    // 橱柜
+    '欧派': 'https://www.oppein.cn',
+    '志邦': 'https://www.zbom.com',
+    '金牌': 'https://www.goldhome-cup.com',
+    '司米': 'https://www.schmidt.com.cn',
+    '我乐': 'https://www.olo-home.com',
+    '博洛尼': 'https://www.boloni.com',
+    // 卫浴
+    '科勒': 'https://www.kohler.com.cn',
+    'TOTO': 'https://www.toto.com.cn',
+    '箭牌': 'https://www.arrow-cn.com',
+    '九牧': 'https://www.jomoo.com',
+    '恒洁': 'https://www.hegii.com',
+    '法恩莎': 'https://www.faenza.com',
+    '安华': 'https://www.annwa.com',
+    // 木门
+    'TATA': 'https://www.tata.com.cn',
+    '梦天': 'https://www.mengtian.com',
+    '尚品本色': 'https://www.spbm.com',
+    '美心': 'https://www.maxim.com.cn',
+    '展志天华': 'https://www.zzth.com',
+    '金迪': 'https://www.goldea.cn',
+    '开开': 'https://www.kaikai.com',
+    '千川': 'https://www.qianchuan.com',
+    // 涂料
+    '立邦': 'https://www.nipponpaint.com.cn',
+    '多乐士': 'https://www.dulux.com.cn',
+    '都芳': 'https://www.dufa.com.cn',
+    '芬琳': 'https://www.tikkurila.com.cn',
+    '大师': 'https://www.ppgpaints.com',
+    '阿尔贝娜': 'https://www.alpina-paint.com',
+    '嘉宝莉': 'https://www.carpoly.com',
+    '威士伯': 'https://www.valspar.com',
+    // 集成吊顶
+    '友邦': 'https://www.yopai.com',
+    '容声': 'https://www.rs-jc.com',
+    '奥普': 'https://www.aupu.com',
+    '法狮龙': 'https://www.fsilon.com',
+    '今顶': 'https://www.kind.com.cn',
+    '品格': 'https://www.pogor.com',
+    '美尔凯特': 'https://www.mellkit.com',
+    '楚楚': 'https://www.cucu.com',
+    // 开关插座
+    '施耐德': 'https://www.se.com/cn/',
+    '西门子': 'https://www.siemens-home.bsh-group.cn',
+    '罗格朗': 'https://www.legrand.com.cn',
+    '公牛': 'https://www.bull.com.cn',
+    '西蒙': 'https://www.simon.com.cn',
+    '正泰': 'https://www.chint.com',
+    '德力西': 'https://www.delixi.com',
+    'ABB': 'https://www.abb.com.cn',
+    // 灯具
+    '欧普': 'https://www.opple.com.cn',
+    '雷士': 'https://www.nvc.com.cn',
+    '飞利浦': 'https://www.lighting.philips.com.cn',
+    '三雄极光': 'https://www.pak.com.cn',
+    // 五金
+    '潜水艇': 'https://www.submarine.com.cn',
+    '摩恩': 'https://www.moen.com.cn',
+    '百隆': 'https://www.blum.com.cn',
+    '海蒂诗': 'https://www.hettich.com.cn',
+    '帝朗': 'https://www.delong.com.cn',
+    '汉斯格雅': 'https://www.hansgrohe.com.cn',
+    // 厨电
+    '方太': 'https://www.fotile.com',
+    '老板': 'https://www.robam.com',
+    '华帝': 'https://www.vatti.com.cn',
+    '美的': 'https://www.midea.cn',
+    '帅康': 'https://www.sacon.cn',
+    // 热水器/锅炉
+    '林内': 'https://www.rinnai.com.cn',
+    '能率': 'https://www.noritz.com.cn',
+    'AO史密斯': 'https://www.aosmith.com.cn',
+    '万和': 'https://www.vanward.com',
+    '万家乐': 'https://www.macro.com.cn',
+    '威能': 'https://www.vaillant.com.cn',
+    '博世': 'https://www.bosch-home.com.cn',
+    '菲斯曼': 'https://www.viessmann.cn',
+    // 空调/新风
+    '大金': 'https://www.daikin.com.cn',
+    '三菱电机': 'https://www.mitsubishielectric.com.cn',
+    '东芝': 'https://www.toshiba-lifestyle.com.cn',
+    '格力': 'https://www.gree.com',
+    '松下': 'https://www.panasonic.cn',
+    '霍尼韦尔': 'https://www.honeywell.com.cn',
+    '兰舍': 'https://www.nather.com.cn',
+    '远大': 'https://www.broad.com',
+    // 其它主材
+    '弗兰卡': 'https://www.franke.com/cn/',
+    '德立': 'https://www.deli.com.cn',
+    '理想': 'https://www.ideal-shower.com',
+
+    // ====== 辅材品牌 ======
+    // 电线电缆
+    '熊猫': 'https://www.panda-cable.com',
+    '中大元通': 'https://www.zd-cable.com',
+    '普睿司曼': 'https://www.prysmiangroup.com',
+    // 管材
+    '日丰': 'https://www.rifeng.com',
+    '伟星': 'https://www.chinaweixing.com',
+    '中财': 'https://www.zhongcaigroup.com',
+    '保利': 'https://www.pauli-pipe.com',
+    // 防水涂料
+    '雨虹': 'https://www.yuhong.com.cn',
+    '德高': 'https://www.davco.cn',
+    '科顺': 'https://www.keshun.com',
+    '三棵树': 'https://www.skshu.com',
+    '西卡': 'https://www.sika.com.cn',
+    '朴乐': 'https://www.pule.com',
+    // 水泥
+    '海螺水泥': 'https://www.chinaconch.com',
+    '华润水泥': 'https://www.crccement.com',
+    // 板材
+    '兔宝宝': 'https://www.tubabao.com',
+    '千年舟': 'https://www.parenzee.com',
+    '大王椰': 'https://www.dwycn.com',
+    '莫干山': 'https://www.mgshb.com',
+    '圣戈班': 'https://www.saint-gobain.com.cn',
+    '龙牌': 'https://www.bgypsum.com',
+    '得地': 'https://www.dedi.com',
+    // 腻子/砂浆
+    '美巢': 'https://www.meichao.com',
+    '邓禄普': 'https://www.dunlop.com',
+    '法莱利': 'https://www.flly.com',
+    '明光': 'https://www.mgps.com',
+    // 涂料辅材
+    '克里斯汀': 'https://www.christin.com',
+    '汉得克': 'https://www.handke.com',
+    '百得': 'https://www.pattex.com.cn',
+    '汉高百得': 'https://www.pattex.com.cn',
+    // 五金辅材
+    '秋叶原': 'https://www.choseal.com',
+    '安普': 'https://www.amp.com',
+    // 油漆辅材
+    'PPG': 'https://www.ppg.com.cn',
+    '佐敦': 'https://www.jotun.com.cn',
+    '宣伟': 'https://www.sherwin-williams.com.cn',
+    // 隔音材料
+    '福美斯': 'https://www.fumeis.com',
+    '森曼': 'https://www.senman.com',
+    '威尔登': 'https://www.weierdeng.com',
+    '琦欣': 'https://www.qixin.com',
+    // 发泡胶
+    '速的奥': 'https://www.soudal.com.cn',
+    '赛磊那': 'https://www.selena.com',
+    // 其它辅材
+    '皇氏工匠': 'https://www.huangshi.com',
+    '华润': 'https://www.crccement.com'
+  };
+
+  // 合并所有链接
+  const allLinks = {...companyLinks, ...brandLinks};
+
+  // 自动将品牌名称转换为可点击链接
+  function makeBrandLinks() {
+    const cells = document.querySelectorAll('td');
+    cells.forEach(cell => {
+      let html = cell.innerHTML;
+      // 跳过已经是链接的单元格
+      if (html.includes('<a ')) return;
+
+      let hasBrand = false;
+      Object.keys(allLinks).forEach(name => {
+        if (html.includes(name)) hasBrand = true;
+      });
+
+      if (hasBrand) {
+        // 按长度排序，避免短名称匹配到长名称的一部分
+        const sortedNames = Object.keys(allLinks).sort((a, b) => b.length - a.length);
+        sortedNames.forEach(name => {
+          const regex = new RegExp(`(?<![a-zA-Z])${name}(?![a-zA-Z])`, 'g');
+          html = html.replace(regex, `<a href="${allLinks[name]}" target="_blank" style="color:#1565c0;text-decoration:none;font-weight:500;">${name}</a>`);
+        });
+        cell.innerHTML = html;
+      }
+    });
+  }
+
+  // 页面加载后执行
+  document.addEventListener('DOMContentLoaded', makeBrandLinks);
+
+  // ============ 装修费用计算器功能 ============
+  function showCalculator() {
+    document.getElementById('pageHome').classList.remove('active');
+    document.getElementById('pageDetail').classList.remove('active');
+    document.getElementById('pageCalculator').classList.add('active');
+    window.scrollTo(0, 0);
+    loadCalcData();
+  }
+
+  function showHomeFromCalc() {
+    document.getElementById('pageCalculator').classList.remove('active');
+    document.getElementById('pageHome').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  // 显示提示
+  function showCalcToast(msg) {
+    const toast = document.getElementById('calcToast');
+    toast.textContent = msg;
+    toast.classList.add('show');
+    setTimeout(() => toast.classList.remove('show'), 2000);
+  }
+
+  // 切换分类展开/收起
+  function toggleCalcCategory(header) {
+    header.classList.toggle('open');
+    header.nextElementSibling.classList.toggle('show');
+  }
+
+  // 获取面积
+  function getCalcArea() {
+    return parseFloat(document.getElementById('calcAreaInput').value) || 80;
+  }
+
+  // 半包计算
+  function calcSemiItem(input) {
+    const row = input.closest('tr');
+    const price = parseFloat(input.dataset.price) || 0;
+    let qty = parseFloat(input.value) || 0;
+    if (input.dataset.unit === 'area' && !input.value) qty = getCalcArea();
+    const total = price * qty;
+    const resultCell = row.querySelector('.result');
+    resultCell.textContent = total > 0 ? `¥${total.toLocaleString()}` : '¥0';
+    resultCell.classList.toggle('has-value', total > 0);
+    updateCalcSemiTotal();
+  }
+
+  // 更新半包总计
+  function updateCalcSemiTotal() {
+    let total = 0;
+    document.querySelectorAll('.calc-semi').forEach(input => {
+      const price = parseFloat(input.dataset.price) || 0;
+      let qty = parseFloat(input.value) || 0;
+      if (input.dataset.unit === 'area' && !input.value) qty = getCalcArea();
+      total += price * qty;
+    });
+    document.getElementById('calcSemiTotal').textContent = `¥${total.toLocaleString()}`;
+    updateCalcGrandTotal();
+  }
+
+  // 通用计算（主材/卫浴/设备/电器）
+  function calcGenericItem(input, className) {
+    const row = input.closest('tr');
+    const inputs = row.querySelectorAll('input');
+    const price = parseFloat(inputs[0].value) || 0;
+    const qty = parseFloat(inputs[1].value) || 0;
+    const total = price * qty;
+    const resultCell = row.querySelector('.result');
+    resultCell.textContent = total > 0 ? `¥${total.toLocaleString()}` : '¥0';
+    resultCell.classList.toggle('has-value', total > 0);
+    updateCalcCategoryTotal(className);
+  }
+
+  // 更新分类总计
+  function updateCalcCategoryTotal(category) {
+    let total = 0;
+    document.querySelectorAll(`.calc-${category}`).forEach(input => {
+      const row = input.closest('tr');
+      const inputs = row.querySelectorAll('input');
+      const price = parseFloat(inputs[0].value) || 0;
+      const qty = parseFloat(inputs[1].value) || 0;
+      total += price * qty;
+    });
+    const totalIds = {
+      'main': 'calcMainTotal',
+      'bath': 'calcBathTotal',
+      'equip': 'calcEquipTotal',
+      'appliance': 'calcApplianceTotal',
+      'furniture': 'calcFurnitureTotal'
+    };
+    document.getElementById(totalIds[category]).textContent = `¥${total.toLocaleString()}`;
+    updateCalcGrandTotal();
+  }
+
+  // 更新总预算
+  function updateCalcGrandTotal() {
+    const parse = (id) => parseFloat(document.getElementById(id).textContent.replace(/[¥,]/g, '')) || 0;
+    const semi = parse('calcSemiTotal');
+    const main = parse('calcMainTotal');
+    const bath = parse('calcBathTotal');
+    const equip = parse('calcEquipTotal');
+    const appliance = parse('calcApplianceTotal');
+    const furniture = parse('calcFurnitureTotal');
+    const total = semi + main + bath + equip + appliance + furniture;
+    document.getElementById('calcTotalBudget').textContent = `¥${total.toLocaleString()}`;
+    document.getElementById('calcTotalSemi').textContent = `¥${semi.toLocaleString()}`;
+    document.getElementById('calcTotalMain').textContent = `¥${(main + bath).toLocaleString()}`;
+    document.getElementById('calcTotalEquip').textContent = `¥${(equip + appliance).toLocaleString()}`;
+    document.getElementById('calcTotalFurniture').textContent = `¥${furniture.toLocaleString()}`;
+  }
+
+  // 保存计算器数据
+  function saveCalcData() {
+    const data = { area: document.getElementById('calcAreaInput').value };
+    ['calc-semi', 'calc-main', 'calc-bath', 'calc-equip', 'calc-appliance', 'calc-furniture'].forEach(cls => {
+      data[cls] = {};
+      document.querySelectorAll(`.${cls}`).forEach((input, i) => {
+        if (input.value) data[cls][i] = input.value;
+      });
+      document.querySelectorAll(`.${cls}-qty`).forEach((input, i) => {
+        if (input.value) data[cls][`qty_${i}`] = input.value;
+      });
+    });
+    localStorage.setItem('renovation_calc', JSON.stringify(data));
+    showCalcToast('✅ 数据已保存');
+  }
+
+  // 加载计算器数据
+  function loadCalcData() {
+    const saved = localStorage.getItem('renovation_calc');
+    if (!saved) return;
+    try {
+      const data = JSON.parse(saved);
+      if (data.area) document.getElementById('calcAreaInput').value = data.area;
+      ['calc-semi', 'calc-main', 'calc-bath', 'calc-equip', 'calc-appliance', 'calc-furniture'].forEach(cls => {
+        const inputs = document.querySelectorAll(`.${cls}`);
+        const qtyInputs = document.querySelectorAll(`.${cls}-qty`);
+        if (data[cls]) {
+          Object.keys(data[cls]).forEach(key => {
+            if (key.startsWith('qty_')) {
+              const i = key.replace('qty_', '');
+              if (qtyInputs[i]) qtyInputs[i].value = data[cls][key];
+            } else {
+              if (inputs[key]) inputs[key].value = data[cls][key];
+            }
+          });
+        }
+      });
+      // 触发计算
+      document.querySelectorAll('.calc-semi').forEach(i => { if (i.value) calcSemiItem(i); });
+      ['main', 'bath', 'equip', 'appliance', 'furniture'].forEach(cls => {
+        document.querySelectorAll(`.calc-${cls}`).forEach(i => { if (i.value) calcGenericItem(i, cls); });
+      });
+    } catch (e) {}
+  }
+
+  // 清空计算器数据
+  function clearCalcData() {
+    if (!confirm('确定要清空所有数据吗？')) return;
+    document.querySelectorAll('#pageCalculator input[type="number"]').forEach(input => {
+      if (input.id !== 'calcAreaInput') input.value = '';
+    });
+    document.querySelectorAll('#pageCalculator .result').forEach(cell => {
+      cell.textContent = '¥0';
+      cell.classList.remove('has-value');
+    });
+    document.querySelectorAll('#pageCalculator .calc-total').forEach(el => el.textContent = '¥0');
+    localStorage.removeItem('renovation_calc');
+    showCalcToast('🗑️ 数据已清空');
+  }
+</script>
+
+<!-- ============ 第三页：装修费用计算器 ============ -->
+<div class="page" id="pageCalculator">
+  <div class="top-nav">
+    <div class="back" onclick="showHomeFromCalc()">← 返回</div>
+    <div class="title">🧮 装修费用计算器</div>
+    <div style="display:flex;gap:8px;">
+      <button onclick="clearCalcData()" style="padding:6px 12px;border-radius:6px;font-size:12px;background:rgba(255,255,255,0.15);color:#fff;border:none;cursor:pointer;">🗑️ 清空</button>
+      <button onclick="saveCalcData()" style="padding:6px 12px;border-radius:6px;font-size:12px;background:#ffba08;color:#1a1a2e;border:none;cursor:pointer;font-weight:600;">💾 保存</button>
+    </div>
+  </div>
+
+  <div class="container">
+    <!-- 面积输入 -->
+    <div style="background:#fff;border-radius:14px;padding:20px;margin-bottom:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+      <div style="font-size:16px;font-weight:600;margin-bottom:12px;">📐 房屋面积</div>
+      <div style="display:inline-flex;align-items:center;gap:10px;background:#f8f9ff;border-radius:10px;padding:10px 20px;">
+        <label style="font-size:13px;color:#86868b;">面积</label>
+        <input type="number" id="calcAreaInput" value="80" min="30" max="500" style="width:80px;padding:6px;border:2px solid #e0e0e5;border-radius:8px;font-size:20px;font-weight:700;text-align:center;outline:none;" onchange="updateCalcSemiTotal()">
+        <span style="font-size:13px;color:#86868b;">㎡</span>
+      </div>
+    </div>
+
+    <!-- 总览 -->
+    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px;">
+      <div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:14px;padding:14px;text-align:center;color:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.3);">
+        <div style="font-size:11px;opacity:0.8;">💰 总预算</div>
+        <div style="font-size:20px;font-weight:700;margin:4px 0;" id="calcTotalBudget">¥0</div>
+        <div style="font-size:10px;opacity:0.6;">全部费用</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <div style="font-size:11px;color:#86868b;">🔨 半包</div>
+        <div style="font-size:18px;font-weight:700;color:#667eea;margin:4px 0;" id="calcTotalSemi">¥0</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <div style="font-size:11px;color:#86868b;">🏠 主材</div>
+        <div style="font-size:18px;font-weight:700;color:#e65100;margin:4px 0;" id="calcTotalMain">¥0</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <div style="font-size:11px;color:#86868b;">⚙️ 设备电器</div>
+        <div style="font-size:18px;font-weight:700;color:#2e7d32;margin:4px 0;" id="calcTotalEquip">¥0</div>
+      </div>
+      <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+        <div style="font-size:11px;color:#86868b;">🛋️ 软装家具</div>
+        <div style="font-size:18px;font-weight:700;color:#ad1457;margin:4px 0;" id="calcTotalFurniture">¥0</div>
+      </div>
+    </div>
+
+    <!-- 半包工程 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-blue">🔨</div>
+          <div><div class="title">半包工程（人工+辅材）</div><div style="font-size:11px;color:#86868b;">水电/泥工/木工/油漆/杂项</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcSemiTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>单位</th><th>单价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <tr><td colspan="5" style="background:#e3f2fd;font-weight:600;color:#1565c0;padding:8px 12px;">⚡ 水电工程</td></tr>
+            <tr><td>强弱电布线</td><td>㎡</td><td>180</td><td style="width:90px"><input type="number" class="calc-semi" data-price="180" data-unit="area" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>一厨一卫布冷热水管</td><td>项</td><td>2,700</td><td style="width:90px"><input type="number" class="calc-semi" data-price="2700" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>增加一卫布冷热水管</td><td>间</td><td>1,600</td><td style="width:90px"><input type="number" class="calc-semi" data-price="1600" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>强电箱及模块</td><td>套</td><td>1,150</td><td style="width:90px"><input type="number" class="calc-semi" data-price="1150" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <tr><td colspan="5" style="background:#fff3e0;font-weight:600;color:#e65100;padding:8px 12px;">🧱 泥工工程</td></tr>
+            <tr><td>地砖铺贴</td><td>㎡</td><td>129</td><td style="width:90px"><input type="number" class="calc-semi" data-price="129" data-unit="area" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>墙砖铺贴</td><td>㎡</td><td>119</td><td style="width:90px"><input type="number" class="calc-semi" data-price="119" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>地面找平</td><td>㎡</td><td>64</td><td style="width:90px"><input type="number" class="calc-semi" data-price="64" data-unit="area" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>防水工程</td><td>㎡</td><td>91</td><td style="width:90px"><input type="number" class="calc-semi" data-price="91" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <tr><td colspan="5" style="background:#efebe9;font-weight:600;color:#4e342e;padding:8px 12px;">🪵 木工工程</td></tr>
+            <tr><td>石膏板吊顶</td><td>㎡</td><td>139</td><td style="width:90px"><input type="number" class="calc-semi" data-price="139" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <tr><td colspan="5" style="background:#f3e5f5;font-weight:600;color:#7b1fa2;padding:8px 12px;">🎨 油漆工程</td></tr>
+            <tr><td>墙面乳胶漆</td><td>㎡</td><td>78</td><td style="width:90px"><input type="number" class="calc-semi" data-price="78" data-unit="area" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>顶面乳胶漆</td><td>㎡</td><td>79</td><td style="width:90px"><input type="number" class="calc-semi" data-price="79" data-unit="area" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcSemiItem(this)"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 主材 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-orange">🏠</div>
+          <div><div class="title">主材（业主自购）</div><div style="font-size:11px;color:#86868b;">瓷砖/地板/橱柜/房门等</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcMainTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>品牌参考</th><th>预算单价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <tr><td>瓷砖</td><td style="color:#667eea;font-size:12px">马可波罗/诺贝尔/东鹏</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>地板</td><td style="color:#667eea;font-size:12px">圣象/大自然/德尔</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>房门</td><td style="color:#667eea;font-size:12px">TATA/梦天/欧派</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>整体橱柜</td><td style="color:#667eea;font-size:12px">欧派/志邦/金牌</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>集成吊顶</td><td style="color:#667eea;font-size:12px">友邦/容声/奥普</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>开关面板</td><td style="color:#667eea;font-size:12px">施耐德/西门子/公牛</td><td style="width:90px"><input type="number" class="calc-main" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td style="width:90px"><input type="number" class="calc-main-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'main')"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 卫浴洁具 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-teal">🚿</div>
+          <div><div class="title">卫浴洁具</div><div style="font-size:11px;color:#86868b;">马桶/浴室柜/花洒/龙头等</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcBathTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>品牌参考</th><th>预算单价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <tr><td>马桶</td><td style="color:#667eea;font-size:12px">TOTO/科勒/箭牌</td><td style="width:90px"><input type="number" class="calc-bath" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td style="width:90px"><input type="number" class="calc-bath-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>浴室柜</td><td style="color:#667eea;font-size:12px">箭牌/九牧/恒洁</td><td style="width:90px"><input type="number" class="calc-bath" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td style="width:90px"><input type="number" class="calc-bath-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>花洒套装</td><td style="color:#667eea;font-size:12px">科勒/摩恩/汉斯格雅</td><td style="width:90px"><input type="number" class="calc-bath" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td style="width:90px"><input type="number" class="calc-bath-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>淋浴房</td><td style="color:#667eea;font-size:12px">德立/理想/箭牌</td><td style="width:90px"><input type="number" class="calc-bath" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td style="width:90px"><input type="number" class="calc-bath-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>地漏</td><td style="color:#667eea;font-size:12px">潜水艇/科勒</td><td style="width:90px"><input type="number" class="calc-bath" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td style="width:90px"><input type="number" class="calc-bath-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'bath')"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 设备系统 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-green">⚙️</div>
+          <div><div class="title">设备系统</div><div style="font-size:11px;color:#86868b;">空调/地暖/新风/净水/智能</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcEquipTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>品牌参考</th><th>预算总价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <tr><td>中央空调</td><td style="color:#667eea;font-size:12px">大金/三菱/格力</td><td style="width:90px"><input type="number" class="calc-equip" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td style="width:90px"><input type="number" class="calc-equip-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>地暖系统</td><td style="color:#667eea;font-size:12px">威能/博世/菲斯曼</td><td style="width:90px"><input type="number" class="calc-equip" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td style="width:90px"><input type="number" class="calc-equip-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>新风系统</td><td style="color:#667eea;font-size:12px">松下/大金/霍尼韦尔</td><td style="width:90px"><input type="number" class="calc-equip" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td style="width:90px"><input type="number" class="calc-equip-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>锅炉/热水器</td><td style="color:#667eea;font-size:12px">林内/能率/AO史密斯</td><td style="width:90px"><input type="number" class="calc-equip" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td style="width:90px"><input type="number" class="calc-equip-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>净水系统</td><td style="color:#667eea;font-size:12px">3M/沁园/安吉尔</td><td style="width:90px"><input type="number" class="calc-equip" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td style="width:90px"><input type="number" class="calc-equip-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'equip')"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 家电电器 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-purple">📺</div>
+          <div><div class="title">家电电器</div><div style="font-size:11px;color:#86868b;">厨电/洗衣/清洁/影音</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcApplianceTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>品牌参考</th><th>预算总价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <tr><td>油烟机+灶具</td><td style="color:#667eea;font-size:12px">方太/老板/华帝</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>洗碗机</td><td style="color:#667eea;font-size:12px">西门子/美的/方太</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>洗衣机</td><td style="color:#667eea;font-size:12px">西门子/博世/海尔</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>烘干机</td><td style="color:#667eea;font-size:12px">西门子/博世/美的</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>电视机</td><td style="color:#667eea;font-size:12px">索尼/三星/海信</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>扫地机器人</td><td style="color:#667eea;font-size:12px">科沃斯/石头/追觅</td><td style="width:90px"><input type="number" class="calc-appliance" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td style="width:90px"><input type="number" class="calc-appliance-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'appliance')"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 软装家具 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleCalcCategory(this)">
+        <div class="left">
+          <div class="icon bg-pink">🛋️</div>
+          <div><div class="title">软装家具</div><div style="font-size:11px;color:#86868b;">沙发/床/餐桌/柜体/窗帘/灯具</div></div>
+        </div>
+        <div style="display:flex;align-items:center;">
+          <div class="price-summary"><div class="sale calc-total" id="calcFurnitureTotal">¥0</div></div>
+          <span class="arrow">▶</span>
+        </div>
+      </div>
+      <div class="section-body">
+        <table>
+          <thead><tr><th>项目</th><th>品牌参考</th><th>预算总价</th><th style="width:90px">数量</th><th style="text-align:right">小计</th></tr></thead>
+          <tbody>
+            <!-- 客餐厅 -->
+            <tr><td colspan="5" style="background:#fce4ec;font-weight:600;color:#ad1457;padding:8px 12px;">🛋️ 客餐厅家具</td></tr>
+            <tr><td>沙发</td><td style="color:#667eea;font-size:12px">顾家/芝华仕/左右</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>茶几</td><td style="color:#667eea;font-size:12px">全友/林氏/源氏木语</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>电视柜</td><td style="color:#667eea;font-size:12px">全友/林氏/宜家</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>餐桌</td><td style="color:#667eea;font-size:12px">全友/源氏木语/华日</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>餐椅</td><td style="color:#667eea;font-size:12px">配套购买</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>鞋柜</td><td style="color:#667eea;font-size:12px">全友/林氏/定制</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <!-- 卧室 -->
+            <tr><td colspan="5" style="background:#e8eaf6;font-weight:600;color:#283593;padding:8px 12px;">🛏️ 卧室家具</td></tr>
+            <tr><td>主卧床</td><td style="color:#667eea;font-size:12px">顾家/喜临门/慕思</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>主卧床垫</td><td style="color:#667eea;font-size:12px">喜临门/慕思/丝涟</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>主卧床头柜</td><td style="color:#667eea;font-size:12px">配套购买</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>次卧床</td><td style="color:#667eea;font-size:12px">顾家/全友/林氏</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>次卧床垫</td><td style="color:#667eea;font-size:12px">喜临门/穗宝/大自然</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>衣柜</td><td style="color:#667eea;font-size:12px">索菲亚/欧派/尚品宅配</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>梳妆台</td><td style="color:#667eea;font-size:12px">全友/林氏/源氏木语</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <!-- 书房 -->
+            <tr><td colspan="5" style="background:#e0f2f1;font-weight:600;color:#00695c;padding:8px 12px;">📚 书房家具</td></tr>
+            <tr><td>书桌</td><td style="color:#667eea;font-size:12px">宜家/全友/源氏木语</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>书椅</td><td style="color:#667eea;font-size:12px">西昊/永艺/网易严选</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>书柜/书架</td><td style="color:#667eea;font-size:12px">宜家/全友/定制</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+
+            <!-- 软装 -->
+            <tr><td colspan="5" style="background:#f3e5f5;font-weight:600;color:#7b1fa2;padding:8px 12px;">🪟 软装配饰</td></tr>
+            <tr><td>窗帘</td><td style="color:#667eea;font-size:12px">如鱼得水/摩力克/本地定制</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>地毯</td><td style="color:#667eea;font-size:12px">华达/山花/网购</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>装饰画</td><td style="color:#667eea;font-size:12px">网购/定制</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>灯具（主灯/台灯/落地灯）</td><td style="color:#667eea;font-size:12px">欧普/雷士/月影灯饰</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>抱枕/靠垫</td><td style="color:#667eea;font-size:12px">网购</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+            <tr><td>绿植/花瓶</td><td style="color:#667eea;font-size:12px">花店/网购</td><td style="width:90px"><input type="number" class="calc-furniture" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td style="width:90px"><input type="number" class="calc-furniture-qty" style="width:100%;padding:4px;border:1px solid #e0e0e5;border-radius:4px;text-align:right;" oninput="calcGenericItem(this,'furniture')"></td><td class="result" style="text-align:right">¥0</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 预算参考 -->
+    <div class="notes">
+      <h3>📊 杭州装修费用参考（80㎡）</h3>
+      <table class="case-table">
+        <thead><tr><th>档次</th><th>半包</th><th>主材</th><th>设备电器</th><th style="text-align:right">总价参考</th></tr></thead>
+        <tbody>
+          <tr><td>经济型</td><td>7~8万</td><td>5~8万</td><td>3~5万</td><td style="text-align:right;color:#2e7d32;font-weight:600">15~21万</td></tr>
+          <tr><td>舒适型</td><td>8~10万</td><td>8~12万</td><td>5~8万</td><td style="text-align:right;color:#e65100;font-weight:600">21~30万</td></tr>
+          <tr><td>品质型</td><td>10~12万</td><td>12~18万</td><td>8~12万</td><td style="text-align:right;color:#c62828;font-weight:600">30~42万</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="footer">
+      📍 装修掌门人 · 装修费用计算器 · 数据保存在本地浏览器<br>
+      💡 点击右上角「💾 保存」可保存当前数据
+    </div>
+  </div>
+</div>
+
+<!-- 提示框 -->
+<div id="calcToast" style="position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:#1d1d1f;color:#fff;padding:12px 24px;border-radius:10px;font-size:14px;z-index:1000;opacity:0;transition:opacity 0.3s;pointer-events:none;"></div>
+
+<style>
+  .calc-toast.show { opacity: 1 !important; }
+</style>
+</body>
+</html>
