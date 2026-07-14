@@ -13,6 +13,40 @@
   .page.active { display: block; }
   .container { max-width: 900px; margin: 0 auto; padding: 20px 16px; }
 
+  /* ====== 登录页 ====== */
+  .page-login {
+    display: flex; flex-direction: column; align-items: center; justify-content: center;
+    min-height: 100vh; padding: 40px 20px;
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+    color: #fff;
+  }
+  .login-card {
+    background: rgba(255,255,255,0.95); backdrop-filter: blur(10px);
+    border-radius: 24px; padding: 48px 40px; width: 100%; max-width: 420px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.3); color: #1d1d1f; text-align: center;
+  }
+  .login-card .login-icon { font-size: 60px; margin-bottom: 16px; }
+  .login-card .login-title { font-size: 24px; font-weight: 700; margin-bottom: 8px; }
+  .login-card .login-subtitle { font-size: 14px; color: #86868b; margin-bottom: 30px; }
+  .login-card .input-group { margin-bottom: 16px; text-align: left; }
+  .login-card .input-group label { display: block; font-size: 13px; color: #86868b; margin-bottom: 6px; font-weight: 500; }
+  .login-card .input-group input {
+    width: 100%; padding: 14px 16px; border: 2px solid #e0e0e5; border-radius: 12px;
+    font-size: 16px; outline: none; transition: border-color 0.2s;
+  }
+  .login-card .input-group input:focus { border-color: #667eea; }
+  .login-card .btn-login {
+    width: 100%; padding: 14px; border-radius: 12px; border: none;
+    background: linear-gradient(135deg, #e85d04, #f48c06); color: #fff;
+    font-size: 16px; font-weight: 600; cursor: pointer; margin-top: 8px;
+    transition: transform 0.15s, box-shadow 0.15s;
+    box-shadow: 0 4px 15px rgba(232,93,4,0.3);
+  }
+  .login-card .btn-login:hover { transform: translateY(-2px); box-shadow: 0 6px 20px rgba(232,93,4,0.4); }
+  .login-card .btn-login:active { transform: translateY(0); }
+  .login-error { color: #c62828; font-size: 13px; margin-top: 10px; display: none; }
+  .login-card .hint { font-size: 12px; color: #86868b; margin-top: 20px; padding-top: 16px; border-top: 1px solid #f0f0f2; }
+
   /* ====== 第一页：面积计算器 ====== */
   .page-home {
     display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -169,6 +203,32 @@
 </head>
 <body>
 
+<!-- ============ 登录页 ============ -->
+<div class="page page-login active" id="pageLogin">
+  <div class="login-card">
+    <div class="login-icon">🔐</div>
+    <div class="login-title">欢迎访问</div>
+    <div class="login-subtitle">请输入账号密码查看装修报价</div>
+
+    <div class="input-group">
+      <label>账号</label>
+      <input type="text" id="loginUser" placeholder="请输入账号" autofocus>
+    </div>
+    <div class="input-group">
+      <label>密码</label>
+      <input type="password" id="loginPass" placeholder="请输入密码" onkeydown="if(event.key==='Enter')doLogin()">
+    </div>
+
+    <button class="btn-login" onclick="doLogin()">登 录</button>
+    <div class="login-error" id="loginError">❌ 账号或密码错误，请重试</div>
+
+    <div class="hint">
+      💡 账号：<strong>admin</strong>　密码：<strong>123456</strong><br>
+      <span style="font-size:11px;color:#aaa;">（可联系客服获取账号密码）</span>
+    </div>
+  </div>
+</div>
+
 <!-- ============ 第一页：面积计算器 ============ -->
 <div class="page page-home active" id="pageHome">
   <div class="title-row"><span class="slogan" style="font-size:42px;letter-spacing:12px;">装修零距离</span></div>
@@ -209,6 +269,9 @@
     <button class="btn-detail" onclick="showDetail()">📋 查看全部项目明细</button>
     <div style="margin-top:12px;">
       <button class="btn-detail" onclick="showCalculator()" style="background:linear-gradient(135deg, #2e7d32, #43a047);box-shadow:0 4px 15px rgba(46,125,50,0.3);">🧮 装修费用计算器</button>
+    </div>
+    <div style="margin-top:16px;">
+      <button onclick="doLogout()" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
     </div>
   </div>
 
@@ -995,6 +1058,65 @@
 </div>
 
 <script>
+  // ============ 登录功能 ============
+  // 账号密码配置（可修改）
+  const USERS = {
+    'admin': '123456',
+    'user': '888888',
+    'vip': '666666'
+  };
+
+  // 检查是否已登录
+  function checkLogin() {
+    return sessionStorage.getItem('isLoggedIn') === 'true';
+  }
+
+  // 执行登录
+  function doLogin() {
+    const user = document.getElementById('loginUser').value.trim();
+    const pass = document.getElementById('loginPass').value;
+    const errorEl = document.getElementById('loginError');
+
+    if (!user || !pass) {
+      errorEl.textContent = '❌ 请输入账号和密码';
+      errorEl.style.display = 'block';
+      return;
+    }
+
+    if (USERS[user] && USERS[user] === pass) {
+      sessionStorage.setItem('isLoggedIn', 'true');
+      sessionStorage.setItem('currentUser', user);
+      document.getElementById('pageLogin').classList.remove('active');
+      document.getElementById('pageHome').classList.add('active');
+      errorEl.style.display = 'none';
+    } else {
+      errorEl.style.display = 'block';
+      document.getElementById('loginPass').value = '';
+      document.getElementById('loginPass').focus();
+    }
+  }
+
+  // 退出登录
+  function doLogout() {
+    sessionStorage.removeItem('isLoggedIn');
+    sessionStorage.removeItem('currentUser');
+    document.getElementById('pageHome').classList.remove('active');
+    document.getElementById('pageDetail').classList.remove('active');
+    document.getElementById('pageCalculator').classList.remove('active');
+    document.getElementById('pageLogin').classList.add('active');
+    document.getElementById('loginUser').value = '';
+    document.getElementById('loginPass').value = '';
+    document.getElementById('loginError').style.display = 'none';
+  }
+
+  // 页面加载时检查登录状态
+  window.addEventListener('DOMContentLoaded', function() {
+    if (checkLogin()) {
+      document.getElementById('pageLogin').classList.remove('active');
+      document.getElementById('pageHome').classList.add('active');
+    }
+  });
+
   const areaInput = document.getElementById('areaInput');
 
   function calcPrice() {
