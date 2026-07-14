@@ -273,7 +273,7 @@
 </div>
 
 <!-- ============ 第一页：面积计算器 ============ -->
-<div class="page page-home active" id="pageHome">
+<div class="page page-home" id="pageHome">
   <div class="title-row"><span class="slogan" style="font-size:42px;letter-spacing:12px;">装修零距离</span></div>
   <div class="tagline">透明报价 · 所见即所得</div>
 
@@ -313,7 +313,8 @@
     <div style="margin-top:12px;">
       <button class="btn-detail" onclick="showCalculator()" style="background:linear-gradient(135deg, #2e7d32, #43a047);box-shadow:0 4px 15px rgba(46,125,50,0.3);">🧮 装修费用计算器</button>
     </div>
-    <div style="margin-top:16px;">
+    <div style="margin-top:16px;text-align:center;">
+      <div id="welcomeUser" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;"></div>
       <button onclick="doLogout()" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
     </div>
   </div>
@@ -1213,6 +1214,7 @@
       sessionStorage.setItem('currentUser', user);
       document.getElementById('pageLogin').classList.remove('active');
       document.getElementById('pageHome').classList.add('active');
+      showWelcome();
     } else {
       errorEl.textContent = '❌ 手机号或密码错误';
       errorEl.style.display = 'block';
@@ -1236,11 +1238,20 @@
     document.getElementById('loginError').style.display = 'none';
   }
 
+  // 显示欢迎信息
+  function showWelcome() {
+    const user = sessionStorage.getItem('currentUser');
+    if (user) {
+      document.getElementById('welcomeUser').textContent = `👋 欢迎回来，${user}`;
+    }
+  }
+
   // 页面加载时检查登录状态
   window.addEventListener('DOMContentLoaded', function() {
     if (checkLogin()) {
       document.getElementById('pageLogin').classList.remove('active');
       document.getElementById('pageHome').classList.add('active');
+      showWelcome();
     }
   });
 
