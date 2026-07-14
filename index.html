@@ -388,8 +388,16 @@
       <button class="btn-detail" onclick="showCalculator()" style="background:linear-gradient(135deg, #2e7d32, #43a047);box-shadow:0 4px 15px rgba(46,125,50,0.3);">🧮 装修费用计算器</button>
     </div>
     <div style="margin-top:16px;text-align:center;">
-      <div id="welcomeUser" style="font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;"></div>
-      <button id="logoutBtn" onclick="doLogout()" style="background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
+      <div id="welcomeUser" style="display:none;font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;"></div>
+      <button id="logoutBtn" onclick="doLogout()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
+    </div>
+  </div>
+
+  <!-- 二维码 -->
+  <div style="margin-top:24px;text-align:center;">
+    <div style="background:rgba(255,255,255,0.95);backdrop-filter:blur(10px);border-radius:16px;padding:20px;display:inline-block;box-shadow:0 4px 20px rgba(0,0,0,0.2);">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://choklin96-crypto.github.io/zhuangxiu-website/" alt="扫码访问" style="width:150px;height:150px;">
+      <div style="font-size:12px;color:#86868b;margin-top:8px;">📱 扫码访问装修报价</div>
     </div>
   </div>
 
@@ -1454,16 +1462,10 @@
     return !!localStorage.getItem('token');
   }
 
-  // 页面加载时检查登录状态
+  // 页面加载时（登录功能暂时关闭）
   window.addEventListener('DOMContentLoaded', function() {
-    if (checkLogin()) {
-      showWelcome();
-      document.getElementById('logoutBtn').style.display = 'inline-block';
-      document.getElementById('welcomeUser').style.display = 'block';
-    } else {
-      document.getElementById('logoutBtn').style.display = 'none';
-      document.getElementById('welcomeUser').style.display = 'none';
-    }
+    document.getElementById('logoutBtn').style.display = 'none';
+    document.getElementById('welcomeUser').style.display = 'none';
   });
 
   const areaInput = document.getElementById('areaInput');
@@ -1500,11 +1502,6 @@
   let pendingRedirect = null;
 
   function showDetail() {
-    if (!checkLogin()) {
-      pendingRedirect = 'detail';
-      showLoginRequired();
-      return;
-    }
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.add('active');
     window.scrollTo(0, 0);
@@ -1729,11 +1726,6 @@
 
   // ============ 装修费用计算器功能 ============
   function showCalculator() {
-    if (!checkLogin()) {
-      pendingRedirect = 'calculator';
-      showLoginRequired();
-      return;
-    }
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.remove('active');
     document.getElementById('pageCalculator').classList.add('active');
