@@ -1872,7 +1872,7 @@
     updateCalcGrandTotal();
   }
 
-  // 更新总预算
+  // 更新总预算（总预算为自填，不自动计算）
   function updateCalcGrandTotal() {
     const parse = (id) => parseFloat(document.getElementById(id).textContent.replace(/[¥,]/g, '')) || 0;
     const semi = parse('calcSemiTotal');
@@ -1881,8 +1881,6 @@
     const equip = parse('calcEquipTotal');
     const appliance = parse('calcApplianceTotal');
     const furniture = parse('calcFurnitureTotal');
-    const total = semi + main + bath + equip + appliance + furniture;
-    document.getElementById('calcTotalBudget').textContent = `¥${total.toLocaleString()}`;
     document.getElementById('calcTotalSemi').textContent = `¥${semi.toLocaleString()}`;
     document.getElementById('calcTotalMain').textContent = `¥${(main + bath).toLocaleString()}`;
     document.getElementById('calcTotalEquip').textContent = `¥${(equip + appliance).toLocaleString()}`;
@@ -1891,7 +1889,10 @@
 
   // 保存计算器数据
   function saveCalcData() {
-    const data = { area: document.getElementById('calcAreaInput').value };
+    const data = {
+      area: document.getElementById('calcAreaInput').value,
+      totalBudget: document.getElementById('calcTotalBudget').value
+    };
     ['calc-semi', 'calc-main', 'calc-bath', 'calc-equip', 'calc-appliance', 'calc-furniture'].forEach(cls => {
       data[cls] = {};
       document.querySelectorAll(`.${cls}`).forEach((input, i) => {
@@ -1912,6 +1913,7 @@
     try {
       const data = JSON.parse(saved);
       if (data.area) document.getElementById('calcAreaInput').value = data.area;
+      if (data.totalBudget) document.getElementById('calcTotalBudget').value = data.totalBudget;
       ['calc-semi', 'calc-main', 'calc-bath', 'calc-equip', 'calc-appliance', 'calc-furniture'].forEach(cls => {
         const inputs = document.querySelectorAll(`.${cls}`);
         const qtyInputs = document.querySelectorAll(`.${cls}-qty`);
@@ -1978,8 +1980,8 @@
     <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(120px,1fr));gap:10px;margin-bottom:16px;">
       <div style="background:linear-gradient(135deg,#667eea,#764ba2);border-radius:14px;padding:14px;text-align:center;color:#fff;box-shadow:0 2px 8px rgba(102,126,234,0.3);">
         <div style="font-size:11px;opacity:0.8;">💰 总预算</div>
-        <div style="font-size:20px;font-weight:700;margin:4px 0;" id="calcTotalBudget">¥0</div>
-        <div style="font-size:10px;opacity:0.6;">全部费用</div>
+        <input type="number" id="calcTotalBudget" placeholder="请输入总预算" style="width:100%;background:transparent;border:none;color:#fff;font-size:20px;font-weight:700;margin:4px 0;text-align:center;outline:none;">
+        <div style="font-size:10px;opacity:0.6;">自填预算</div>
       </div>
       <div style="background:#fff;border-radius:14px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
         <div style="font-size:11px;color:#86868b;">🔨 半包</div>
