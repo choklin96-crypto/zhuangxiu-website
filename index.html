@@ -2329,6 +2329,40 @@
               ✅ 接头用压线帽或搪锡处理<br>
               ✅ 线管固定间距≤60cm
             </div>
+            <!-- 电路布管示意图 -->
+            <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+              <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 电路布管示意图</div>
+              <div style="display:flex;justify-content:center;">
+                <svg width="280" height="180" viewBox="0 0 280 180">
+                  <!-- 配电箱 -->
+                  <rect x="10" y="20" width="40" height="60" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+                  <text x="30" y="55" text-anchor="middle" font-size="10" fill="#1565c0" font-weight="bold">配电箱</text>
+                  <!-- 强电线 -->
+                  <line x1="50" y1="35" x2="270" y2="35" stroke="#e65100" stroke-width="2" stroke-dasharray="5,3"/>
+                  <text x="160" y="28" text-anchor="middle" font-size="9" fill="#e65100">强电线（红色）</text>
+                  <!-- 弱电线 -->
+                  <line x1="50" y1="65" x2="270" y2="65" stroke="#1565c0" stroke-width="2" stroke-dasharray="5,3"/>
+                  <text x="160" y="80" text-anchor="middle" font-size="9" fill="#1565c0">弱电线（蓝色）</text>
+                  <!-- 间距标注 -->
+                  <line x1="260" y1="35" x2="260" y2="65" stroke="#2e7d32" stroke-width="1"/>
+                  <text x="255" y="53" text-anchor="end" font-size="8" fill="#2e7d32">≥30cm</text>
+                  <!-- 插座 -->
+                  <circle cx="100" cy="130" r="12" fill="#fff3e0" stroke="#e65100" stroke-width="1.5"/>
+                  <text x="100" y="134" text-anchor="middle" font-size="8" fill="#e65100">插座</text>
+                  <line x1="100" y1="35" x2="100" y2="118" stroke="#e65100" stroke-width="1.5"/>
+                  <!-- 开关 -->
+                  <circle cx="180" cy="130" r="12" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5"/>
+                  <text x="180" y="134" text-anchor="middle" font-size="8" fill="#2e7d32">开关</text>
+                  <line x1="180" y1="35" x2="180" y2="118" stroke="#e65100" stroke-width="1.5"/>
+                  <!-- 网线 -->
+                  <circle cx="250" cy="130" r="12" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+                  <text x="250" y="134" text-anchor="middle" font-size="8" fill="#1565c0">网线</text>
+                  <line x1="250" y1="65" x2="250" y2="118" stroke="#1565c0" stroke-width="1.5"/>
+                  <!-- 说明 -->
+                  <text x="140" y="170" text-anchor="middle" font-size="9" fill="#86868b">强弱电间距≥30cm，避免信号干扰</text>
+                </svg>
+              </div>
+            </div>
           </div>
           <div style="background:#e3f2fd;border-radius:10px;padding:14px;">
             <div style="font-weight:600;color:#1565c0;margin-bottom:10px;">💧 水路施工标准</div>
@@ -2338,6 +2372,41 @@
               ✅ 水管走顶不走地（便于维修）<br>
               ✅ 打压测试0.8MPa，30分钟不掉压<br>
               ✅ 热水管需包裹保温棉
+            </div>
+            <!-- 水路布管示意图 -->
+            <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+              <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 水路布管示意图</div>
+              <div style="display:flex;justify-content:center;">
+                <svg width="280" height="200" viewBox="0 0 280 200">
+                  <!-- 进户水管 -->
+                  <rect x="10" y="10" width="60" height="30" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+                  <text x="40" y="30" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">进户水管</text>
+                  <!-- 主管 -->
+                  <line x1="70" y1="25" x2="270" y2="25" stroke="#1565c0" stroke-width="3"/>
+                  <!-- 厨房分支 -->
+                  <line x1="100" y1="25" x2="100" y2="80" stroke="#1565c0" stroke-width="2"/>
+                  <rect x="70" y="80" width="60" height="25" fill="#fff3e0" stroke="#e65100" stroke-width="1.5" rx="4"/>
+                  <text x="100" y="97" text-anchor="middle" font-size="9" fill="#e65100">厨房</text>
+                  <!-- 冷热水管标注 -->
+                  <line x1="85" y1="115" x2="85" y2="160" stroke="#1565c0" stroke-width="2"/>
+                  <text x="85" y="175" text-anchor="middle" font-size="8" fill="#1565c0">冷水</text>
+                  <line x1="115" y1="115" x2="115" y2="160" stroke="#e65100" stroke-width="2"/>
+                  <text x="115" y="175" text-anchor="middle" font-size="8" fill="#e65100">热水</text>
+                  <!-- 间距标注 -->
+                  <line x1="85" y1="165" x2="115" y2="165" stroke="#2e7d32" stroke-width="1"/>
+                  <text x="100" y="180" text-anchor="middle" font-size="8" fill="#2e7d32">≥15cm</text>
+                  <!-- 主卫分支 -->
+                  <line x1="180" y1="25" x2="180" y2="80" stroke="#1565c0" stroke-width="2"/>
+                  <rect x="150" y="80" width="60" height="25" fill="#e8f5e9" stroke="#2e7d32" stroke-width="1.5" rx="4"/>
+                  <text x="180" y="97" text-anchor="middle" font-size="9" fill="#2e7d32">主卫</text>
+                  <!-- 次卫分支 -->
+                  <line x1="250" y1="25" x2="250" y2="80" stroke="#1565c0" stroke-width="2"/>
+                  <rect x="220" y="80" width="60" height="25" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="1.5" rx="4"/>
+                  <text x="250" y="97" text-anchor="middle" font-size="9" fill="#7b1fa2">次卫</text>
+                  <!-- 说明 -->
+                  <text x="140" y="195" text-anchor="middle" font-size="9" fill="#86868b">左热右冷，水管走顶便于维修</text>
+                </svg>
+              </div>
             </div>
           </div>
         </div>
@@ -2394,6 +2463,49 @@
               • 下层无渗漏为合格
             </div>
           </div>
+          <!-- 防水层高度示意图 -->
+          <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 防水层高度示意图</div>
+            <div style="display:flex;justify-content:center;gap:20px;flex-wrap:wrap;">
+              <!-- 卫生间淋浴区 -->
+              <div style="text-align:center;">
+                <svg width="80" height="150" viewBox="0 0 80 150">
+                  <rect x="10" y="10" width="60" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <rect x="10" y="10" width="60" height="100" fill="#e8f5e9" stroke="#2e7d32" stroke-width="2" rx="4"/>
+                  <text x="40" y="65" text-anchor="middle" font-size="9" fill="#2e7d32" font-weight="bold">1.8m</text>
+                  <text x="40" y="135" text-anchor="middle" font-size="8" fill="#86868b">淋浴区</text>
+                </svg>
+              </div>
+              <!-- 卫生间其他区 -->
+              <div style="text-align:center;">
+                <svg width="80" height="150" viewBox="0 0 80 150">
+                  <rect x="10" y="10" width="60" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <rect x="10" y="110" width="60" height="30" fill="#fff3e0" stroke="#e65100" stroke-width="2" rx="4"/>
+                  <text x="40" y="128" text-anchor="middle" font-size="9" fill="#e65100" font-weight="bold">0.3m</text>
+                  <text x="40" y="135" text-anchor="middle" font-size="8" fill="#86868b">其他区</text>
+                </svg>
+              </div>
+              <!-- 厨房 -->
+              <div style="text-align:center;">
+                <svg width="80" height="150" viewBox="0 0 80 150">
+                  <rect x="10" y="10" width="60" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <rect x="10" y="110" width="60" height="30" fill="#e3f2fd" stroke="#1565c0" stroke-width="2" rx="4"/>
+                  <text x="40" y="128" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">0.3m</text>
+                  <text x="40" y="135" text-anchor="middle" font-size="8" fill="#86868b">厨房</text>
+                </svg>
+              </div>
+              <!-- 阳台 -->
+              <div style="text-align:center;">
+                <svg width="80" height="150" viewBox="0 0 80 150">
+                  <rect x="10" y="10" width="60" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <rect x="10" y="125" width="60" height="15" fill="#f3e5f5" stroke="#7b1fa2" stroke-width="2" rx="4"/>
+                  <text x="40" y="135" text-anchor="middle" font-size="8" fill="#7b1fa2" font-weight="bold">0.15m</text>
+                  <text x="40" y="145" text-anchor="middle" font-size="8" fill="#86868b">阳台</text>
+                </svg>
+              </div>
+            </div>
+            <div style="text-align:center;margin-top:10px;font-size:11px;color:#86868b;">绿色=1.8m | 橙色=0.3m | 蓝色=0.3m | 紫色=0.15m</div>
+          </div>
         </div>
       </div>
     </div>
@@ -2439,6 +2551,65 @@
               </tr>
             </tbody>
           </table>
+          <!-- 瓷砖铺贴示意图 -->
+          <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 瓷砖铺贴示意图</div>
+            <div style="display:flex;justify-content:center;gap:30px;flex-wrap:wrap;">
+              <!-- 墙砖铺贴 -->
+              <div style="text-align:center;">
+                <svg width="120" height="150" viewBox="0 0 120 150">
+                  <rect x="10" y="10" width="100" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <!-- 瓷砖网格 -->
+                  <rect x="15" y="15" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="35" y="15" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="55" y="15" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="75" y="15" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="15" y="35" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="35" y="35" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="55" y="35" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="75" y="35" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="15" y="55" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="35" y="55" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="55" y="55" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <rect x="75" y="55" width="20" height="20" fill="#fff3e0" stroke="#e65100" stroke-width="1"/>
+                  <!-- 箭头 -->
+                  <line x1="60" y1="85" x2="60" y2="115" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow)"/>
+                  <text x="60" y="130" text-anchor="middle" font-size="9" fill="#2e7d32">从下往上</text>
+                  <defs>
+                    <marker id="arrow" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                      <path d="M0,0 L0,6 L9,3 z" fill="#2e7d32"/>
+                    </marker>
+                  </defs>
+                </svg>
+                <div style="font-size:11px;color:#86868b;margin-top:5px;">墙砖铺贴</div>
+              </div>
+              <!-- 地砖铺贴 -->
+              <div style="text-align:center;">
+                <svg width="120" height="150" viewBox="0 0 120 150">
+                  <rect x="10" y="10" width="100" height="130" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="4"/>
+                  <!-- 瓷砖网格 -->
+                  <rect x="15" y="15" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="40" y="15" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="65" y="15" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="15" y="40" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="40" y="40" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="65" y="40" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="15" y="65" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="40" y="65" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <rect x="65" y="65" width="25" height="25" fill="#e3f2fd" stroke="#1565c0" stroke-width="1"/>
+                  <!-- 箭头 -->
+                  <line x1="60" y1="100" x2="60" y2="130" stroke="#2e7d32" stroke-width="2" marker-end="url(#arrow2)"/>
+                  <text x="60" y="145" text-anchor="middle" font-size="9" fill="#2e7d32">从门口向内</text>
+                  <defs>
+                    <marker id="arrow2" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto" markerUnits="strokeWidth">
+                      <path d="M0,0 L0,6 L9,3 z" fill="#2e7d32"/>
+                    </marker>
+                  </defs>
+                </svg>
+                <div style="font-size:11px;color:#86868b;margin-top:5px;">地砖铺贴</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -2470,6 +2641,41 @@
               • 对角线误差≤2mm<br>
               • 门缝均匀：2-3mm<br>
               • 抽屉顺滑，无卡顿，自动回位
+            </div>
+          </div>
+          <!-- 吊顶龙骨示意图 -->
+          <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 吊顶龙骨安装示意图</div>
+            <div style="display:flex;justify-content:center;">
+              <svg width="260" height="160" viewBox="0 0 260 160">
+                <!-- 吊杆 -->
+                <line x1="40" y1="10" x2="40" y2="50" stroke="#666" stroke-width="2"/>
+                <line x1="100" y1="10" x2="100" y2="50" stroke="#666" stroke-width="2"/>
+                <line x1="160" y1="10" x2="160" y2="50" stroke="#666" stroke-width="2"/>
+                <line x1="220" y1="10" x2="220" y2="50" stroke="#666" stroke-width="2"/>
+                <text x="130" y="8" text-anchor="middle" font-size="8" fill="#86868b">吊杆间距≤1200mm</text>
+                <!-- 主龙骨 -->
+                <rect x="20" y="50" width="220" height="8" fill="#e65100" stroke="#e65100" stroke-width="1" rx="2"/>
+                <text x="130" y="45" text-anchor="middle" font-size="8" fill="#e65100">主龙骨</text>
+                <!-- 次龙骨 -->
+                <rect x="30" y="65" width="200" height="6" fill="#1565c0" stroke="#1565c0" stroke-width="1" rx="2"/>
+                <rect x="30" y="78" width="200" height="6" fill="#1565c0" stroke="#1565c0" stroke-width="1" rx="2"/>
+                <rect x="30" y="91" width="200" height="6" fill="#1565c0" stroke="#1565c0" stroke-width="1" rx="2"/>
+                <text x="245" y="80" text-anchor="start" font-size="8" fill="#1565c0">次龙骨</text>
+                <text x="245" y="90" text-anchor="start" font-size="7" fill="#1565c0">间距≤600mm</text>
+                <!-- 石膏板 -->
+                <rect x="25" y="100" width="210" height="15" fill="#f5f5f7" stroke="#e0e0e5" stroke-width="1" rx="2"/>
+                <text x="130" y="112" text-anchor="middle" font-size="8" fill="#86868b">石膏板</text>
+                <!-- 间距标注 -->
+                <line x1="40" y1="130" x2="100" y2="130" stroke="#2e7d32" stroke-width="1"/>
+                <text x="70" y="140" text-anchor="middle" font-size="7" fill="#2e7d32">≤600mm</text>
+                <line x1="100" y1="130" x2="160" y2="130" stroke="#2e7d32" stroke-width="1"/>
+                <text x="130" y="140" text-anchor="middle" font-size="7" fill="#2e7d32">≤600mm</text>
+                <line x1="160" y1="130" x2="220" y2="130" stroke="#2e7d32" stroke-width="1"/>
+                <text x="190" y="140" text-anchor="middle" font-size="7" fill="#2e7d32">≤600mm</text>
+                <!-- 说明 -->
+                <text x="130" y="155" text-anchor="middle" font-size="9" fill="#86868b">转角处使用L型整板，禁止接缝</text>
+              </svg>
             </div>
           </div>
         </div>
@@ -2527,6 +2733,41 @@
               </tr>
             </tbody>
           </table>
+          <!-- 墙面处理流程图 -->
+          <div style="background:#fff;border-radius:8px;padding:16px;margin-top:12px;border:1px dashed #e0e0e5;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:12px;text-align:center;">📐 墙面处理流程图</div>
+            <div style="display:flex;justify-content:center;align-items:center;flex-wrap:wrap;gap:8px;">
+              <div style="background:#e8f5e9;border:2px solid #2e7d32;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#2e7d32;font-weight:600;">基层处理</div>
+                <div style="font-size:9px;color:#86868b;">铲除旧墙皮</div>
+              </div>
+              <div style="font-size:18px;color:#2e7d32;">→</div>
+              <div style="background:#e3f2fd;border:2px solid #1565c0;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#1565c0;font-weight:600;">界面剂</div>
+                <div style="font-size:9px;color:#86868b;">增强附着力</div>
+              </div>
+              <div style="font-size:18px;color:#1565c0;">→</div>
+              <div style="background:#fff3e0;border:2px solid #e65100;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#e65100;font-weight:600;">找平腻子</div>
+                <div style="font-size:9px;color:#86868b;">2-3遍</div>
+              </div>
+              <div style="font-size:18px;color:#e65100;">→</div>
+              <div style="background:#f3e5f5;border:2px solid #7b1fa2;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#7b1fa2;font-weight:600;">打磨</div>
+                <div style="font-size:9px;color:#86868b;">平整度≤2mm</div>
+              </div>
+              <div style="font-size:18px;color:#7b1fa2;">→</div>
+              <div style="background:#e8eaf6;border:2px solid #283593;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#283593;font-weight:600;">底漆</div>
+                <div style="font-size:9px;color:#86868b;">1遍</div>
+              </div>
+              <div style="font-size:18px;color:#283593;">→</div>
+              <div style="background:#fce4ec;border:2px solid #c62828;border-radius:8px;padding:10px 14px;text-align:center;">
+                <div style="font-size:11px;color:#c62828;font-weight:600;">面漆</div>
+                <div style="font-size:9px;color:#86868b;">2遍</div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
