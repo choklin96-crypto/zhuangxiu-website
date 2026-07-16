@@ -387,6 +387,9 @@
     <div style="margin-top:12px;">
       <button class="btn-detail" onclick="showCalculator()" style="background:linear-gradient(135deg, #2e7d32, #43a047);box-shadow:0 4px 15px rgba(46,125,50,0.3);">🧮 装修费用计算器</button>
     </div>
+    <div style="margin-top:12px;">
+      <button class="btn-detail" onclick="showStandards()" style="background:linear-gradient(135deg, #667eea, #764ba2);box-shadow:0 4px 15px rgba(102,126,234,0.3);">📋 国标施工标准</button>
+    </div>
     <div style="margin-top:16px;text-align:center;">
       <div id="welcomeUser" style="display:none;font-size:13px;color:rgba(255,255,255,0.7);margin-bottom:8px;"></div>
       <button id="logoutBtn" onclick="doLogout()" style="display:none;background:transparent;border:1px solid rgba(255,255,255,0.4);color:rgba(255,255,255,0.8);padding:10px 24px;border-radius:10px;font-size:13px;cursor:pointer;">🚪 退出登录</button>
@@ -1445,6 +1448,7 @@
     document.getElementById('pageHome').classList.remove('active');
     document.getElementById('pageDetail').classList.remove('active');
     document.getElementById('pageCalculator').classList.remove('active');
+    document.getElementById('pageStandards').classList.remove('active');
     document.getElementById('pageHome').classList.add('active');
     document.getElementById('loginForm').style.display = 'block';
     document.getElementById('registerForm').style.display = 'none';
@@ -1740,6 +1744,20 @@
 
   function showHomeFromCalc() {
     document.getElementById('pageCalculator').classList.remove('active');
+    document.getElementById('pageHome').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showStandards() {
+    document.getElementById('pageHome').classList.remove('active');
+    document.getElementById('pageDetail').classList.remove('active');
+    document.getElementById('pageCalculator').classList.remove('active');
+    document.getElementById('pageStandards').classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function showHomeFromStandards() {
+    document.getElementById('pageStandards').classList.remove('active');
     document.getElementById('pageHome').classList.add('active');
     window.scrollTo(0, 0);
   }
@@ -2251,6 +2269,397 @@
     <div class="footer">
       📍 装修掌门人 · 装修费用计算器 · 数据保存在本地浏览器<br>
       💡 点击右上角「💾 保存」可保存当前数据
+    </div>
+  </div>
+</div>
+
+<!-- ============ 第四页：国标施工标准 ============ -->
+<div class="page" id="pageStandards">
+  <div class="top-nav">
+    <div class="back" onclick="showHomeFromStandards()">← 返回</div>
+    <div class="title">📋 国标施工标准</div>
+    <div class="spacer"></div>
+  </div>
+
+  <div class="container" style="padding-bottom:40px;">
+    <!-- 主要国家标准 -->
+    <div class="section">
+      <div class="section-header open" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-blue">📖</div>
+          <div><div class="title">主要国家标准</div><div style="font-size:11px;color:#86868b;">核心规范文件</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body show">
+        <div style="padding:16px;">
+          <div style="background:#f8f9ff;border-radius:10px;padding:14px;margin-bottom:10px;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:6px;">GB 50327-2001《住宅装饰装修工程施工规范》</div>
+            <div style="font-size:13px;color:#515154;">核心标准，涵盖所有装修工艺要求，包括防水、电气、给排水、抹灰、门窗等工程。</div>
+          </div>
+          <div style="background:#f8f9ff;border-radius:10px;padding:14px;margin-bottom:10px;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:6px;">GB 50210-2018《建筑装饰装修工程质量验收标准》</div>
+            <div style="font-size:13px;color:#515154;">验收标准，用于检查施工质量，确保工程符合规范要求。</div>
+          </div>
+          <div style="background:#f8f9ff;border-radius:10px;padding:14px;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:6px;">GB 50222-2017《建筑内部装修设计防火规范》</div>
+            <div style="font-size:13px;color:#515154;">防火要求，材料选择标准，确保装修安全。</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 水电工程标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-orange">⚡</div>
+          <div><div class="title">水电工程标准</div><div style="font-size:11px;color:#86868b;">电路/水路施工规范</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <div style="background:#fff3e0;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#e65100;margin-bottom:10px;">⚡ 电路施工标准</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              ✅ 强弱电分开布管，间距≥30cm<br>
+              ✅ 线管内穿线不超过管径40%<br>
+              ✅ 线管弯头用弹簧弯管，禁止死折<br>
+              ✅ 接头用压线帽或搪锡处理<br>
+              ✅ 线管固定间距≤60cm
+            </div>
+          </div>
+          <div style="background:#e3f2fd;border-radius:10px;padding:14px;">
+            <div style="font-weight:600;color:#1565c0;margin-bottom:10px;">💧 水路施工标准</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              ✅ 冷热水管间距≥15cm<br>
+              ✅ 左热右冷，上热下冷<br>
+              ✅ 水管走顶不走地（便于维修）<br>
+              ✅ 打压测试0.8MPa，30分钟不掉压<br>
+              ✅ 热水管需包裹保温棉
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 防水工程标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-blue">💧</div>
+          <div><div class="title">防水工程标准</div><div style="font-size:11px;color:#86868b;">防水层高度与施工要求</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#e3f2fd;">
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">区域</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">防水高度</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">说明</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">卫生间淋浴区</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">≥1.8m</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">建议做到顶</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">卫生间其他区</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#e65100;">≥0.3m</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">洗手盆周边</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">厨房</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#e65100;">≥0.3m</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">水槽周边</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">阳台</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#1565c0;">≥0.15m</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">洗衣机区域</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="background:#f8f9ff;border-radius:10px;padding:14px;margin-top:12px;">
+            <div style="font-weight:600;color:#1d1d1f;margin-bottom:6px;">闭水试验要求</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              • 蓄水深度≥20mm<br>
+              • 蓄水时间≥24小时<br>
+              • 下层无渗漏为合格
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 瓷砖铺贴标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-orange">🧱</div>
+          <div><div class="title">瓷砖铺贴标准</div><div style="font-size:11px;color:#86868b;">铺贴要求与验收标准</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#fff3e0;">
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">项目</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">标准要求</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">空鼓率</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">≤5%（单块砖）</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">平整度</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">≤2mm</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">垂直度</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">≤2mm</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">接缝高低差</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">≤0.5mm</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">接缝宽度</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">墙砖1-1.5mm，地砖1.5-2mm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 木工工程标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-green">🪵</div>
+          <div><div class="title">木工工程标准</div><div style="font-size:11px;color:#86868b;">吊顶与柜体安装规范</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#2e7d32;margin-bottom:10px;">🏗️ 吊顶标准</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              • 龙骨间距≤600mm<br>
+              • 吊杆间距≤1200mm<br>
+              • 石膏板接缝错开龙骨，V型槽处理<br>
+              • 转角处理：L型整板，禁止接缝
+            </div>
+          </div>
+          <div style="background:#f3e5f5;border-radius:10px;padding:14px;">
+            <div style="font-weight:600;color:#7b1fa2;margin-bottom:10px;">🗄️ 柜体标准</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              • 垂直度≤2mm<br>
+              • 对角线误差≤2mm<br>
+              • 门缝均匀：2-3mm<br>
+              • 抽屉顺滑，无卡顿，自动回位
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 油漆工程标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-purple">🎨</div>
+          <div><div class="title">油漆工程标准</div><div style="font-size:11px;color:#86868b;">墙面处理与验收标准</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <div style="background:#f3e5f5;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#7b1fa2;margin-bottom:10px;">🖌️ 墙面处理流程</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              基层处理 → 界面剂 → 找平腻子 → 打磨 → 底漆 → 面漆<br><br>
+              • 腻子批刮2-3遍，每遍≤1mm<br>
+              • 打磨后平整度≤2mm<br>
+              • 底漆1遍，面漆2遍<br>
+              • 涂刷均匀，无流坠、无刷痕
+            </div>
+          </div>
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#f3e5f5;">
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">项目</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">标准要求</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">颜色一致性</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">无明显色差</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">表面平整</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">无凹凸、无波浪</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">无流坠</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">无滴落痕迹</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">无开裂</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">无龟裂纹</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;">阴阳角</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;color:#2e7d32;">顺直，偏差≤2mm</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- 材料环保标准 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-green">🌿</div>
+          <div><div class="title">材料环保标准</div><div style="font-size:11px;color:#86868b;">甲醛释放量标准</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <table style="width:100%;border-collapse:collapse;font-size:13px;">
+            <thead>
+              <tr style="background:#e8f5e9;">
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">等级</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">甲醛释放量</th>
+                <th style="padding:10px;text-align:left;border:1px solid #e0e0e5;">推荐程度</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;">E0级</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;color:#2e7d32;">≤0.05mg/m³</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">⭐⭐⭐ 强烈推荐</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;">E1级</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;color:#e65100;">≤0.124mg/m³</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">⭐⭐ 推荐</td>
+              </tr>
+              <tr>
+                <td style="padding:10px;border:1px solid #e0e0e5;font-weight:600;">E2级</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;color:#c62828;">≤0.5mg/m³</td>
+                <td style="padding:10px;border:1px solid #e0e0e5;">⭐ 一般</td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px;margin-top:12px;">
+            <div style="font-weight:600;color:#2e7d32;margin-bottom:6px;">💡 环保建议</div>
+            <div style="font-size:13px;color:#515154;">
+              推荐使用E0级或ENF级板材，确保室内空气质量符合健康标准。
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 验收检查清单 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-red">✅</div>
+          <div><div class="title">验收检查清单</div><div style="font-size:11px;color:#86868b;">施工质量检查要点</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <div style="background:#fce4ec;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#c62828;margin-bottom:10px;">⚡ 水电验收</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              □ 电路测试：所有插座通电正常<br>
+              □ 水路测试：打压0.8MPa，30分钟不掉压<br>
+              □ 接地测试：接地电阻≤4Ω<br>
+              □ 绝缘测试：绝缘电阻≥0.5MΩ
+            </div>
+          </div>
+          <div style="background:#e3f2fd;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#1565c0;margin-bottom:10px;">💧 防水验收</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              □ 闭水试验：24小时无渗漏<br>
+              □ 防水层厚度：≥1.5mm<br>
+              □ 防水层高度：符合标准
+            </div>
+          </div>
+          <div style="background:#fff3e0;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#e65100;margin-bottom:10px;">🧱 瓷砖验收</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              □ 空鼓检查：敲击检查，空鼓率≤5%<br>
+              □ 平整度：2m靠尺检查≤2mm<br>
+              □ 垂直度：2m靠尺检查≤2mm<br>
+              □ 接缝：均匀一致，高低差≤0.5mm
+            </div>
+          </div>
+          <div style="background:#f3e5f5;border-radius:10px;padding:14px;">
+            <div style="font-weight:600;color:#7b1fa2;margin-bottom:10px;">🎨 墙面验收</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              □ 平整度：2m靠尺检查≤2mm<br>
+              □ 垂直度：2m靠尺检查≤2mm<br>
+              □ 颜色：无明显色差<br>
+              □ 无开裂、无起皮
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 参考资源 -->
+    <div class="section">
+      <div class="section-header" onclick="toggleSection(this)">
+        <div class="left">
+          <div class="icon bg-indigo">📚</div>
+          <div><div class="title">参考资源</div><div style="font-size:11px;color:#86868b;">官方文档与学习资料</div></div>
+        </div>
+        <span class="arrow">▶</span>
+      </div>
+      <div class="section-body">
+        <div style="padding:16px;">
+          <div style="background:#e8eaf6;border-radius:10px;padding:14px;margin-bottom:12px;">
+            <div style="font-weight:600;color:#283593;margin-bottom:10px;">📄 官方文档下载</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              • <a href="https://openstd.samr.gov.cn" target="_blank" style="color:#1565c0;">国家标准全文公开系统</a><br>
+              • <a href="https://www.mohurd.gov.cn" target="_blank" style="color:#1565c0;">住建部官网</a>
+            </div>
+          </div>
+          <div style="background:#e8f5e9;border-radius:10px;padding:14px;">
+            <div style="font-weight:600;color:#2e7d32;margin-bottom:10px;">📖 推荐阅读</div>
+            <div style="font-size:13px;color:#515154;line-height:1.8;">
+              • 《住宅装饰装修工程施工规范》GB 50327-2001<br>
+              • 《建筑装饰装修工程质量验收标准》GB 50210-2018<br>
+              • 《建筑内部装修设计防火规范》GB 50222-2017
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="footer">
+      📍 国标室内装修施工标准 · 仅供参考，具体施工请以当地规范为准
     </div>
   </div>
 </div>
