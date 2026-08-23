@@ -1,0 +1,23 @@
+装修站部署包 · 发给仓库主人覆盖上传即可
+目标仓库：https://github.com/choklin96-crypto/zhuangxiu-website
+上线地址：https://choklin96-crypto.github.io/zhuangxiu-website/
+
+怎么传（任选一种）
+
+方式 A · GitHub 网页
+1. 打开上面的仓库
+2. 把本包里的 index.html 拖进仓库根目录，选「覆盖」
+3. 把整个 works 文件夹拖进仓库根目录（没有就新建）
+4. 其余封面图、pdf-images 如有更新一并覆盖
+5. Commit 到 main。一两分钟后刷新网站，首页点「我的作品」
+
+方式 B · 电脑 Git
+把本包内容复制进仓库根目录，然后：
+  git add index.html works
+  git commit -m "更新我的作品：实景相册与页面动效"
+  git push origin main
+
+注意
+- 必须推到 main。GitHub Pages 盯着 main 根目录自动发布
+- works 大约 41MB / 206 张图，网页上传可能较慢，用 Git 更稳
+- 不要改 works 里的中文文件夹名，否则图片会对不上

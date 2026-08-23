@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://choklin96-crypto.github.io/zhuangxiu-website/
