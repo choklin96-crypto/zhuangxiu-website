@@ -1353,11 +1353,11 @@
   <div class="home-tools">
     <div class="menu-group-label">作品展示</div>
     <div class="menu-grid">
-      <button class="menu-item" onclick="showWorks()">
-        <span class="mi-icon bg-purple">🎨</span>
+      <button class="menu-item" onclick="promptWorksPassword()">
+        <span class="mi-icon bg-purple">🔒</span>
         <span class="mi-body">
           <span class="mi-title">我的作品</span>
-          <span class="mi-desc" style="display:block;">设计师作品集 · 案例展示</span>
+          <span class="mi-desc" style="display:block;">设计师作品集 · 需要钥匙解锁</span>
         </span>
         <span class="mi-arrow">›</span>
       </button>
@@ -4477,7 +4477,21 @@
     document.getElementById('tlStart').addEventListener('change', renderTimeline);
   });
 
-  // 我的作品页面
+  // 我的作品页面 - 需要密码解锁
+  var _worksUnlocked = false;
+  function promptWorksPassword() {
+    if (_worksUnlocked) {
+      showWorks();
+      return;
+    }
+    var pwd = prompt("请输入作品集钥匙：");
+    if (pwd === "wuxiaoliang") {
+      _worksUnlocked = true;
+      showWorks();
+    } else if (pwd !== null) {
+      alert("钥匙不正确，请联系设计师获取");
+    }
+  }
   function showWorks() {
     goToPage('pageWorks');
     enhanceWorksCards();
