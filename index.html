@@ -1325,7 +1325,7 @@
     <div class="home-result">
       <div class="label">半包总价参考</div>
       <div class="price" id="totalPrice">¥68,000 ~ ¥91,200</div>
-      <div class="price-note">900 ~ 1,150 元/㎡ · 含基础项 + 常规增项</div>
+      <div class="price-note">1,100 ~ 1,300 元/㎡ · 含基础项 + 常规增项</div>
     </div>
 
     <div class="home-breakdown">
@@ -1539,7 +1539,7 @@
     <!-- 总览 -->
     <div class="summary-cards">
       <div class="summary-card"><div class="num" id="cardTotal">7~9万</div><div class="label">总价参考</div></div>
-      <div class="summary-card"><div class="num">900~1,150</div><div class="label">元/㎡</div></div>
+      <div class="summary-card"><div class="num">1,100~1,300</div><div class="label">元/㎡</div></div>
       <div class="summary-card"><div class="num">8 大类</div><div class="label">工程分类</div></div>
       <div class="summary-card"><div class="num">210</div><div class="label">报价细项</div></div>
     </div>
@@ -2845,8 +2845,8 @@
 
   function calcPrice() {
     const area = parseFloat(areaInput.value) || 80;
-    const low = Math.round(area * 900);
-    const high = Math.round(area * 1150);
+    const low = Math.round(area * 1100);
+    const high = Math.round(area * 1300);
     const lowW = Math.round(low / 10000 * 10) / 10;
     const highW = Math.round(high / 10000 * 10) / 10;
     const priceStr = `¥${low.toLocaleString()} ~ ¥${high.toLocaleString()}`;
@@ -3463,7 +3463,7 @@
 
   function renderPayment() {
     const area = homeArea();
-    const low = area * 900, high = area * 1150;
+    const low = area * 1100, high = area * 1300;
     document.getElementById('payIntro').innerHTML =
       '按首页面积 <strong>' + area + '㎡</strong> 估算，半包总价参考 <strong style="color:#e85d04;">' +
       fmtY(low) + ' ~ ' + fmtY(high) + '</strong>，按下列节点分期支付：';
@@ -3699,7 +3699,7 @@
 
   function exportPaymentCsv() {
     const area = homeArea();
-    const low = area * 900, high = area * 1150;
+    const low = area * 1100, high = area * 1300;
     const rows = [['面积㎡', area, '半包低', Math.round(low), '半包高', Math.round(high)]];
     rows.push(['节点', '比例%', '金额低', '金额高', '支付时机', '付款前确认']);
     PAYMENT_PLAN.forEach(function (n) {
