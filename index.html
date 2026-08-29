@@ -3142,23 +3142,7 @@
     }
   }
 
-  const HANDBOOK_PAGE_COUNT = 20;
-
-  function renderHandbookGallery() {
-    const gallery = document.getElementById('handbookGallery');
-    if (!gallery || gallery.dataset.rendered === '1') return;
-    const frag = document.createDocumentFragment();
-    for (let i = 1; i <= HANDBOOK_PAGE_COUNT; i++) {
-      const img = document.createElement('img');
-      img.src = 'pdf-images/page_' + i + '.jpg';
-      img.alt = '产品手册 第' + i + '页';
-      img.loading = i <= 2 ? 'eager' : 'lazy';
-      img.decoding = 'async';
-      frag.appendChild(img);
-    }
-    gallery.appendChild(frag);
-    gallery.dataset.rendered = '1';
-  }
+  // 产品手册图片已移除
 
   // 处理PDF文件选择
   function handleHealthPdfSelect(input) {
@@ -4821,10 +4805,8 @@
     <div id="healthContentSection" style="display:none;">
       <div style="text-align:center;margin-bottom:20px;">
         <h2 style="font-size:20px;font-weight:700;color:var(--ink);margin-bottom:8px;">2026版产品手册</h2>
-        <p style="font-size:13px;color:var(--ink-2);">共20页 · 在线预览，按需加载</p>
+        <p style="font-size:13px;color:var(--ink-2);">请通过 PDF 文件查看完整内容</p>
       </div>
-
-      <div id="handbookGallery"></div>
 
       <div style="background:var(--surface);border-radius:16px;box-shadow:var(--shadow-card);padding:24px;text-align:center;margin-top:8px;">
         <p style="font-size:13px;color:#5b5142;margin-bottom:16px;">如需对照完整 PDF，也可选择本地文件预览</p>
