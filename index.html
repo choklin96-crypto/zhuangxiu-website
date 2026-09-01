@@ -4787,26 +4787,54 @@
   // 我的作品页面 - 需要密码解锁
   var _worksUnlocked = false;
   function promptWorksPassword() {
+    goToPage('pageWorks');
     if (_worksUnlocked) {
-      showWorks();
+      showWorksContent();
       return;
     }
-    var pwd = prompt("请输入作品集钥匙：");
+    resetWorksPasswordSection();
+    setTimeout(function() {
+      var el = document.getElementById('worksPassword');
+      if (el) el.focus();
+    }, 80);
+  }
+  function checkWorksPassword() {
+    var input = document.getElementById('worksPassword');
+    var err = document.getElementById('worksPasswordError');
+    var pwd = input ? input.value.trim() : '';
     if (pwd === "wuxiaoliang") {
       _worksUnlocked = true;
-      showWorks();
-    } else if (pwd !== null) {
-      alert("钥匙不正确，请联系设计师获取");
+      showWorksContent();
+    } else {
+      if (err) err.style.display = 'block';
+      if (input) { input.value = ''; input.focus(); }
     }
   }
-  function showWorks() {
-    goToPage('pageWorks');
+  function showWorksContent() {
+    var sec = document.getElementById('worksPasswordSection');
+    var con = document.getElementById('worksContentSection');
+    if (sec) sec.style.display = 'none';
+    if (con) con.style.display = 'block';
     enhanceWorksCards();
     initWorksParticles();
+  }
+  function resetWorksPasswordSection() {
+    var sec = document.getElementById('worksPasswordSection');
+    var con = document.getElementById('worksContentSection');
+    var input = document.getElementById('worksPassword');
+    var err = document.getElementById('worksPasswordError');
+    if (sec) sec.style.display = 'block';
+    if (con) con.style.display = 'none';
+    if (input) input.value = '';
+    if (err) err.style.display = 'none';
+  }
+  function showWorks() {
+    promptWorksPassword();
   }
   function showHomeFromWorks() {
     goToPage('pageHome');
     closeWorkLightbox();
+    resetWorksPasswordSection();
   }
 </script>
 
@@ -6229,6 +6257,30 @@
   </div>
   <div class="container" style="padding-bottom:80px;max-width:1200px;">
 
+    <!-- 密码验证区域 -->
+    <div id="worksPasswordSection" style="background:var(--surface);border-radius:16px;box-shadow:var(--shadow-raised);padding:30px;text-align:center;margin-top:40px;">
+      <div style="font-size:48px;margin-bottom:16px;">🔒</div>
+      <h3 style="font-size:18px;font-weight:600;color:var(--ink);margin-bottom:12px;">设计师作品集</h3>
+      <p style="font-size:14px;color:#5b5142;margin-bottom:24px;">
+        本作品集需要钥匙才能查看
+      </p>
+
+      <div style="max-width:300px;margin:0 auto;">
+        <div style="margin-bottom:16px;">
+          <input type="password" id="worksPassword" placeholder="请输入作品集钥匙" style="width:100%;padding:14px;border:1px solid var(--line-strong);border-radius:10px;font-size:15px;text-align:center;outline:none;background:var(--surface);color:var(--ink);" onkeydown="if(event.key==='Enter')checkWorksPassword()">
+        </div>
+        <button onclick="checkWorksPassword()" class="btn-detail" style="width:100%;padding:14px;">🔓 验证钥匙</button>
+        <div id="worksPasswordError" style="font-size:13px;color:#ef9a9a;margin-top:10px;display:none;">❌ 钥匙不正确，请重新输入</div>
+      </div>
+
+      <p style="font-size:12px;color:var(--ink-2);margin-top:20px;">
+        💡 请联系设计师获取查看钥匙
+      </p>
+    </div>
+
+    <!-- 作品集内容区域（默认隐藏） -->
+    <div id="worksContentSection" style="display:none;">
+
     <!-- 英雄区 -->
     <div class="works-hero" style="text-align:center;padding:40px 20px 30px;background:linear-gradient(135deg,#0e0e10 0%,#0a0a0c 100%);border-radius:16px;margin-bottom:20px;border:1px solid rgba(201,169,110,0.06);">
       <canvas class="works-particles" id="worksParticles" aria-hidden="true"></canvas>
@@ -6580,6 +6632,7 @@
       <div style="font-size:11px;color:var(--ink-3);letter-spacing:3px;text-transform:uppercase;opacity:0.6;">Furniture and Interior Design Studio</div>
     </div>
 
+    </div><!-- /worksContentSection -->
   </div>
 </div>
 
