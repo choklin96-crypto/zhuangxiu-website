@@ -865,6 +865,45 @@
   .tq-chips button:hover { background: var(--hover); border-color: var(--accent-edge); }
   .tq-chips button:active { transform: scale(0.95); }
   .tq-stat .tqs-sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; font-variant-numeric: tabular-nums; }
+
+  /* 别墅专项 —— 可勾选填价互动表 */
+  .tq-vck {
+    appearance: none; -webkit-appearance: none; width: 19px; height: 19px; cursor: pointer;
+    border: 1.5px solid #3a3a3d; border-radius: 6px; background: var(--surface);
+    display: inline-grid; place-content: center; vertical-align: middle;
+    transition: background 0.2s var(--ease-out-strong), border-color 0.2s var(--ease-out-strong), box-shadow 0.2s var(--ease-out-strong);
+  }
+  .tq-vck::after {
+    content: ''; width: 10px; height: 10px; background: #fff;
+    clip-path: polygon(14% 44%, 0 65%, 50% 100%, 100% 16%, 80% 0%, 43% 62%);
+    transform: scale(0); transition: transform 0.2s var(--ease-out-strong);
+  }
+  .tq-vck:hover { border-color: var(--accent); }
+  .tq-vck:checked { background: var(--accent); border-color: var(--accent); box-shadow: 0 0 10px rgba(232, 93, 4, 0.4); }
+  .tq-vck:checked::after { transform: scale(1); }
+  .tq-vpx {
+    width: 110px; padding: 6px 10px; border-radius: 9px; border: 1px solid var(--line-strong);
+    background: var(--field); color: var(--ink); font-size: 13px; font-family: inherit;
+    font-variant-numeric: tabular-nums; box-shadow: var(--shadow-inset-field);
+  }
+  .tq-vpx::placeholder { color: var(--ink-3); }
+  .tq-vpx:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-tint); }
+  .tq-vtable tr.on td { background: rgba(232, 93, 4, 0.05); }
+  .tq-vtotal {
+    background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
+    padding: 16px 18px; margin-top: 12px; text-align: center;
+  }
+  .tq-vtotal .tv-line { font-size: 13px; color: var(--ink-2); }
+  .tq-vtotal .tv-num {
+    font-size: 22px; font-weight: 800; margin: 0 4px; font-variant-numeric: tabular-nums;
+    background: linear-gradient(120deg, var(--accent) 30%, var(--terra)); -webkit-background-clip: text; background-clip: text; color: transparent;
+  }
+  .tq-vtotal .tv-sub { font-size: 12px; color: var(--ink-3); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  @media (max-width: 600px) {
+    .tq-vtable th:nth-child(3), .tq-vtable td:nth-child(3),
+    .tq-vtable th:nth-child(4), .tq-vtable td:nth-child(4) { display: none; }
+    .tq-vpx { width: 92px; }
+  }
   @media (max-width: 600px) {
     .tq-summary { gap: 6px; }
     .tq-stat { padding: 12px 4px; }
@@ -3563,33 +3602,33 @@
         ]
       },
       {
-        name: '多层 / 排屋 / 别墅专项', icon: '🏡', color: '#8b6f4e', amount: null,
-        desc: '多层、排屋、别墅业主常见自购品类，均按需另计，不参与上方总价换算',
+        name: '多层 / 排屋 / 别墅专项', icon: '🏡', color: '#8b6f4e', amount: null, villa: true,
+        desc: '勾选需要的项目并填入预算价，底部自动合计（勾选与价格保存在本机），不参与上方总价换算',
         rows: [
-          { cat: '设备', item: '除湿系统', spec: '带地下室必备', price: null },
-          { cat: '设备', item: '热水锅炉 + 回水循环系统', spec: '多层 / 大平层水路远', price: null },
-          { cat: '设备', item: '全屋软水 / 中央净水', spec: '比前置 + 末端直饮更全套', price: null },
-          { cat: '设备', item: '新风系统', spec: '按需选配', price: null },
-          { cat: '设备', item: '家用电梯', spec: '多层 / 排屋 / 别墅，按需另计', price: null },
-          { cat: '设备', item: '增压泵', spec: '多层水压不足时加装', price: null },
-          { cat: '智能', item: '智能安防 / 监控 / 背景音乐', spec: '轻智能（6-108 项目含此项）', price: null },
-          { cat: '门窗', item: '入户门 / 指纹锁', spec: '甲级防盗门，参考约 ¥6,000', price: null },
-          { cat: '门窗', item: '阳光房 / 纱窗 / 玻璃顶', spec: '阳台 / 露台 / 阳光房', price: null },
-          { cat: '门窗', item: '车库门 / 庭院大门 / 门禁对讲', spec: '', price: null },
-          { cat: '庭院', item: '花园露台改造 / 庭院灌溉 / 户外家具', spec: '硬化 / 绿植 / 水景，388方项目参考 ¥50,000', price: null },
-          { cat: '个性项', item: '硅藻泥 / 艺术涂料', spec: '388方项目参考 ¥60,000', price: null },
-          { cat: '个性项', item: '恒温酒柜', spec: '改善型配置', price: null },
-          { cat: '个性项', item: '家庭影院', spec: '改善型配置', price: null },
-          { cat: '个性项', item: '高尔夫模拟器', spec: '改善型配置', price: null },
-          { cat: '个性项', item: '桑拿房 / 泳池 / 健身设备', spec: '改善型配置', price: null },
-          { cat: '个性项', item: '壁炉', spec: '装饰 / 取暖', price: null },
-          { cat: '土建', item: '地下室防潮防水加强 / 采光井改造', spec: '排屋地下室几乎必做', price: null },
-          { cat: '土建', item: '现浇楼梯 / 土建改造 / 铲白灰', spec: '388方项目参考 ¥80,000', price: null },
-          { cat: '土建', item: '楼梯踏步扶手', spec: '', price: null },
-          { cat: '其他', item: '光伏 / 太阳能', spec: '', price: null },
-          { cat: '其他', item: '外墙翻新 / 屋顶瓦面', spec: '老房改造', price: null }
+          { cat: '设备', item: '除湿系统', spec: '带地下室必备', price: null, ph: 30000 },
+          { cat: '设备', item: '热水锅炉 + 回水循环系统', spec: '多层 / 大平层水路远', price: null, ph: 20000 },
+          { cat: '设备', item: '全屋软水 / 中央净水', spec: '比前置 + 末端直饮更全套', price: null, ph: 15000 },
+          { cat: '设备', item: '新风系统', spec: '按需选配', price: null, ph: 25000 },
+          { cat: '设备', item: '家用电梯', spec: '多层 / 排屋 / 别墅', price: null, ph: 100000 },
+          { cat: '设备', item: '增压泵', spec: '多层水压不足时加装', price: null, ph: 3000 },
+          { cat: '智能', item: '智能安防 / 监控 / 背景音乐', spec: '轻智能', price: null, ph: 20000 },
+          { cat: '门窗', item: '入户门 / 指纹锁', spec: '甲级防盗门', price: null, ph: 6000 },
+          { cat: '门窗', item: '阳光房 / 纱窗 / 玻璃顶', spec: '阳台 / 露台 / 阳光房', price: null, ph: 50000 },
+          { cat: '门窗', item: '车库门 / 庭院大门 / 门禁对讲', spec: '', price: null, ph: 15000 },
+          { cat: '庭院', item: '花园露台改造 / 庭院灌溉 / 户外家具', spec: '硬化 / 绿植 / 水景', price: null, ph: 50000 },
+          { cat: '个性项', item: '硅藻泥 / 艺术涂料', spec: '', price: null, ph: 60000 },
+          { cat: '个性项', item: '恒温酒柜', spec: '改善型配置', price: null, ph: 20000 },
+          { cat: '个性项', item: '家庭影院', spec: '改善型配置', price: null, ph: 80000 },
+          { cat: '个性项', item: '高尔夫模拟器', spec: '改善型配置', price: null, ph: 100000 },
+          { cat: '个性项', item: '桑拿房 / 泳池 / 健身设备', spec: '改善型配置', price: null, ph: 60000 },
+          { cat: '个性项', item: '壁炉', spec: '装饰 / 取暖', price: null, ph: 15000 },
+          { cat: '土建', item: '地下室防潮防水加强 / 采光井改造', spec: '排屋地下室几乎必做', price: null, ph: 40000 },
+          { cat: '土建', item: '现浇楼梯 / 土建改造 / 铲白灰', spec: '', price: null, ph: 80000 },
+          { cat: '土建', item: '楼梯踏步扶手', spec: '', price: null, ph: 8000 },
+          { cat: '其他', item: '光伏 / 太阳能', spec: '', price: null, ph: 30000 },
+          { cat: '其他', item: '外墙翻新 / 屋顶瓦面', spec: '老房改造', price: null, ph: 60000 }
         ],
-        note: '以上品类出自真实别墅项目概算与行业惯例，数量与档次因房而异，建议设计阶段一并规划报价；勾选 300㎡ 及以上面积时可重点对照本表。'
+        note: '以上品类出自真实别墅项目概算与行业惯例（输入框内灰色占位数为常见参考价，可直接沿用或修改），数量与档次因房而异，建议设计阶段一并规划报价。'
       }
     ]
   };
@@ -3642,7 +3681,20 @@
           '<div class="tq-tags">' + l.items.map(it => '<span class="tq-tag">' + it + '</span>').join('') + '</div>'
         ).join('');
       }
-      if (rows) {
+      if (g.villa) {
+        const vs = tqVillaState();
+        html += '<table class="case-table tq-table tq-vtable"><thead><tr><th>选</th><th>类别</th><th>项目</th><th>参考说明</th><th>预算价（元）</th></tr></thead><tbody>' +
+          g.rows.map((r, i) => '<tr id="tqvr' + i + '" class="' + (vs[i] && vs[i].on ? 'on' : '') + '">' +
+            '<td><input type="checkbox" class="tq-vck" id="tqvc' + i + '"' + (vs[i] && vs[i].on ? ' checked' : '') + ' onchange="tqVillaToggle(' + i + ', this.checked)"></td>' +
+            '<td>' + r.cat + '</td><td style="text-align:left;">' + r.item + '</td>' +
+            '<td style="text-align:left;color:var(--ink-2);">' + (r.spec || '—') + '</td>' +
+            '<td><input type="number" class="tq-vpx" inputmode="numeric" min="0" step="100" placeholder="' + (r.ph || '') + '" value="' + (vs[i] && vs[i].price != null ? vs[i].price : '') + '" oninput="tqVillaPrice(' + i + ', this.value)"></td></tr>').join('') +
+          '</tbody></table>' +
+          '<div class="tq-vtotal">' +
+            '<div class="tv-line">已选 <span id="tqVCnt">0</span> 项 · 别墅专项合计 <span class="tv-num" id="tqVSp">¥0</span></div>' +
+            '<div class="tv-sub">叠加后全案参考总价 <strong id="tqVGrand"></strong>（<span id="tqVArea"></span>㎡ 基础全案 <span id="tqVBase"></span> + 专项 <span id="tqVSp2"></span>）</div>' +
+          '</div>';
+      } else if (rows) {
         html += '<table class="case-table tq-table"><thead><tr><th>类别</th><th>项目</th><th>参考说明</th><th>参考价</th></tr></thead><tbody>' +
           rows.map(r => {
             const p = r.sp !== undefined ? r.sp : r.price;
@@ -3659,7 +3711,48 @@
       html += '</div>';
       return html;
     }).join('');
+    tqVillaRefresh();
   }
+
+  // ---------- 别墅专项：勾选 + 填价 + 合计（状态保存在本机） ----------
+  const TQ_VILLA_KEY = 'zx_tq_villa_v1';
+  function tqVillaState() {
+    try {
+      const s = JSON.parse(localStorage.getItem(TQ_VILLA_KEY));
+      if (Array.isArray(s) && s.length === TOTAL_QUOTE.groups[3].rows.length) return s;
+    } catch (e) {}
+    return TOTAL_QUOTE.groups[3].rows.map(() => ({ on: false, price: null }));
+  }
+  function tqVillaSave(st) { try { localStorage.setItem(TQ_VILLA_KEY, JSON.stringify(st)); } catch (e) {} }
+  function tqVillaCalc() {
+    const st = tqVillaState();
+    const total = st.reduce((s, v) => s + (v && v.on && v.price ? +v.price : 0), 0);
+    const cnt = st.filter(v => v && v.on).length;
+    return { st: st, total: total, cnt: cnt };
+  }
+  function tqVillaRefresh() {
+    const v = tqVillaCalc(), c = tqCalc();
+    const set = function (id, txt) { const el = document.getElementById(id); if (el) el.textContent = txt; };
+    set('tqVCnt', v.cnt); set('tqVSp', fmtY(v.total)); set('tqVSp2', fmtY(v.total));
+    set('tqVGrand', fmtY(c.grand + v.total)); set('tqVBase', fmtY(c.grand)); set('tqVArea', c.area);
+  }
+  function tqVillaToggle(i, on) {
+    const st = tqVillaState(); st[i].on = on; tqVillaSave(st);
+    const tr = document.getElementById('tqvr' + i); if (tr) tr.classList.toggle('on', on);
+    tqVillaRefresh();
+  }
+  function tqVillaPrice(i, val) {
+    const st = tqVillaState();
+    st[i].price = val === '' ? null : Math.max(0, Math.round(parseFloat(val) || 0));
+    if (st[i].price) {                        // 填入价格自动勾选
+      st[i].on = true;
+      const ck = document.getElementById('tqvc' + i); if (ck) ck.checked = true;
+      const tr = document.getElementById('tqvr' + i); if (tr) tr.classList.add('on');
+    }
+    tqVillaSave(st);
+    tqVillaRefresh();
+  }
+
   function showTotalQuote() {
     const el = document.getElementById('tqArea');
     if (!el.value) el.value = Math.round(homeArea());
@@ -3674,7 +3767,13 @@
     rows.push(['分类', '项目', '参考说明', '参考价']);
     TOTAL_QUOTE.groups.forEach(g => {
       if (g.lists) g.lists.forEach(l => l.items.forEach(it => rows.push([g.name, l.title, it, ''])));
-      if (g.rows) (g === c.gSelf ? c.selfRows : g.rows).forEach(r => {
+      if (g.villa) {
+        const v = tqVillaCalc();
+        g.rows.forEach((r, i) => rows.push([g.name + ' · ' + r.cat, r.item, r.spec || '',
+          (v.st[i] && v.st[i].on && v.st[i].price) ? v.st[i].price : '按需']));
+        if (v.cnt) rows.push(['别墅专项合计（已选 ' + v.cnt + ' 项）', '', '', v.total],
+          ['叠加后全案参考（' + c.area + '㎡）', '', '', c.grand + v.total]);
+      } else if (g.rows) (g === c.gSelf ? c.selfRows : g.rows).forEach(r => {
         const p = r.sp !== undefined ? r.sp : r.price;
         rows.push([g.name + (r.cat ? ' · ' + r.cat : ''), r.item, r.spec || '', p || '按需']);
       });
