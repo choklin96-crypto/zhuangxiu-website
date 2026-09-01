@@ -843,6 +843,27 @@
   .pay-card .pc-check .pcc-title { font-size: 12px; font-weight: 700; color: var(--ink-2); margin-bottom: 5px; }
   .pay-card .pc-check li { font-size: 12.5px; color: #8a8578; margin: 3px 0 3px 16px; }
 
+  /* 全案总价表 —— 汇总统计 + 分组内容 */
+  .tq-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
+  .tq-stat { background: var(--surface); border-radius: var(--radius-card); padding: 16px 10px; text-align: center; box-shadow: var(--shadow-card); }
+  .tq-stat .tqs-label { font-size: 11.5px; color: var(--ink-2); letter-spacing: 1.5px; }
+  .tq-stat .tqs-num { font-size: 19px; font-weight: 800; margin-top: 4px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .tq-stat.total .tqs-num { font-size: 23px; background: linear-gradient(120deg, var(--accent) 30%, var(--terra)); -webkit-background-clip: text; background-clip: text; color: transparent; }
+  .tq-group .tq-amt { float: right; font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
+  .tq-sub { font-size: 12.5px; font-weight: 700; color: var(--ink-2); margin: 12px 0 8px; }
+  .tq-group .tq-sub:first-of-type { margin-top: 4px; }
+  .tq-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+  .tq-tag { font-size: 12.5px; padding: 5px 12px; border-radius: 99px; background: var(--inset); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
+  .tq-note { font-size: 12px; color: var(--ink-3); margin-top: 10px; line-height: 1.7; }
+  .tq-table td { font-size: 12.5px; }
+  @media (max-width: 600px) {
+    .tq-summary { gap: 6px; }
+    .tq-stat { padding: 12px 4px; }
+    .tq-stat .tqs-num { font-size: 15px; }
+    .tq-stat.total .tqs-num { font-size: 17px; }
+    .tq-table th:nth-child(3), .tq-table td:nth-child(3) { display: none; }
+  }
+
   /* 避坑清单 / 验收清单 —— 自绘辉光复选框（GlowToggle / records-checkbox 模式移植） */
   .pit-card input[type=checkbox], .acc-item input[type=checkbox] {
     appearance: none; -webkit-appearance: none;
@@ -1381,11 +1402,19 @@
         </span>
         <span class="mi-arrow">›</span>
       </button>
+      <button class="menu-item" onclick="showTotalQuote()">
+        <span class="mi-icon bg-teal">📋</span>
+        <span class="mi-body">
+          <span class="mi-title">全案总价表</span>
+          <span class="mi-desc" style="display:block;">全包 + 自购一表看清</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
       <button class="menu-item" onclick="showTimeline()">
         <span class="mi-icon bg-blue">📅</span>
         <span class="mi-body">
           <span class="mi-title">工期规划器</span>
-          <span class="mi-desc" style="display:block;">标准 90 天 · 选日期出排期</span>
+          <span class="mi-desc" style="display:block;">标准约6个月 · 选日期出排期</span>
         </span>
         <span class="mi-arrow">›</span>
       </button>
@@ -3397,15 +3426,15 @@
   function backHome(_id) { goToPage('pageHome'); }
   function openFeature(id) { goToPage(id); }
 
-  // ---------- 工期规划器（标准排工工期 90 天，各阶段固定天数） ----------
+  // ---------- 工期规划器（标准排工工期约4个月工作日/6个月自然日） ----------
   const TIMELINE_STAGES = [
-    { name: '开工准备', icon: '📋', days: 5,  color: '#667eea', desc: '交底 / 成品保护 / 拆改' },
-    { name: '水电工程', icon: '⚡', days: 13, color: '#1e88e5', desc: '开槽布管 / 打压电测' },
-    { name: '泥瓦工程', icon: '🧱', days: 22, color: '#e85d04', desc: '防水 / 贴砖 / 闭水试验' },
-    { name: '木工工程', icon: '🪵', days: 12, color: '#8b6f4e', desc: '吊顶 / 背景墙 / 现场木作' },
-    { name: '油漆工程', icon: '🎨', days: 20, color: '#7b1fa2', desc: '找平 / 底漆面漆（含干燥）' },
-    { name: '安装收尾', icon: '🔧', days: 12, color: '#00897b', desc: '主材安装 / 灯具洁具开关' },
-    { name: '保洁交付', icon: '✨', days: 6,  color: '#43a047', desc: '开荒保洁 / 竣工验收' }
+    { name: '开工准备', icon: '📋', days: 10,  color: '#667eea', desc: '交底 / 成品保护 / 拆改' },
+    { name: '水电工程', icon: '⚡', days: 25, color: '#1e88e5', desc: '开槽布管 / 打压电测' },
+    { name: '泥瓦工程', icon: '🧱', days: 40, color: '#e85d04', desc: '防水 / 贴砖 / 闭水试验' },
+    { name: '木工工程', icon: '🪵', days: 22, color: '#8b6f4e', desc: '吊顶 / 背景墙 / 现场木作' },
+    { name: '油漆工程', icon: '🎨', days: 30, color: '#7b1fa2', desc: '找平 / 底漆面漆（含干燥）' },
+    { name: '安装收尾', icon: '🔧', days: 20, color: '#00897b', desc: '主材安装 / 灯具洁具开关' },
+    { name: '保洁交付', icon: '✨', days: 10,  color: '#43a047', desc: '开荒保洁 / 竣工验收' }
   ];
 
   function renderTimeline() {
@@ -3418,7 +3447,7 @@
     const fmtD = d => (d.getMonth() + 1) + '月' + d.getDate() + '日';
 
     document.getElementById('tlSummary').innerHTML =
-      '<div class="gt-pill">标准排工工期 <strong>' + total + '</strong> 天（约 ' + Math.round(total / 7) + ' 周）</div>' +
+      '<div class="gt-pill">标准排工工期 <strong>' + total + '</strong> 天（约 ' + Math.round(total / 30) + ' 个月自然日）</div>' +
       '<div class="gt-pill">预计完工 <strong>' + fmtD(endDate) + '</strong></div>';
 
     let offset = 0, rows = '';
@@ -3485,6 +3514,107 @@
   }
 
   function showPayment() { renderPayment(); openFeature('pagePayment'); }
+
+  // ---------- 全案总价表（数据来源：装修总投预估表 1.1） ----------
+  const TOTAL_QUOTE = {
+    groups: [
+      {
+        name: '全包工程', icon: '🏠', color: '#e85d04', amount: 173400,
+        desc: '施工人工 + 辅材 + 主材套餐打包，按计算总计包干',
+        lists: [
+          { title: '半包项目（人工 + 辅材）', items: ['砌墙泥工', '水电隐蔽工程', '贴砖泥工', '现场木工', '现场油漆乳胶漆'] },
+          { title: '套餐项目（主材打包）', items: ['客厅 / 厨房 / 卫生间墙地面瓷砖', '全屋房间地板', '厨房 / 卫生间集成吊顶', '全屋室内房门', '厨房整体橱柜', '全屋开关面板', '淋浴房 / 室内移门', '全屋门槛石 / 窗台石', '全屋卫浴洁具'] }
+        ],
+        note: '额外按需增加项目：不改动设计不产生。涉及水电的特殊电器 / 智能设备 / 大功率电器，空调 / 设备 / 新风需另放 4 平方以上线路，乳胶漆调色等按需另计。吊顶、砌墙属于个性设计，每家情况不同，暂不预估。'
+      },
+      {
+        name: '格局改造', icon: '🧱', color: '#667eea', amount: null,
+        desc: '不改动设计不产生，按实际发生量结算',
+        rows: [
+          { cat: '拆改', item: '拆墙、现浇', spec: '市面常规价 40-80 元/㎡，特殊拆除另计', price: null }
+        ],
+        note: '设计不动格局则此项为 0；有拆改需求在前期规划阶段一并设计报价。'
+      },
+      {
+        name: '客户自购项目', icon: '🛒', color: '#1e88e5', amount: 232000,
+        desc: '设备、定制、电器与软装由客户自购，档次可上可下',
+        rows: [
+          { cat: '暖通设备', item: '中央空调', spec: '', price: 38000 },
+          { cat: '暖通设备', item: '地热', spec: '', price: 30000 },
+          { cat: '暖通设备', item: '净水', spec: '前置 / 末端直饮', price: 5000 },
+          { cat: '暖通设备', item: '新风系统', spec: '按需选配', price: null },
+          { cat: '铝合金门窗', item: '常规铝合金门窗（双层断桥）', spec: '约 750 元/㎡', price: 12000 },
+          { cat: '定制柜', item: '衣柜柜门 / 展示柜', spec: '', price: 85000 },
+          { cat: '全屋电器', item: '厨电（煤气灶 / 油烟机 / 冰箱 / 洗碗机）', spec: '', price: 18000 },
+          { cat: '全屋电器', item: '电视机 / 扫地机 / 洗衣机烘干机', spec: '', price: 12000 },
+          { cat: '全屋软装', item: '移动家具（沙发 / 床 / 餐桌 / 茶桌 / 书桌等）', spec: '', price: 12000 },
+          { cat: '全屋软装', item: '灯具', spec: '', price: 8000 },
+          { cat: '全屋软装', item: '窗帘', spec: '', price: 6000 },
+          { cat: '全屋软装', item: '装饰摆件挂画', spec: '', price: 3000 },
+          { cat: '其他', item: '全屋美缝', spec: '', price: 3000 },
+          { cat: '其他', item: '景观庭院 / 阳台柜 / 楼梯踏步扶手', spec: '按需另计', price: null }
+        ]
+      }
+    ]
+  };
+
+  function renderTotalQuote() {
+    const gFull = TOTAL_QUOTE.groups[0];   // 全包工程
+    const gSelf = TOTAL_QUOTE.groups[2];   // 客户自购项目
+    const grand = gFull.amount + gSelf.amount;
+    const pctFull = Math.round(gFull.amount / grand * 100);
+
+    document.getElementById('tqSplit').innerHTML =
+      '<div style="width:' + pctFull + '%;background:' + gFull.color + ';"></div>' +
+      '<div style="width:' + (100 - pctFull) + '%;background:' + gSelf.color + ';"></div>';
+    document.getElementById('tqLegend').innerHTML =
+      '<span><i style="background:' + gFull.color + ';"></i>全包工程 ' + fmtY(gFull.amount) + ' · ' + pctFull + '%</span>' +
+      '<span><i style="background:' + gSelf.color + ';"></i>客户自购 ' + fmtY(gSelf.amount) + ' · ' + (100 - pctFull) + '%</span>';
+
+    document.getElementById('tqSummary').innerHTML =
+      '<div class="tq-stat"><div class="tqs-label">全包工程</div><div class="tqs-num">' + fmtY(gFull.amount) + '</div></div>' +
+      '<div class="tq-stat"><div class="tqs-label">客户自购项目</div><div class="tqs-num">' + fmtY(gSelf.amount) + '</div></div>' +
+      '<div class="tq-stat total"><div class="tqs-label">全案总价</div><div class="tqs-num">' + fmtY(grand) + '</div></div>';
+
+    document.getElementById('tqSections').innerHTML = TOTAL_QUOTE.groups.map(g => {
+      let html = '<div class="notes tq-group"><h3>' + g.icon + ' ' + g.name +
+        '<span class="tq-amt" style="color:' + (g.amount ? g.color : 'var(--ink-2)') + ';">' + (g.amount ? fmtY(g.amount) : '按需') + '</span></h3>';
+      if (g.desc) html += '<p style="font-size:12.5px;color:var(--ink-2);margin-bottom:8px;">' + g.desc + '</p>';
+      if (g.lists) {
+        html += g.lists.map(l =>
+          '<div class="tq-sub">' + l.title + '</div>' +
+          '<div class="tq-tags">' + l.items.map(it => '<span class="tq-tag">' + it + '</span>').join('') + '</div>'
+        ).join('');
+      }
+      if (g.rows) {
+        html += '<table class="case-table tq-table"><thead><tr><th>类别</th><th>项目</th><th>参考说明</th><th>参考价</th></tr></thead><tbody>' +
+          g.rows.map(r => '<tr><td>' + r.cat + '</td><td style="text-align:left;">' + r.item + '</td>' +
+            '<td style="text-align:left;color:var(--ink-2);">' + (r.spec || '—') + '</td>' +
+            '<td style="font-weight:600;font-variant-numeric:tabular-nums;' + (r.price ? 'color:#f09050;' : 'color:var(--ink-3);') + '">' +
+            (r.price ? fmtY(r.price) : '按需') + '</td></tr>').join('');
+        if (g.amount) html += '<tr><td colspan="3" style="text-align:right;font-weight:700;">小计</td>' +
+          '<td style="font-weight:800;color:' + g.color + ';font-variant-numeric:tabular-nums;">' + fmtY(g.amount) + '</td></tr>';
+        html += '</tbody></table>';
+      }
+      if (g.note) html += '<p class="tq-note">※ ' + g.note + '</p>';
+      html += '</div>';
+      return html;
+    }).join('');
+  }
+  function showTotalQuote() { renderTotalQuote(); openFeature('pageTotalQuote'); }
+
+  function exportTotalQuoteCsv() {
+    const gFull = TOTAL_QUOTE.groups[0], gSelf = TOTAL_QUOTE.groups[2];
+    const rows = [['全案总价表（整体投入前期规划）', '', '']];
+    rows.push(['全包工程', gFull.amount], ['客户自购项目', gSelf.amount], ['全案总价', gFull.amount + gSelf.amount], []);
+    rows.push(['分类', '项目', '参考说明', '参考价']);
+    TOTAL_QUOTE.groups.forEach(g => {
+      if (g.lists) g.lists.forEach(l => l.items.forEach(it => rows.push([g.name, l.title, it, ''])));
+      if (g.rows) g.rows.forEach(r => rows.push([g.name + (r.cat ? ' · ' + r.cat : ''), r.item, r.spec || '', r.price || '按需']));
+    });
+    rows.push(['全案总价', '', '', gFull.amount + gSelf.amount]);
+    downloadCsv('全案总价表-' + stampDate(), rows);
+  }
 
   // ---------- 增项避坑清单（示例条目，占位） ----------
   const PITFALLS = [
@@ -3604,7 +3734,7 @@
     { tag: '报价', tagCls: 'bg-orange', q: '半包和全包到底差在哪？', a: '半包 = 人工 + 辅材（水泥、砂浆、水电管线、腻子油漆等），主材（瓷砖、地板、洁具、门等）由您自购或由我们代购；全包则主材也打包。半包的优势是主材品牌、档次自己把控，预算透明。（示例口径，待替换）' },
     { tag: '报价', tagCls: 'bg-orange', q: '为什么不同公司报价差这么多？', a: '常见原因：漏项（先低价签约后增项）、辅材品牌档次不同、工艺标准不同。建议拿本站「全部项目明细」逐项对照，重点看漏了什么，而不是只比总价。（示例口径，待替换）' },
     { tag: '增项', tagCls: 'bg-red', q: '怎么防止开工后不断加钱？', a: '三招：① 签约前对照「增项避坑清单」逐条问清写进合同；② 水电等按实结算项约定封顶价；③ 约定所有增项须书面签字后施工。（示例口径，待替换）' },
-    { tag: '工期', tagCls: 'bg-blue', q: '一般要装多久？', a: '标准排工工期 90 天（自然日），各阶段安排见「工期规划器」，选好开工日期即可算出完工时间。雨季、定制柜生产周期会影响整体交付。' },
+    { tag: '工期', tagCls: 'bg-blue', q: '一般要装多久？', a: '标准排工工期约4个月工作日（约6个月自然日），各阶段安排见「工期规划器」，选好开工日期即可算出完工时间。雨季、定制柜生产周期会影响整体交付。' },
     { tag: '付款', tagCls: 'bg-green', q: '钱应该怎么付才安全？', a: '核心原则：先验收后付款、尾款留足。参考「付款节点计划」：签约 30% → 水电验收 35% → 泥木验收 30% → 竣工 5%。一次性让您付大头的要警惕。（示例比例，待替换）' },
     { tag: '施工', tagCls: 'bg-indigo', q: '水电为什么要打压测试？', a: '水管接头隐蔽在墙里，打压 0.8MPa 保压 30 分钟是检验接头是否渗漏的唯一可靠手段，验收合格再封槽，否则漏水砸墙返工代价极大。（示例口径，待替换）' },
     { tag: '施工', tagCls: 'bg-indigo', q: '防水要做到什么标准？', a: '卫生间地面满做，淋浴区墙面上返 1.8m，其余墙面 0.3m；做完必须闭水试验 24 小时以上，楼下确认无渗漏再进行下道工序。（示例口径，待替换）' },
@@ -3690,7 +3820,7 @@
 
   function exportTimelineCsv() {
     const startVal = document.getElementById('tlStart').value;
-    const rows = [['标准排工工期', '90 天（自然日）', '开工日期', startVal || '未选择']];
+    const rows = [['标准排工工期', total + ' 天（约' + Math.round(total / 30) + '个月自然日）', '开工日期', startVal || '未选择']];
     rows.push(['阶段', '说明', '天数']);
     TIMELINE_STAGES.forEach(function (s) { rows.push([s.name, s.desc, s.days]); });
     rows.push(['合计', '', TIMELINE_STAGES.reduce(function (n, s) { return n + s.days; }, 0)]);
@@ -5608,8 +5738,8 @@
   </div>
   <div class="container" style="padding-bottom:40px;">
     <div class="feat-head">
-      <div class="fh-title">标准排工工期 90 天</div>
-      <div class="fh-sub">选择预计开工日期，按 90 天标准排期生成各阶段工期与完工时间，签合同前心里有数。</div>
+      <div class="fh-title">标准排工工期约6个月</div>
+      <div class="fh-sub">选择预计开工日期，按约6个月标准排期生成各阶段工期与完工时间，签合同前心里有数。</div>
       <div class="gt-controls" style="margin-top:14px;">
         <div class="gc-field">
           <label>预计开工日期</label>
@@ -5621,7 +5751,7 @@
     <div class="section" style="padding:18px 20px;">
       <div id="tlChart"></div>
     </div>
-    <div class="feat-note">⚠️ 标准排工工期 90 天（自然日）。雨季、定制柜生产周期、增项变更可能顺延，实际以合同与现场为准。</div>
+    <div class="feat-note">⚠️ 标准排工工期约6个月（自然日）。雨季、定制柜生产周期、增项变更可能顺延，实际以合同与现场为准。</div>
   </div>
 </div>
 
@@ -5644,6 +5774,29 @@
     </div>
     <div id="payCards"></div>
     <div class="feat-note">⚠️ 以上付款比例为示例方案（占位），正式比例以合同约定为准。核心原则：每笔钱都在<strong>验收合格之后</strong>再付，尾款留足。</div>
+  </div>
+</div>
+
+<!-- ============ 全案总价表 ============ -->
+<div class="page" id="pageTotalQuote">
+  <div class="top-nav">
+    <div class="back" onclick="backHome('pageTotalQuote')">← 返回</div>
+    <div class="title">📋 全案总价表</div>
+    <div class="nav-actions no-print">
+      <button onclick="exportTotalQuoteCsv()" class="nav-btn">📊 导出表格</button>
+      <button onclick="printActivePage('全案总价表')" class="nav-btn">🖨 导出 PDF</button>
+    </div>
+  </div>
+  <div class="container" style="padding-bottom:40px;">
+    <div class="feat-head">
+      <div class="fh-title">整体投入前期规划 · 全案一表看清</div>
+      <div class="fh-sub">全案总价 = <strong>全包工程</strong>（施工人工辅材 + 主材套餐）+ <strong>客户自购项目</strong>（暖通设备 / 门窗 / 定制柜 / 电器 / 软装）。以下为整套参考口径，按需增减。</div>
+      <div class="pay-split" id="tqSplit"></div>
+      <div class="pay-legend" id="tqLegend"></div>
+    </div>
+    <div class="tq-summary" id="tqSummary"></div>
+    <div id="tqSections"></div>
+    <div class="feat-note">⚠️ 本表为<strong>整体投入前期规划参考</strong>：格局改造、吊顶砌墙等个性设计项每家情况不同，暂不预估；自购项目档次浮动较大，可上可下。正式报价以量房后预算书为准。</div>
   </div>
 </div>
 
