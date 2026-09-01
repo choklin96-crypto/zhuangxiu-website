@@ -843,28 +843,62 @@
   .pay-card .pc-check .pcc-title { font-size: 12px; font-weight: 700; color: var(--ink-2); margin-bottom: 5px; }
   .pay-card .pc-check li { font-size: 12.5px; color: #8a8578; margin: 3px 0 3px 16px; }
 
-  /* 全案总价表 —— 汇总统计 + 分组内容 */
-  .tq-summary { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-bottom: 12px; }
-  .tq-stat { background: var(--surface); border-radius: var(--radius-card); padding: 16px 10px; text-align: center; box-shadow: var(--shadow-card); }
-  .tq-stat .tqs-label { font-size: 11.5px; color: var(--ink-2); letter-spacing: 1.5px; }
-  .tq-stat .tqs-num { font-size: 19px; font-weight: 800; margin-top: 4px; color: var(--ink); font-variant-numeric: tabular-nums; }
-  .tq-stat.total .tqs-num { font-size: 23px; background: linear-gradient(120deg, var(--accent) 30%, var(--terra)); -webkit-background-clip: text; background-clip: text; color: transparent; }
-  .tq-group .tq-amt { float: right; font-size: 15px; font-weight: 800; font-variant-numeric: tabular-nums; }
-  .tq-sub { font-size: 12.5px; font-weight: 700; color: var(--ink-2); margin: 12px 0 8px; }
-  .tq-group .tq-sub:first-of-type { margin-top: 4px; }
-  .tq-tags { display: flex; flex-wrap: wrap; gap: 8px; }
-  .tq-tag { font-size: 12.5px; padding: 5px 12px; border-radius: 99px; background: var(--inset); color: var(--ink); box-shadow: inset 0 0 0 1px var(--line); }
-  .tq-note { font-size: 12px; color: var(--ink-3); margin-top: 10px; line-height: 1.7; }
-  .tq-table td { font-size: 12.5px; }
-  .tq-chips { display: flex; gap: 8px; flex-wrap: wrap; }
-  .tq-chips button {
-    font-size: 12.5px; padding: 7px 14px; border-radius: 99px; cursor: pointer; font-family: inherit;
-    background: var(--inset); color: var(--ink); border: 1px solid var(--line-strong); box-shadow: var(--shadow-btn);
-    transition: background 0.2s var(--ease-out-strong), border-color 0.2s var(--ease-out-strong), transform 0.14s var(--ease-out-strong);
+  /* 全案总价表 —— 简约高级版式 */
+  .tq-hero { text-align: center; padding: 28px 12px 8px; }
+  .tqh-label { font-size: 11px; color: var(--ink-3); letter-spacing: 6px; text-indent: 6px; }
+  .tqh-num {
+    font-size: 46px; font-weight: 200; line-height: 1.15; margin-top: 10px; letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+    background: linear-gradient(120deg, #f09050 15%, var(--terra) 95%); -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .tq-chips button:hover { background: var(--hover); border-color: var(--accent-edge); }
-  .tq-chips button:active { transform: scale(0.95); }
-  .tq-stat .tqs-sub { font-size: 11px; color: var(--ink-3); margin-top: 2px; font-variant-numeric: tabular-nums; }
+  .tqh-per { font-size: 12px; color: var(--ink-2); margin-top: 2px; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+  .tqh-ctrl { margin-top: 22px; }
+  .tqh-area { display: inline-flex; align-items: baseline; gap: 10px; border-bottom: 1px solid var(--line-strong); padding: 0 6px 8px; }
+  .tqh-area input {
+    width: 96px; background: none; border: none; color: var(--ink); font-size: 28px; font-weight: 300;
+    text-align: right; font-family: inherit; font-variant-numeric: tabular-nums;
+  }
+  .tqh-area input:focus { outline: none; }
+  .tqh-area .u { font-size: 12px; color: var(--ink-3); letter-spacing: 2px; }
+  .tq-hero .tq-chips { justify-content: center; margin-top: 16px; }
+  .tq-hero .pay-split { max-width: 400px; margin: 22px auto 0; }
+  .tq-strip { display: flex; border-top: 1px solid var(--line); border-bottom: 1px solid var(--line); margin-top: 10px; }
+  .tq-strip > div { flex: 1; text-align: center; padding: 14px 4px; position: relative; }
+  .tq-strip > div + div::before { content: ''; position: absolute; left: 0; top: 18%; height: 64%; width: 1px; background: var(--line); }
+  .tq-strip .s-label { font-size: 10.5px; color: var(--ink-3); letter-spacing: 3px; text-indent: 3px; }
+  .tq-strip .s-num { font-size: 16px; font-weight: 600; margin-top: 4px; color: var(--ink); font-variant-numeric: tabular-nums; }
+  .tq-strip .s-num em { font-style: normal; color: var(--ink-3); font-size: 11px; font-weight: 400; margin-left: 3px; }
+  .tq-sec { padding: 30px 2px 4px; }
+  .tq-sec-head { display: flex; align-items: baseline; gap: 10px; }
+  .tq-sec-no { font-size: 11px; color: var(--accent-ink); font-weight: 600; letter-spacing: 2px; font-variant-numeric: tabular-nums; }
+  .tq-sec-name { font-size: 16px; font-weight: 700; color: var(--ink); }
+  .tq-sec-amt { margin-left: auto; font-size: 15px; font-weight: 700; font-variant-numeric: tabular-nums; }
+  .tq-sec-amt.muted { color: var(--ink-3); font-weight: 400; font-size: 12px; letter-spacing: 1px; }
+  .tq-sec-desc { font-size: 12px; color: var(--ink-2); margin-top: 6px; line-height: 1.8; }
+  .tq-sec-desc strong { color: var(--ink); }
+  .tq-list { margin-top: 16px; display: grid; grid-template-columns: 1fr 1fr; gap: 10px 28px; }
+  .tq-list .l-title { font-size: 10.5px; color: var(--ink-3); letter-spacing: 3px; margin-bottom: 6px; }
+  .tq-list .l-items { font-size: 13px; color: var(--ink); line-height: 2; }
+  .tq-list .l-items i { font-style: normal; color: var(--ink-3); margin: 0 7px; }
+  .tq-rows { margin-top: 8px; }
+  .tq-row { display: flex; align-items: center; gap: 12px; padding: 12px 2px; border-bottom: 1px solid var(--line); }
+  .tq-row .r-cat { flex: none; width: 58px; font-size: 10.5px; color: var(--ink-3); letter-spacing: 1px; }
+  .tq-row .r-item { flex: 1; font-size: 13.5px; color: var(--ink); min-width: 0; }
+  .tq-row .r-item small { display: block; font-size: 11px; color: var(--ink-3); margin-top: 1px; font-weight: 400; }
+  .tq-row .r-price { flex: none; font-size: 14px; font-weight: 600; color: var(--accent-ink); font-variant-numeric: tabular-nums; }
+  .tq-row .r-price.muted { color: var(--ink-3); font-weight: 400; font-size: 12px; }
+  .tq-row.r-sum { border-bottom: none; border-top: 1px solid var(--line-strong); margin-top: -1px; padding: 13px 2px; }
+  .tq-row.r-sum .r-item { text-align: right; font-size: 11px; color: var(--ink-2); letter-spacing: 3px; }
+  .tq-row.r-sum .r-price { font-size: 16px; font-weight: 800; }
+  .tq-note { font-size: 11.5px; color: var(--ink-3); margin-top: 12px; line-height: 1.8; }
+  .tq-chips { display: flex; gap: 6px; flex-wrap: wrap; }
+  .tq-chips button {
+    font-size: 12.5px; padding: 6px 13px; border-radius: 99px; cursor: pointer; font-family: inherit;
+    font-variant-numeric: tabular-nums; background: transparent; color: var(--ink-2); border: 1px solid transparent;
+    transition: color 0.2s var(--ease-out-strong), border-color 0.2s var(--ease-out-strong), transform 0.14s var(--ease-out-strong);
+  }
+  .tq-chips button:hover { color: var(--ink); border-color: var(--line-strong); }
+  .tq-chips button:active { transform: scale(0.93); }
 
   /* 别墅专项 —— 可勾选填价互动表 */
   .tq-vck {
@@ -888,28 +922,22 @@
   }
   .tq-vpx::placeholder { color: var(--ink-3); }
   .tq-vpx:focus { border-color: var(--accent); outline: none; box-shadow: 0 0 0 3px var(--accent-tint); }
-  .tq-vtable tr.on td { background: rgba(232, 93, 4, 0.05); }
-  .tq-vtotal {
-    background: var(--surface); border-radius: var(--radius-card); box-shadow: var(--shadow-card);
-    padding: 16px 18px; margin-top: 12px; text-align: center;
-  }
-  .tq-vtotal .tv-line { font-size: 13px; color: var(--ink-2); }
+  .tq-row.on { background: rgba(232, 93, 4, 0.045); }
+  .tq-vtotal { border-top: 1px solid var(--line-strong); margin-top: 4px; padding: 18px 2px 8px; text-align: center; }
+  .tq-vtotal .tv-line { font-size: 11px; color: var(--ink-2); letter-spacing: 3px; }
   .tq-vtotal .tv-num {
-    font-size: 22px; font-weight: 800; margin: 0 4px; font-variant-numeric: tabular-nums;
-    background: linear-gradient(120deg, var(--accent) 30%, var(--terra)); -webkit-background-clip: text; background-clip: text; color: transparent;
+    font-size: 32px; font-weight: 200; margin-top: 6px; letter-spacing: 1px; font-variant-numeric: tabular-nums;
+    background: linear-gradient(120deg, #f09050 15%, var(--terra) 95%); -webkit-background-clip: text; background-clip: text; color: transparent;
   }
-  .tq-vtotal .tv-sub { font-size: 12px; color: var(--ink-3); margin-top: 6px; font-variant-numeric: tabular-nums; }
+  .tq-vtotal .tv-sub { font-size: 11.5px; color: var(--ink-3); margin-top: 4px; font-variant-numeric: tabular-nums; }
   @media (max-width: 600px) {
-    .tq-vtable th:nth-child(3), .tq-vtable td:nth-child(3),
-    .tq-vtable th:nth-child(4), .tq-vtable td:nth-child(4) { display: none; }
-    .tq-vpx { width: 92px; }
-  }
-  @media (max-width: 600px) {
-    .tq-summary { gap: 6px; }
-    .tq-stat { padding: 12px 4px; }
-    .tq-stat .tqs-num { font-size: 15px; }
-    .tq-stat.total .tqs-num { font-size: 17px; }
-    .tq-table th:nth-child(3), .tq-table td:nth-child(3) { display: none; }
+    .tqh-num { font-size: 36px; }
+    .tqh-area input { width: 76px; font-size: 24px; }
+    .tq-list { grid-template-columns: 1fr; }
+    .tq-strip .s-label { letter-spacing: 1.5px; }
+    .tq-strip .s-num { font-size: 13.5px; }
+    .tq-row .r-cat { display: none; }
+    .tq-vpx { width: 96px; }
   }
 
   /* 避坑清单 / 验收清单 —— 自绘辉光复选框（GlowToggle / records-checkbox 模式移植） */
@@ -3636,7 +3664,6 @@
   function tqScale(v, ratio) { return Math.round(v * ratio / 100) * 100; }
   function tqAreaVal() { return Math.min(2000, Math.max(10, parseFloat(document.getElementById('tqArea').value) || TQ_REF_AREA)); }
   function setTqArea(v) { document.getElementById('tqArea').value = Math.round(v); renderTotalQuote(); }
-  function fmtPer(v, area) { return Math.round(v / area).toLocaleString() + ' 元/㎡'; }
 
   function tqCalc() {
     const area = tqAreaVal();
@@ -3652,61 +3679,63 @@
   function renderTotalQuote() {
     const c = tqCalc();
     const pctFull = Math.round(c.fullAmt / c.grand * 100);
+    const v = tqVillaCalc();
+
+    document.getElementById('tqhNum').textContent = fmtY(c.grand);
+    document.getElementById('tqhPer').textContent = '≈ ' + Math.round(c.grand / c.area).toLocaleString() + ' 元 / ㎡ · 按 ' + c.area + '㎡ 估算';
 
     document.getElementById('tqSplit').innerHTML =
       '<div style="width:' + pctFull + '%;background:' + c.gFull.color + ';"></div>' +
       '<div style="width:' + (100 - pctFull) + '%;background:' + c.gSelf.color + ';"></div>';
     document.getElementById('tqLegend').innerHTML =
-      '<span><i style="background:' + c.gFull.color + ';"></i>全包工程 ' + fmtY(c.fullAmt) + ' · ' + pctFull + '%</span>' +
-      '<span><i style="background:' + c.gSelf.color + ';"></i>客户自购 ' + fmtY(c.selfAmt) + ' · ' + (100 - pctFull) + '%</span>' +
-      '<span>按 ' + c.area + '㎡ 估算</span>';
+      '<span><i style="background:' + c.gFull.color + ';"></i>全包工程 ' + pctFull + '%</span>' +
+      '<span><i style="background:' + c.gSelf.color + ';"></i>客户自购 ' + (100 - pctFull) + '%</span>';
 
-    document.getElementById('tqSummary').innerHTML =
-      '<div class="tq-stat"><div class="tqs-label">全包工程</div><div class="tqs-num">' + fmtY(c.fullAmt) + '</div><div class="tqs-sub">' + fmtPer(c.fullAmt, c.area) + '</div></div>' +
-      '<div class="tq-stat"><div class="tqs-label">客户自购项目</div><div class="tqs-num">' + fmtY(c.selfAmt) + '</div><div class="tqs-sub">' + fmtPer(c.selfAmt, c.area) + '</div></div>' +
-      '<div class="tq-stat total"><div class="tqs-label">全案总价</div><div class="tqs-num">' + fmtY(c.grand) + '</div><div class="tqs-sub">' + fmtPer(c.grand, c.area) + '</div></div>';
+    document.getElementById('tqStrip').innerHTML =
+      '<div><div class="s-label">全包工程</div><div class="s-num">' + fmtY(c.fullAmt) + '<em>' + pctFull + '%</em></div></div>' +
+      '<div><div class="s-label">客户自购</div><div class="s-num">' + fmtY(c.selfAmt) + '<em>' + (100 - pctFull) + '%</em></div></div>' +
+      '<div><div class="s-label">别墅专项</div><div class="s-num">' + (v.cnt ? fmtY(v.total) : '按需') + '<em>' + (v.cnt ? '已选 ' + v.cnt + ' 项' : '选配') + '</em></div></div>';
 
-    document.getElementById('tqSections').innerHTML = TOTAL_QUOTE.groups.map(g => {
+    document.getElementById('tqSections').innerHTML = TOTAL_QUOTE.groups.map((g, gi) => {
       const isSelf = g.rows && g.amount;                       // 客户自购：行明细随面积缩放
       const amt = g.lists ? c.fullAmt : isSelf ? c.selfAmt : null;
       const rows = isSelf ? c.selfRows : g.rows;
-      let html = '<div class="notes tq-group"><h3>' + g.icon + ' ' + g.name +
-        '<span class="tq-amt" style="color:' + (amt ? g.color : 'var(--ink-2)') + ';">' + (amt ? fmtY(amt) : '按需') + '</span></h3>';
-      if (g.desc) html += '<p style="font-size:12.5px;color:var(--ink-2);margin-bottom:8px;">' + g.desc + '</p>';
+      let html = '<section class="tq-sec"><div class="tq-sec-head">' +
+        '<span class="tq-sec-no">0' + (gi + 1) + '</span>' +
+        '<span class="tq-sec-name">' + g.icon + ' ' + g.name + '</span>' +
+        '<span class="tq-sec-amt' + (amt ? '' : ' muted') + '"' + (amt ? ' style="color:' + g.color + ';"' : '') + '>' + (amt ? fmtY(amt) : '按需另计') + '</span></div>';
+      if (g.desc) html += '<p class="tq-sec-desc">' + g.desc + '</p>';
       if (g.lists) {
-        html += g.lists.map(l =>
-          '<div class="tq-sub">' + l.title + '</div>' +
-          '<div class="tq-tags">' + l.items.map(it => '<span class="tq-tag">' + it + '</span>').join('') + '</div>'
-        ).join('');
+        html += '<div class="tq-list">' + g.lists.map(l =>
+          '<div><div class="l-title">' + l.title + '</div><div class="l-items">' +
+          l.items.map(it => '<span>' + it + '</span>').join('<i>·</i>') + '</div></div>').join('') + '</div>';
       }
       if (g.villa) {
         const vs = tqVillaState();
-        html += '<table class="case-table tq-table tq-vtable"><thead><tr><th>选</th><th>类别</th><th>项目</th><th>参考说明</th><th>预算价（元）</th></tr></thead><tbody>' +
-          g.rows.map((r, i) => '<tr id="tqvr' + i + '" class="' + (vs[i] && vs[i].on ? 'on' : '') + '">' +
-            '<td><input type="checkbox" class="tq-vck" id="tqvc' + i + '"' + (vs[i] && vs[i].on ? ' checked' : '') + ' onchange="tqVillaToggle(' + i + ', this.checked)"></td>' +
-            '<td>' + r.cat + '</td><td style="text-align:left;">' + r.item + '</td>' +
-            '<td style="text-align:left;color:var(--ink-2);">' + (r.spec || '—') + '</td>' +
-            '<td><input type="number" class="tq-vpx" inputmode="numeric" min="0" step="100" placeholder="' + (r.ph || '') + '" value="' + (vs[i] && vs[i].price != null ? vs[i].price : '') + '" oninput="tqVillaPrice(' + i + ', this.value)"></td></tr>').join('') +
-          '</tbody></table>' +
+        html += '<div class="tq-rows">' + g.rows.map((r, i) =>
+          '<div class="tq-row' + (vs[i] && vs[i].on ? ' on' : '') + '" id="tqvr' + i + '">' +
+            '<input type="checkbox" class="tq-vck" id="tqvc' + i + '"' + (vs[i] && vs[i].on ? ' checked' : '') + ' onchange="tqVillaToggle(' + i + ', this.checked)">' +
+            '<span class="r-item">' + r.item + (r.spec ? '<small>' + r.spec + '</small>' : '') + '</span>' +
+            '<input type="number" class="tq-vpx" inputmode="numeric" min="0" step="100" placeholder="' + (r.ph || '') + '" value="' + (vs[i] && vs[i].price != null ? vs[i].price : '') + '" oninput="tqVillaPrice(' + i + ', this.value)">' +
+          '</div>').join('') + '</div>' +
           '<div class="tq-vtotal">' +
-            '<div class="tv-line">已选 <span id="tqVCnt">0</span> 项 · 别墅专项合计 <span class="tv-num" id="tqVSp">¥0</span></div>' +
-            '<div class="tv-sub">叠加后全案参考总价 <strong id="tqVGrand"></strong>（<span id="tqVArea"></span>㎡ 基础全案 <span id="tqVBase"></span> + 专项 <span id="tqVSp2"></span>）</div>' +
+            '<div class="tv-line">已选 <span id="tqVCnt">0</span> 项 · 别墅专项合计</div>' +
+            '<div class="tv-num" id="tqVSp">¥0</div>' +
+            '<div class="tv-sub">叠加后全案参考 <strong id="tqVGrand"></strong> = <span id="tqVArea"></span>㎡ 基础全案 <span id="tqVBase"></span> + 专项 <span id="tqVSp2"></span></div>' +
           '</div>';
       } else if (rows) {
-        html += '<table class="case-table tq-table"><thead><tr><th>类别</th><th>项目</th><th>参考说明</th><th>参考价</th></tr></thead><tbody>' +
-          rows.map(r => {
-            const p = r.sp !== undefined ? r.sp : r.price;
-            return '<tr><td>' + r.cat + '</td><td style="text-align:left;">' + r.item + '</td>' +
-              '<td style="text-align:left;color:var(--ink-2);">' + (r.spec || '—') + '</td>' +
-              '<td style="font-weight:600;font-variant-numeric:tabular-nums;' + (p ? 'color:#f09050;' : 'color:var(--ink-3);') + '">' +
-              (p ? fmtY(p) : '按需') + '</td></tr>';
-          }).join('');
-        if (amt) html += '<tr><td colspan="3" style="text-align:right;font-weight:700;">小计</td>' +
-          '<td style="font-weight:800;color:' + g.color + ';font-variant-numeric:tabular-nums;">' + fmtY(amt) + '</td></tr>';
-        html += '</tbody></table>';
+        html += '<div class="tq-rows">' + rows.map(r => {
+          const p = r.sp !== undefined ? r.sp : r.price;
+          return '<div class="tq-row"><span class="r-cat">' + r.cat + '</span>' +
+            '<span class="r-item">' + r.item + (r.spec ? '<small>' + r.spec + '</small>' : '') + '</span>' +
+            '<span class="r-price' + (p ? '' : ' muted') + '">' + (p ? fmtY(p) : '按需') + '</span></div>';
+        }).join('');
+        if (amt) html += '<div class="tq-row r-sum"><span class="r-item">小 计</span>' +
+          '<span class="r-price" style="color:' + g.color + ';">' + fmtY(amt) + '</span></div>';
+        html += '</div>';
       }
-      if (g.note) html += '<p class="tq-note">※ ' + g.note + '</p>';
-      html += '</div>';
+      if (g.note) html += '<p class="tq-note">' + g.note + '</p>';
+      html += '</section>';
       return html;
     }).join('');
     tqVillaRefresh();
@@ -5952,31 +5981,29 @@
     </div>
   </div>
   <div class="container" style="padding-bottom:40px;">
-    <div class="feat-head">
-      <div class="fh-title">整体投入前期规划 · 全案一表看清</div>
-      <div class="fh-sub">输入建筑面积，按 <strong>89㎡ 参考案例</strong>（全案 421,500，约 4,736 元/㎡）等比换算落地总价。全案总价 = <strong>全包工程</strong>（施工人工辅材 + 主材套餐）+ <strong>客户自购项目</strong>（暖通设备 / 门窗 / 定制柜 / 电器 / 软装，均价已上浮 240 元/㎡）。</div>
-      <div class="gt-controls" style="margin-top:14px;">
-        <div class="gc-field">
-          <label>建筑面积（㎡）</label>
-          <input type="number" id="tqArea" min="10" max="2000" step="1" style="width:120px;" inputmode="decimal" oninput="renderTotalQuote()">
-        </div>
-        <div class="gc-field">
-          <label>快捷面积</label>
-          <div class="tq-chips">
-            <button type="button" onclick="setTqArea(120)">120㎡</button>
-            <button type="button" onclick="setTqArea(180)">180㎡</button>
-            <button type="button" onclick="setTqArea(300)">300㎡</button>
-            <button type="button" onclick="setTqArea(450)">450㎡</button>
-            <button type="button" onclick="setTqArea(520)">520㎡</button>
-          </div>
-        </div>
+    <div class="tq-hero">
+      <div class="tqh-label">全案落地总价</div>
+      <div class="tqh-num" id="tqhNum">—</div>
+      <div class="tqh-per" id="tqhPer"></div>
+      <div class="tqh-ctrl">
+        <span class="tqh-area">
+          <input type="number" id="tqArea" min="10" max="2000" step="1" inputmode="decimal" oninput="renderTotalQuote()">
+          <span class="u">㎡ 建筑面积</span>
+        </span>
+      </div>
+      <div class="tq-chips">
+        <button type="button" onclick="setTqArea(120)">120</button>
+        <button type="button" onclick="setTqArea(180)">180</button>
+        <button type="button" onclick="setTqArea(300)">300</button>
+        <button type="button" onclick="setTqArea(450)">450</button>
+        <button type="button" onclick="setTqArea(520)">520</button>
       </div>
       <div class="pay-split" id="tqSplit"></div>
       <div class="pay-legend" id="tqLegend"></div>
     </div>
-    <div class="tq-summary" id="tqSummary"></div>
+    <div class="tq-strip" id="tqStrip"></div>
     <div id="tqSections"></div>
-    <div class="feat-note">⚠️ 本表以 <strong>89㎡ 参考案例（全案 421,500）按面积等比换算</strong>，供前期规划参考。格局改造、吊顶砌墙等个性设计项每家情况不同，暂不预估；电器、设备等与面积并非严格线性，小户型实际单价偏高、大户型偏低；自购项目档次浮动较大，可上可下。正式报价以量房后预算书为准。</div>
+    <div class="feat-note">以 89㎡ 参考案例等比换算 · 个性设计项暂不预估 · 设备与面积非严格线性 · 正式报价以量房后预算书为准</div>
   </div>
 </div>
 
