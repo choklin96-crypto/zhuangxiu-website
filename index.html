@@ -3545,29 +3545,29 @@
         note: '设计不动格局则此项为 0；有拆改需求在前期规划阶段一并设计报价。'
       },
       {
-        name: '客户自购项目', icon: '🛒', color: '#1e88e5', amount: 232000,
-        desc: '设备、定制、电器与软装由客户自购，档次可上可下',
+        name: '客户自购项目', icon: '🛒', color: '#1e88e5', amount: 253400,
+        desc: '设备、定制、电器与软装由客户自购，档次可上可下（已含 240 元/㎡ 品质上浮）',
         rows: [
-          { cat: '暖通设备', item: '中央空调', spec: '', price: 38000 },
-          { cat: '暖通设备', item: '地热', spec: '', price: 30000 },
-          { cat: '暖通设备', item: '净水', spec: '前置 / 末端直饮', price: 5000 },
+          { cat: '暖通设备', item: '中央空调', spec: '', price: 41500 },
+          { cat: '暖通设备', item: '地热', spec: '', price: 32800 },
+          { cat: '暖通设备', item: '净水', spec: '前置 / 末端直饮', price: 5500 },
           { cat: '暖通设备', item: '新风系统', spec: '按需选配', price: null },
-          { cat: '铝合金门窗', item: '常规铝合金门窗（双层断桥）', spec: '约 750 元/㎡', price: 12000 },
-          { cat: '定制柜', item: '衣柜柜门 / 展示柜', spec: '', price: 85000 },
-          { cat: '全屋电器', item: '厨电（煤气灶 / 油烟机 / 冰箱 / 洗碗机）', spec: '', price: 18000 },
-          { cat: '全屋电器', item: '电视机 / 扫地机 / 洗衣机烘干机', spec: '', price: 12000 },
-          { cat: '全屋软装', item: '移动家具（沙发 / 床 / 餐桌 / 茶桌 / 书桌等）', spec: '', price: 12000 },
-          { cat: '全屋软装', item: '灯具', spec: '', price: 8000 },
-          { cat: '全屋软装', item: '窗帘', spec: '', price: 6000 },
-          { cat: '全屋软装', item: '装饰摆件挂画', spec: '', price: 3000 },
-          { cat: '其他', item: '全屋美缝', spec: '', price: 3000 },
+          { cat: '铝合金门窗', item: '常规铝合金门窗（双层断桥）', spec: '约 750 元/㎡', price: 13100 },
+          { cat: '定制柜', item: '衣柜柜门 / 展示柜', spec: '', price: 92700 },
+          { cat: '全屋电器', item: '厨电（煤气灶 / 油烟机 / 冰箱 / 洗碗机）', spec: '', price: 19700 },
+          { cat: '全屋电器', item: '电视机 / 扫地机 / 洗衣机烘干机', spec: '', price: 13100 },
+          { cat: '全屋软装', item: '移动家具（沙发 / 床 / 餐桌 / 茶桌 / 书桌等）', spec: '', price: 13100 },
+          { cat: '全屋软装', item: '灯具', spec: '', price: 8700 },
+          { cat: '全屋软装', item: '窗帘', spec: '', price: 6600 },
+          { cat: '全屋软装', item: '装饰摆件挂画', spec: '', price: 3300 },
+          { cat: '其他', item: '全屋美缝', spec: '', price: 3300 },
           { cat: '其他', item: '景观庭院 / 阳台柜 / 楼梯踏步扶手', spec: '按需另计', price: null }
         ]
       }
     ]
   };
 
-  // 按面积等比换算：参考案例 89㎡ = 全案 405,400
+  // 按面积等比换算：参考案例 89㎡ = 全案 426,800（自购已含 240 元/㎡ 品质上浮）
   const TQ_REF_AREA = 89;
   function tqScale(v, ratio) { return Math.round(v * ratio / 100) * 100; }
   function tqAreaVal() { return Math.min(2000, Math.max(10, parseFloat(document.getElementById('tqArea').value) || TQ_REF_AREA)); }
@@ -3642,7 +3642,7 @@
 
   function exportTotalQuoteCsv() {
     const c = tqCalc();
-    const rows = [['全案总价表（按 ' + c.area + '㎡ 等比换算，参考案例 89㎡ = 405,400）', '', '', '']];
+    const rows = [['全案总价表（按 ' + c.area + '㎡ 等比换算，参考案例 89㎡ = 426,800）', '', '', '']];
     rows.push(['全包工程', c.fullAmt], ['客户自购项目', c.selfAmt], ['全案总价', c.grand], []);
     rows.push(['分类', '项目', '参考说明', '参考价']);
     TOTAL_QUOTE.groups.forEach(g => {
@@ -5830,7 +5830,7 @@
   <div class="container" style="padding-bottom:40px;">
     <div class="feat-head">
       <div class="fh-title">整体投入前期规划 · 全案一表看清</div>
-      <div class="fh-sub">输入建筑面积，按 <strong>89㎡ 参考案例</strong>（全案 405,400）等比换算落地总价。全案总价 = <strong>全包工程</strong>（施工人工辅材 + 主材套餐）+ <strong>客户自购项目</strong>（暖通设备 / 门窗 / 定制柜 / 电器 / 软装）。</div>
+      <div class="fh-sub">输入建筑面积，按 <strong>89㎡ 参考案例</strong>（全案 426,800，约 4,798 元/㎡）等比换算落地总价。全案总价 = <strong>全包工程</strong>（施工人工辅材 + 主材套餐）+ <strong>客户自购项目</strong>（暖通设备 / 门窗 / 定制柜 / 电器 / 软装，均价已上浮 240 元/㎡）。</div>
       <div class="gt-controls" style="margin-top:14px;">
         <div class="gc-field">
           <label>建筑面积（㎡）</label>
@@ -5852,7 +5852,7 @@
     </div>
     <div class="tq-summary" id="tqSummary"></div>
     <div id="tqSections"></div>
-    <div class="feat-note">⚠️ 本表以 <strong>89㎡ 参考案例（全案 405,400）按面积等比换算</strong>，供前期规划参考。格局改造、吊顶砌墙等个性设计项每家情况不同，暂不预估；电器、设备等与面积并非严格线性，小户型实际单价偏高、大户型偏低；自购项目档次浮动较大，可上可下。正式报价以量房后预算书为准。</div>
+    <div class="feat-note">⚠️ 本表以 <strong>89㎡ 参考案例（全案 426,800）按面积等比换算</strong>，供前期规划参考。格局改造、吊顶砌墙等个性设计项每家情况不同，暂不预估；电器、设备等与面积并非严格线性，小户型实际单价偏高、大户型偏低；自购项目档次浮动较大，可上可下。正式报价以量房后预算书为准。</div>
   </div>
 </div>
 
