@@ -4888,15 +4888,12 @@
     downloadCsv('装修锦囊-' + stampDate(), rows);
   }
 
-  // 品牌开场：每次会话播一次，可点按跳过；尊重减弱动效偏好
+  // 品牌开场：每次进站都播，可点按跳过；尊重减弱动效偏好
   (function () {
     var splash = document.getElementById('brandSplash');
     if (!splash) return;
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-    var seen = false;
-    try { seen = sessionStorage.getItem('zx_splash_v1') === '1'; } catch (e) {}
-    if (seen || reduce) { splash.remove(); return; }
-    try { sessionStorage.setItem('zx_splash_v1', '1'); } catch (e) {}
+    if (reduce) { splash.remove(); return; }
     var gone = false;
     var hide = function () {
       if (gone) return;
