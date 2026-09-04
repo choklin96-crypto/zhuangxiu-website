@@ -18,7 +18,7 @@
 <meta name="twitter:title" content="设计施工 · 个性半包报价">
 <meta name="twitter:description" content="透明报价 · 所见即所得。个性半包参考价与费用计算器。">
 <meta name="twitter:image" content="https://choklin96-crypto.github.io/zhuangxiu-website/qrcode-poster.jpg">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23f7a052'/%3E%3Cstop offset='1' stop-color='%23e85d04'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='url(%23g)'/%3E%3Cpath d='M14 33L32 18L50 33' fill='none' stroke='%23fff' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M20 31.5V47H44V31.5' fill='none' stroke='%23fff' stroke-width='4.5' stroke-linecap='round' stroke-linejoin='round'/%3E%3Cpath d='M28 47V38H36V47' fill='none' stroke='%23fff' stroke-width='3.2' stroke-linejoin='round'/%3E%3Ccircle cx='44' cy='20' r='4.6' fill='%23fff'/%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23221b13'/%3E%3Cstop offset='1' stop-color='%230f0d0a'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e8b264'/%3E%3Cstop offset='0.5' stop-color='%23f0c878'/%3E%3Cstop offset='1' stop-color='%23c9853a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='url(%23g)'/%3E%3Crect x='2.75' y='2.75' width='58.5' height='58.5' rx='15.25' fill='none' stroke='url(%23g2)' stroke-width='1.4'/%3E%3Cg fill='none' stroke='url(%23g2)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 50 C27 50 23.2 46.8 22.7 42 C22.3 38.4 23.4 35.7 25.4 33.7 L38.6 33.7 C40.6 35.7 41.7 38.4 41.3 42 C40.8 46.8 37 50 32 50 Z' stroke-width='3'/%3E%3Cpath d='M32 33.7 L32 48.8' stroke-width='2'/%3E%3Cpath d='M27.5 47.9 C26.8 43.6 27 39 28.1 34.4' stroke-width='2'/%3E%3Cpath d='M36.5 47.9 C37.2 43.6 37 39 35.9 34.4' stroke-width='2'/%3E%3Cpath d='M32.3 33.4 C29.3 29.5 28.7 23.1 31 16.8 C33.8 19.6 34.4 26.8 32.3 33.4 Z' stroke-width='3'/%3E%3Cpath d='M30.4 33.6 C24.2 32.4 19.3 27.1 18.8 19.6 C25.9 20.5 30.8 26.1 31 33.6 Z' stroke-width='3'/%3E%3Cpath d='M33.6 33.6 C39.8 32.4 44.7 27.1 45.2 19.6 C38.1 20.5 33.2 26.1 33 33.6 Z' stroke-width='3'/%3E%3C/g%3E%3Cpath d='M49 9.5 L50.1 12.4 L53 13.5 L50.1 14.6 L49 17.5 L47.9 14.6 L45 13.5 L47.9 12.4 Z' fill='url(%23g2)'/%3E%3C/svg%3E">
 <style>
   /* ============================================================
      设计令牌 —— 移植自 picture 仓库 Beautiful UI 组件库（globals.css），
@@ -289,13 +289,13 @@
   @keyframes bs-draw { to { stroke-dashoffset: 0; } }
   @keyframes bs-fade { to { opacity: 1; } }
   #brandSplash .bs-name {
-    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
-    font-size: 30px; font-weight: 700; color: #f5e2c4; opacity: 0;
+    font-family: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
+    font-size: clamp(12px, 3.8vw, 24px); font-weight: 700; color: #f5e2c4; opacity: 0; white-space: nowrap;
     animation: bs-name 1s 0.95s var(--ease-out-strong) forwards;
   }
   @keyframes bs-name {
-    0% { opacity: 0; letter-spacing: 0.62em; text-indent: 0.62em; filter: blur(7px); }
-    to { opacity: 1; letter-spacing: 0.3em; text-indent: 0.3em; filter: blur(0); }
+    0% { opacity: 0; letter-spacing: 0.24em; text-indent: 0.24em; filter: blur(7px); }
+    to { opacity: 1; letter-spacing: 0.12em; text-indent: 0.12em; filter: blur(0); }
   }
   #brandSplash .bs-rule {
     width: 130px; height: 1px; opacity: 0;
@@ -321,9 +321,9 @@
   }
   .hero-lockup .hl-name {
     position: relative; margin-top: 18px;
-    font-family: "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
-    font-size: clamp(40px, 8.5vw, 58px); font-weight: 700; line-height: 1.18;
-    letter-spacing: 0.16em; text-indent: 0.16em;
+    font-family: Georgia, "Times New Roman", "Noto Serif SC", "Source Han Serif SC", "Songti SC", "STSong", "SimSun", serif;
+    font-size: clamp(14px, 4.2vw, 34px); font-weight: 700; line-height: 1.18; white-space: nowrap;
+    letter-spacing: 0.1em; text-indent: 0.1em;
     background: linear-gradient(168deg, #c9974a 0%, #e0b060 30%, #f0c878 48%, #b08530 78%, #d0a040 100%);
     -webkit-background-clip: text; background-clip: text; color: transparent;
     animation: blur-in 0.9s 0.1s var(--ease-out-strong) both;
@@ -630,7 +630,7 @@
   @media (max-width: 600px) {
     .page-home { padding: 48px 16px 30px; }
     .hero-lockup .hl-logo { width: 62px; height: 62px; }
-    .hero-lockup .hl-name { letter-spacing: 0.1em; text-indent: 0.1em; }
+    .hero-lockup .hl-name { font-size: clamp(12.5px, 3.8vw, 22px); letter-spacing: 0.08em; text-indent: 0.08em; }
     .hero-lockup .hl-sub { letter-spacing: 0.26em; text-indent: 0.26em; font-size: 13px; }
     .hero-lockup .hl-en { letter-spacing: 0.4em; text-indent: 0.4em; }
     .hero-lockup .hl-divider span { width: 56px; }
@@ -1330,15 +1330,19 @@
       </linearGradient>
     </defs>
     <rect class="bs-frame" x="3" y="3" width="58" height="58" rx="16" pathLength="100"/>
-    <path class="bs-mark" style="stroke-width:3" d="M14.5 32.5 L32 17.5 L49.5 32.5" pathLength="100"/>
-    <path class="bs-mark" style="stroke-width:3" d="M20 30.5 V47 H44 V30.5" pathLength="100"/>
-    <path class="bs-mark" style="stroke-width:2" d="M28 47 V38.5 H36 V47" pathLength="100"/>
-    <path class="bs-mark" style="stroke-width:1.2" d="M15.5 47 H48.5" pathLength="100" opacity="0.55"/>
-    <path class="bs-dot" d="M46.5 11.5 L47.6 14.4 L50.5 15.5 L47.6 16.6 L46.5 19.5 L45.4 16.6 L42.5 15.5 L45.4 14.4 Z"/>
+    <path class="bs-mark" style="stroke-width:3" d="M32 50 C27 50 23.2 46.8 22.7 42 C22.3 38.4 23.4 35.7 25.4 33.7 L38.6 33.7 C40.6 35.7 41.7 38.4 41.3 42 C40.8 46.8 37 50 32 50 Z" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:2" d="M32 33.7 L32 48.8" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:2" d="M27.5 47.9 C26.8 43.6 27 39 28.1 34.4" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:2" d="M36.5 47.9 C37.2 43.6 37 39 35.9 34.4" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:3" d="M32.3 33.4 C29.3 29.5 28.7 23.1 31 16.8 C33.8 19.6 34.4 26.8 32.3 33.4 Z" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:3" d="M30.4 33.6 C24.2 32.4 19.3 27.1 18.8 19.6 C25.9 20.5 30.8 26.1 31 33.6 Z" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:3" d="M33.6 33.6 C39.8 32.4 44.7 27.1 45.2 19.6 C38.1 20.5 33.2 26.1 33 33.6 Z" pathLength="100"/>
+    <path class="bs-mark" style="stroke-width:1.2" d="M24.5 52.8 H39.5" pathLength="100" opacity="0.55"/>
+    <path class="bs-dot" d="M49 9.5 L50.1 12.4 L53 13.5 L50.1 14.6 L49 17.5 L47.9 14.6 L45 13.5 L47.9 12.4 Z"/>
   </svg>
   <div class="bs-rule"></div>
-  <div class="bs-name">设计施工</div>
-  <div class="bs-line">透明装家 · 放心托付</div>
+  <div class="bs-name">Bok Choy</div>
+  <div class="bs-line">无醛小白菜 · 筑梦好家宅</div>
   <div class="bs-skip">轻触任意处进入</div>
 </div>
 
@@ -1482,7 +1486,7 @@
     <canvas class="hero-particles" id="heroParticles"></canvas>
   </div>
   <div class="hero-lockup">
-    <svg class="hl-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="设计施工 Logo">
+    <svg class="hl-logo" viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="小白菜 Logo">
       <defs>
         <linearGradient id="brandGold" x1="0" y1="0" x2="1" y2="1">
           <stop offset="0" stop-color="#e8b264"/>
@@ -1503,16 +1507,20 @@
       <rect x="2.75" y="2.75" width="58.5" height="58.5" rx="15.25" fill="none" stroke="url(#brandGold)" stroke-width="1.4"/>
       <rect x="6" y="6" width="52" height="52" rx="11" fill="none" stroke="url(#brandGold)" stroke-width="0.7" opacity="0.38"/>
       <g fill="none" stroke="url(#brandGold)" stroke-linecap="round" stroke-linejoin="round">
-        <path d="M14.5 32.5 L32 17.5 L49.5 32.5" stroke-width="2.2"/>
-        <path d="M20 30.5 V47 H44 V30.5" stroke-width="2.2"/>
-        <path d="M28 47 V38.5 H36 V47" stroke-width="1.6"/>
-        <path d="M15.5 47 H48.5" stroke-width="1" opacity="0.55"/>
+        <path d="M32 50 C27 50 23.2 46.8 22.7 42 C22.3 38.4 23.4 35.7 25.4 33.7 L38.6 33.7 C40.6 35.7 41.7 38.4 41.3 42 C40.8 46.8 37 50 32 50 Z" stroke-width="2.2"/>
+        <path d="M32 33.7 L32 48.8" stroke-width="1.6"/>
+        <path d="M27.5 47.9 C26.8 43.6 27 39 28.1 34.4" stroke-width="1.6"/>
+        <path d="M36.5 47.9 C37.2 43.6 37 39 35.9 34.4" stroke-width="1.6"/>
+        <path d="M32.3 33.4 C29.3 29.5 28.7 23.1 31 16.8 C33.8 19.6 34.4 26.8 32.3 33.4 Z" stroke-width="2.2"/>
+        <path d="M30.4 33.6 C24.2 32.4 19.3 27.1 18.8 19.6 C25.9 20.5 30.8 26.1 31 33.6 Z" stroke-width="2.2"/>
+        <path d="M33.6 33.6 C39.8 32.4 44.7 27.1 45.2 19.6 C38.1 20.5 33.2 26.1 33 33.6 Z" stroke-width="2.2"/>
+        <path d="M24.5 52.8 H39.5" stroke-width="1" opacity="0.55"/>
       </g>
-      <path d="M46.5 11.5 L47.6 14.4 L50.5 15.5 L47.6 16.6 L46.5 19.5 L45.4 16.6 L42.5 15.5 L45.4 14.4 Z" fill="url(#brandGold)"/>
+      <path d="M49 9.5 L50.1 12.4 L53 13.5 L50.1 14.6 L49 17.5 L47.9 14.6 L45 13.5 L47.9 12.4 Z" fill="url(#brandGold)"/>
     </svg>
-    <div class="hl-name" data-text="设计施工">设计施工</div>
+    <div class="hl-name" data-text="Bok Choy">Bok Choy</div>
     <div class="hl-divider"><span></span>✦<span></span></div>
-    <div class="hl-sub">透明装家 · 放心托付</div>
+    <div class="hl-sub">无醛小白菜 · 筑梦好家宅</div>
     <div class="hl-en">Renovation Master</div>
   </div>
 
