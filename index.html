@@ -3731,7 +3731,7 @@
   const TOTAL_QUOTE = {
     groups: [
       {
-        name: '全包工程', icon: '🏠', color: '#e85d04', amount: 173400,
+        name: '全包工程', icon: '🏠', color: '#e85d04', amount: 146700,
         desc: '施工人工 + 辅材 + 主材套餐打包，按计算总计包干',
         lists: [
           { title: '半包项目（人工 + 辅材）', items: ['砌墙泥工', '水电隐蔽工程', '贴砖泥工', '现场木工', '现场油漆乳胶漆'] },
@@ -3795,7 +3795,7 @@
     ]
   };
 
-  // 按面积等比换算：参考案例 89㎡ = 全案 421,500（自购已含 240 元/㎡ 品质上浮）
+  // 按面积等比换算：参考案例 89㎡ = 全案 394,800（全包已下调 300 元/㎡；自购已含 240 元/㎡ 品质上浮）
   const TQ_REF_AREA = 89;
   function tqScale(v, ratio) { return Math.round(v * ratio / 100) * 100; }
   function tqAreaVal() { return Math.min(2000, Math.max(10, parseFloat(document.getElementById('tqArea').value) || TQ_REF_AREA)); }
@@ -3925,7 +3925,7 @@
 
   function exportTotalQuoteCsv() {
     const c = tqCalc();
-    const rows = [['全案总价表（按 ' + c.area + '㎡ 等比换算，参考案例 89㎡ = 421,500）', '', '', '']];
+    const rows = [['全案总价表（按 ' + c.area + '㎡ 等比换算，参考案例 89㎡ = 394,800）', '', '', '']];
     rows.push(['全包工程', c.fullAmt], ['客户自购项目', c.selfAmt], ['全案总价', c.grand], []);
     rows.push(['分类', '项目', '参考说明', '参考价']);
     TOTAL_QUOTE.groups.forEach(g => {
