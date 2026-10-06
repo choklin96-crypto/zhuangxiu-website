@@ -272,8 +272,14 @@
       radial-gradient(60% 45% at 50% 80%, rgba(224, 167, 92, 0.14), transparent 70%),
       linear-gradient(170deg, #3a2417 0%, #2b1a10 55%, #1d1109 100%);
     transition: opacity 0.65s ease, visibility 0.65s;
+    /* 纯 CSS 兜底：即使脚本未加载/出错，开场层也会自动淡出，绝不卡黑屏 */
+    animation: bs-selfout 0.6s 1.9s ease forwards;
   }
   #brandSplash.hide { opacity: 0; visibility: hidden; pointer-events: none; }
+  @keyframes bs-selfout { to { opacity: 0; visibility: hidden; } }
+  @media (prefers-reduced-motion: reduce) {
+    #brandSplash { animation: none; opacity: 0; visibility: hidden; pointer-events: none; }
+  }
   #brandSplash .bs-logo { width: 94px; height: 94px; filter: drop-shadow(0 0 28px rgba(247, 160, 82, 0.45)); }
   #brandSplash .bs-frame {
     fill: none; stroke: url(#bsGold); stroke-width: 2.6;
@@ -309,7 +315,7 @@
   }
   #brandSplash .bs-skip {
     position: absolute; bottom: 26px; font-size: 10.5px; letter-spacing: 2.5px;
-    color: rgba(244, 222, 190, 0.34); opacity: 0; animation: bs-fade 0.8s 1.9s ease forwards;
+    color: rgba(244, 222, 190, 0.34); opacity: 0; animation: bs-fade 0.8s 1.1s ease forwards;
   }
 
   /* ====== 封面品牌锁定版式（居中 logo + 衬线金字 + 分隔线） ====== */
@@ -4930,7 +4936,7 @@
       setTimeout(function () { splash.remove(); }, 750);
     };
     splash.addEventListener('click', hide);
-    setTimeout(hide, 2700);
+    setTimeout(hide, 2000);
   })();
 
   // 工期控件联动
