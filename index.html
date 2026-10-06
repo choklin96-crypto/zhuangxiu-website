@@ -7350,6 +7350,13 @@
 
   document.getElementById('hbArea').addEventListener('input', hbRender);
   hbSetSeries('main');
+
+  // 深链接：#hb-calc / #hb-intro 直达栖息地页面
+  (function () {
+    var h = (location.hash || '').toLowerCase();
+    if (h === '#hb-calc' || h === '#habitat-calc') showHabitatCalc();
+    else if (h === '#hb-intro' || h === '#habitat-intro') showHabitatIntro();
+  })();
 </script>
 
 <style>
