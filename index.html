@@ -3143,8 +3143,10 @@
   let pendingRedirect = null;
 
   function goToPage(id) {
+    var target = document.getElementById(id);
+    if (!target) return; // 页面 HTML 尚未加载完（慢网络）时保持当前页，避免全部熄灭成黑屏
     document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
-    document.getElementById(id).classList.add('active');
+    target.classList.add('active');
     window.scrollTo(0, 0);
   }
   function showDetail() { goToPage('pageDetail'); }
