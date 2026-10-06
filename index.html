@@ -1568,6 +1568,26 @@
   </div>
 
   <div class="home-tools">
+    <div class="menu-group-label">栖息地 L32 整装</div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="showHabitatCalc()">
+        <span class="mi-icon bg-green">🏠</span>
+        <span class="mi-body">
+          <span class="mi-title">栖息地平方计价</span>
+          <span class="mi-desc" style="display:block;">输入面积 · L32 五套系即时报价</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showHabitatIntro()">
+        <span class="mi-icon bg-teal">🌿</span>
+        <span class="mi-body">
+          <span class="mi-title">栖息地套系介绍</span>
+          <span class="mi-desc" style="display:block;">玲珑 · 悠然/逸境/悦然/魅力</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+    </div>
+
     <div class="menu-group-label">用心服务</div>
     <div class="menu-grid">
       <button class="menu-item" onclick="promptWorksPassword()">
@@ -6943,6 +6963,395 @@
   <div class="work-lb-cap" id="workLightboxCap"></div>
 </div>
 
+<!-- ==================== 栖息地 L32 平方计价 ==================== -->
+<div class="page" id="pageHabitatCalc">
+  <div class="top-nav">
+    <div class="back" onclick="backHome('pageHabitatCalc')">← 返回</div>
+    <div class="title">🏠 栖息地 · 平方计价</div>
+    <div class="spacer"></div>
+  </div>
+  <div class="container" style="padding-bottom:60px;">
+
+    <div class="feat-head">
+      <div class="fh-title">输入计价面积，立即出价</div>
+      <div class="fh-sub">依据栖息地《L32 计价原则和计价方式 3.0》《一房一价表 3.0》（2026-09 版资料）整理。结果为参考价，最终以栖息地官方报价为准。</div>
+    </div>
+
+    <!-- ① 套系 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>①</b>选择套系</div>
+      <div class="hb-series">
+        <button class="hb-ser on" id="hbSerMain" type="button" onclick="hbSetSeries('main')">
+          <span class="hb-ser-name"><span class="hb-dot"></span>悠然 / 逸境 / 悦然 / 魅力</span>
+          <span class="hb-ser-price"><b>399,800 元</b> · 90㎡ 基准<br>超 90㎡ 每㎡ +2,199 元</span>
+        </button>
+        <button class="hb-ser" id="hbSerLinglong" type="button" onclick="hbSetSeries('linglong')">
+          <span class="hb-ser-name"><span class="hb-dot"></span>玲珑</span>
+          <span class="hb-ser-price"><b>359,800 元</b> · 90㎡ 基准<br>超 90㎡ 每㎡ +1,799 元</span>
+        </button>
+      </div>
+    </div>
+
+    <!-- ② 面积 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>②</b>计价面积</div>
+      <div class="hb-area-row">
+        <input type="number" id="hbArea" min="1" max="1000" step="1" placeholder="如 89" value="89">
+        <span class="unit">㎡</span>
+      </div>
+      <div class="hb-chips">
+        <button class="hb-chip" type="button" onclick="hbSetArea(70)">70㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(80)">80㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(89)">89㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(90)">90㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(100)">100㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(120)">120㎡</button>
+        <button class="hb-chip" type="button" onclick="hbSetArea(140)">140㎡</button>
+      </div>
+      <div class="hb-hint">📐 计价面积按<strong>方案户型</strong>（非原始户型）核算：墙体基层表面围合空间的水平投影面积；室内阳台计全面积、室外阳台计½面积、飘窗计½面积；坡屋顶区域按高度系数 0.85 / 1.0 / 1.15 折算。<strong>不足 70㎡ 按 70㎡ 计算。</strong></div>
+    </div>
+
+    <!-- ③ 户型增减 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>③</b>户型增减 <span style="font-weight:400;">（标准配置按 3 房 2 卫核算）</span></div>
+      <div class="hb-adjs">
+        <div class="hb-adj">
+          <div class="hb-adj-t">房间数 <small id="hbRoomPrice">±13,800 元/间</small></div>
+          <div class="hb-step">
+            <button type="button" onclick="hbStep('rooms',-1)" aria-label="减少房间">−</button>
+            <div class="num"><span id="hbRooms">3</span><small>间</small></div>
+            <button type="button" onclick="hbStep('rooms',1)" aria-label="增加房间">＋</button>
+          </div>
+        </div>
+        <div class="hb-adj">
+          <div class="hb-adj-t">卫生间数 <small id="hbBathPrice">±19,800 元/间</small></div>
+          <div class="hb-step">
+            <button type="button" onclick="hbStep('baths',-1)" aria-label="减少卫生间">−</button>
+            <div class="num"><span id="hbBaths">2</span><small>间</small></div>
+            <button type="button" onclick="hbStep('baths',1)" aria-label="增加卫生间">＋</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ④ 电梯 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>④</b>电梯情况</div>
+      <label class="hb-elev"><input type="checkbox" id="hbElev" checked onchange="hbRender()"> 有电梯（已含材料搬运与垃圾清运至物业指定点）</label>
+      <div class="hb-floor-row" id="hbFloorRow" style="display:none;">
+        无电梯 · 步梯
+        <input type="number" id="hbFloor" min="1" max="40" step="1" value="3" oninput="hbRender()">
+        层
+        <span>→ 垃圾下楼费 5 元/层/㎡ ×（层数−1）× 计价面积</span>
+      </div>
+    </div>
+
+    <!-- 结果 -->
+    <div class="hb-result" id="hbResult"></div>
+
+    <details class="hb-details">
+      <summary>📊 一房一价表（70–90㎡）</summary>
+      <div class="hb-details-body">
+        <div class="hb-tbl-wrap">
+          <table class="hb-tbl">
+            <thead><tr><th>计价面积</th><th>悠然/逸境/悦然/魅力</th><th>玲珑<sup>*</sup></th></tr></thead>
+            <tbody id="hbPriceTable"></tbody>
+          </table>
+        </div>
+        <p style="margin-top:10px;">* 玲珑 70–89㎡ 为按「90㎡ 基准价 − 面积差 × 1,799 元」的线性估算，仅供横向参考；官方按《L32-玲珑一房一价表》执行。悠然/逸境/悦然/魅力列为官方一房一价原值。</p>
+      </div>
+    </details>
+
+    <details class="hb-details">
+      <summary>⚖️ 特殊收费速查（标配外，按需另计）</summary>
+      <div class="hb-details-body">
+        <p><strong style="color:var(--ink);">中厨面积限制</strong>：套内 &lt;80㎡ 限 7㎡ · 80–120㎡ 限 8㎡ · 120–160㎡ 限 10㎡ · 160–260㎡ 限 12㎡；超出部分 1,399 元/㎡（不足 1㎡ 按 1㎡ 计；实际不足限制时<strong>不退不抵</strong>）。</p>
+        <p><strong style="color:var(--ink);">材料搬运</strong>：外包装对角 ≤2.7m 随产品含搬运；超限材料人工搬运 7 层（含）内 600 元/件，每上升一层 +50 元/层/件，或按现场吊装报价；不含客户自购材料。</p>
+        <p><strong style="color:var(--ink);">超高区措施费</strong>（结构板底到地面完成面 ≥3.2m）：3.2–4m +40 元/㎡ · 4–5m +75 元/㎡ · 5–6m +115 元/㎡ · 6–7m +155 元/㎡ · 7m 以上另议；每个房间超高面积不足 8㎡ 按 8㎡ 计。</p>
+        <p><strong style="color:var(--ink);">远程服务费 / 空调特殊安装环境措施费</strong>：按栖息地官方标准执行，以现场评估为准。</p>
+        <p><strong style="color:var(--ink);">产品价已含</strong>：标配材料与对应施工、材料搬运、成品保护、现场清理、垃圾清运（运至小区内物业指定地点，不含外运与物业收取的垃圾费）。合同总金额 = 产品价格 + 面积增减 + 房间/卫生间增减 + 升级/选配/特殊收费，含上述项目税金。</p>
+      </div>
+    </details>
+
+    <div class="hb-cta">
+      <button class="hb-btn hb-btn-main" type="button" onclick="showHabitatIntro()">🌿 查看套系配置介绍</button>
+    </div>
+    <div class="hb-src">数据来源：栖息地 L32 计价原则和计价方式 3.0 / 一房一价查询表 3.0 / 增减配置清单 3.0（资料整理于 2026-09）<br>价格随产品迭代调整，请以栖息地官方最新报价为准。</div>
+  </div>
+</div>
+
+<!-- ==================== 栖息地 L32 套系介绍 ==================== -->
+<div class="page" id="pageHabitat">
+  <div class="top-nav">
+    <div class="back" onclick="backHome('pageHabitat')">← 返回</div>
+    <div class="title">🌿 栖息地 · 套系介绍</div>
+    <div class="spacer"></div>
+  </div>
+  <div class="container" style="padding-bottom:60px;">
+
+    <div class="hb-hero">
+      <div class="hb-hero-en">Habitat · L32</div>
+      <div class="hb-hero-name">栖息地</div>
+      <div class="hb-hero-sub">L32 旗舰三居 · 智能新住宅整装</div>
+      <div class="hb-hero-line"></div>
+      <div class="hb-hero-quote">「你好，我们是栖息地」</div>
+      <p class="hb-hero-desc">L32 是栖息地按「智能新住宅」整体交付的整装产品：基础施工与辅材、墙顶地主材、中央空调与新风、水处理、全屋智能与 40㎡ 木作柜一价全含，拎包入住。产品持续迭代，本页依据 2026 年官方配置文件整理。</p>
+    </div>
+
+    <!-- 两档产品线 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>◆</b>两档产品线 · 五个套系</div>
+      <div class="hb-adjs" style="margin-bottom:12px;">
+        <div class="hb-line-card">
+          <div class="hb-line-name">悠然 / 逸境 / 悦然 / 魅力</div>
+          <div class="hb-line-price">399,800 <small>元起 · 按 90㎡ 计价</small></div>
+          <div class="hb-line-feats"><span>750×1500 瓷砖</span><span>烤漆柜门</span><span>造型灯带</span><span>轻智能壁挂马桶</span><span>淋浴屏</span><span>冲筋找平</span></div>
+        </div>
+        <div class="hb-line-card">
+          <div class="hb-line-name">玲珑</div>
+          <div class="hb-line-price">359,800 <small>元起 · 按 90㎡ 计价</small></div>
+          <div class="hb-line-feats"><span>600×1200 瓷砖</span><span>免漆柜门</span><span>天空之镜石膏灯</span><span>轻智能立式马桶</span><span>淋浴帘轨道</span><span>瓷砖壁挂收纳</span></div>
+        </div>
+      </div>
+      <div class="hb-hint">两档均为 3 房 2 卫基准；70–90㎡ 一房一价（不足 70㎡ 按 70 计），超 90㎡ 悠然/逸境/悦然/魅力每㎡ +2,199 元、玲珑每㎡ +1,799 元；房间每 ±1 计 13,800 / 12,800 元，卫生间每 ±1 计 19,800 / 15,800 元。</div>
+    </div>
+
+    <!-- 六大系统 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>◆</b>一价全含的六大系统</div>
+      <div class="hb-sys-grid">
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">🌬️</span>空气环境</div>
+          <ul>
+            <li>栖息地中央空调氟机：7.1kW + 2.8kW + 2.2kW×2 室内机，14.5kW 室外机，风口 10 米</li>
+            <li>楠社全热交换净化新风机（或单向流新风除湿一体机，按户型二选一）+ 加湿/除湿模块二选一</li>
+            <li>栖息地线性浴霸 ≤2 个 · 松下排风扇 · 楠社烟机灶具</li>
+          </ul>
+        </div>
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">💧</span>水环境</div>
+          <ul>
+            <li>楠社四合一水处理 1 台</li>
+            <li>台盆 ×2（玲珑：陶瓷一体盆；其他套系：台下盆/陶瓷一体盆任选）</li>
+            <li>轻智能马桶 ×2（玲珑为立式，其他套系壁挂）· 恩仕龙头 · 三出水花洒</li>
+            <li>栖息地/潜水艇全屋地漏系统 · 不锈钢水槽（玲珑为纳米黑）</li>
+          </ul>
+        </div>
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">💡</span>光环境</div>
+          <ul>
+            <li>筒射灯自由选配：其他套系 ≤25 个 · 玲珑 ≤15 个（楠社）</li>
+            <li>客餐厅/主卧造型顶照明系统：石膏造型灯带（玲珑为天空之镜全色域石膏灯 + 月光珊瑚吊灯）</li>
+            <li>吸顶灯可置换筒射灯 · 感应夜灯 ≤3 个</li>
+          </ul>
+        </div>
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">🧠</span>全屋智能</div>
+          <ul>
+            <li>算力主机 Pro + 空间控制器 2 组 + 空间交互终端 Pro ×2（按套系版本）</li>
+            <li>蓝牙环境控制面板 ×4 · 空气环境传感器 H3 ×4 · 灵动面板 ×5</li>
+            <li>H3C 顶装 AP ×2 全屋网络 · 强弱电箱 · 智能窗帘电机 ×4 + 轨道 15 米</li>
+          </ul>
+        </div>
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">🚪</span>居住功能</div>
+          <ul>
+            <li>木作柜投影面积 40㎡（楠社）：18mm 免漆板柜身，柜门烤漆/免漆按套系</li>
+            <li>赠 16 抽屉 + 3 拉篮 + 柜内灯带 + 中厨岩板台面 + 12㎡ 装饰板</li>
+            <li>室内木门 3 樘 + 铝框玻璃门 3 樘 · 踢脚线系统</li>
+            <li>淋浴屏 ×2（玲珑为淋浴帘轨道 ×2）</li>
+          </ul>
+        </div>
+        <div class="hb-sys">
+          <div class="hb-sys-t"><span class="ico">🧱</span>墙顶地</div>
+          <ul>
+            <li>乳胶漆（天花墙面标配）· 岩板窗台石（含飘窗）</li>
+            <li>瓷砖：750×1500（客厅餐厅走道）+ 厨卫墙地（玲珑 600×1200）</li>
+            <li>新三层晶钻面地板 1220×196（卧室区）</li>
+            <li>各空间找平/防水/美缝/吊顶施工全含（悦然为圆弧阳角工艺）</li>
+          </ul>
+        </div>
+      </div>
+      <div class="hb-hint" style="margin-top:12px;">合作品牌生态：栖息地（自研）· 楠社 · 链风 · 松下 · 恩仕 · H3C · 西蒙 · 潜水艇 · 邦维斯 · 有人（环境网关）。</div>
+    </div>
+
+    <!-- 套系差异 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>◆</b>玲珑 vs 悠然/逸境/悦然/魅力 差异对照</div>
+      <div class="hb-tbl-wrap">
+        <table class="hb-tbl">
+          <thead><tr><th>项目</th><th>玲珑</th><th>悠然/逸境/悦然/魅力</th></tr></thead>
+          <tbody>
+            <tr><td>90㎡ 基准价</td><td>359,800 元</td><td>399,800 元</td></tr>
+            <tr><td>超 90㎡ 单价</td><td>+1,799 元/㎡</td><td>+2,199 元/㎡</td></tr>
+            <tr><td>客厅餐厅走道砖</td><td>600×1200mm</td><td>750×1500mm</td></tr>
+            <tr><td>木作柜门</td><td>免漆板</td><td>烤漆板</td></tr>
+            <tr><td>赠送装饰板</td><td>12㎡ 免漆</td><td>12㎡ 烤漆</td></tr>
+            <tr><td>房间顶面照明</td><td>天空之镜石膏灯 + 月光珊瑚吊灯</td><td>回型/双边石膏造型灯带 + 明装筒灯</td></tr>
+            <tr><td>筒射灯上限</td><td>≤15 个</td><td>≤25 个</td></tr>
+            <tr><td>马桶</td><td>轻智能立式</td><td>轻智能壁挂（可换全智能立式/蹲便）</td></tr>
+            <tr><td>淋浴</td><td>淋浴帘轨道 ×2 + 暗装顶嵌花洒</td><td>淋浴屏 ×2（不足 2.4㎡ 按 2.4㎡ 计）</td></tr>
+            <tr><td>卫生间镜柜</td><td>主卫波波镜柜 + 次卫 1㎡ 镜柜门</td><td>每卫 1.08㎡ 镜柜门</td></tr>
+            <tr><td>卫生间收纳</td><td>瓷砖壁挂收纳 2 套（两小一大配件）</td><td>—</td></tr>
+            <tr><td>墙面找平</td><td>石膏找平</td><td>冲筋找平（悦然：石膏找平 + 圆弧阳角）</td></tr>
+            <tr><td>空间交互终端</td><td>玲珑版 ×2</td><td>逸境/悠然/悦然/魅力版 ×2</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- 增减配置 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>◆</b>房间 / 卫生间增减，增减都带配置</div>
+      <div class="hb-adjs">
+        <div class="hb-line-card">
+          <div class="hb-line-name" style="font-size:14px;">+1 房间</div>
+          <div class="hb-line-price" style="font-size:17px;">13,800 <small>元（玲珑 12,800）</small></div>
+          <ul style="list-style:none;font-size:12.5px;color:var(--ink-2);line-height:1.95;margin-top:10px;">
+            <li>· 2.2kW 中央空调室内机 + 2.2m 风口</li>
+            <li>· 环境控制面板 + 单键双控开关 + 传感器 H3</li>
+            <li>· 木门 1 樘 · 单/双边石膏灯带吊顶 + 窗帘盒</li>
+            <li>· 筒灯/射灯 ×4 + 夜灯 ×1 · 非智能面板 ×6</li>
+            <li>· 智能窗帘电机 + 3.5m 智能轨道</li>
+          </ul>
+        </div>
+        <div class="hb-line-card">
+          <div class="hb-line-name" style="font-size:14px;">+1 卫生间</div>
+          <div class="hb-line-price" style="font-size:17px;">19,800 <small>元（玲珑 15,800）</small></div>
+          <ul style="list-style:none;font-size:12.5px;color:var(--ink-2);line-height:1.95;margin-top:10px;">
+            <li>· 洁具：台盆 + 马桶 + 龙头 + 明装花洒 + 地漏（其他套系含淋浴屏）</li>
+            <li>· 墙地面防水 + 防水石膏板吊顶 + 浴霸</li>
+            <li>· 750×1500 / 600×1200 瓷砖墙地面（玲珑规格）</li>
+            <li>· 铝框玻璃平开门 1 樘 · 筒灯/射灯 ×3 · 面板 ×3</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+
+    <div class="hb-cta">
+      <button class="hb-btn hb-btn-main" type="button" onclick="showHabitatCalc()">🏠 输入面积，立即计价</button>
+    </div>
+    <div class="hb-src">资料来源：栖息地 L32 标准配置清单 / 玲珑套系标准配置清单 / 增减配置清单 3.0（配置信息更新于 2026-04）<br>栖息地产品持续迭代，请以官方最新公开信息为准 · www.habitat.cn</div>
+  </div>
+</div>
+
+<script>
+  /* ================= 栖息地 L32 计价 ================= */
+  var HB_MAIN_TABLE = {70:366800,71:368300,72:369800,73:371300,74:372800,75:374300,76:375900,77:377500,78:379100,79:380700,80:382300,81:384000,82:385700,83:387400,84:389100,85:390800,86:392600,87:394400,88:396200,89:398000};
+  var HB_SERIES = {
+    main:     { base:399800, unit:2199, room:13800, bath:19800 },
+    linglong: { base:359800, unit:1799, room:12800, bath:15800 }
+  };
+  var hbState = { series:'main', rooms:3, baths:2 };
+
+  function showHabitatCalc() { goToPage('pageHabitatCalc'); hbRender(); }
+  function showHabitatIntro() { goToPage('pageHabitat'); }
+
+  function hbSetSeries(s) {
+    hbState.series = s;
+    document.getElementById('hbSerMain').classList.toggle('on', s === 'main');
+    document.getElementById('hbSerLinglong').classList.toggle('on', s === 'linglong');
+    document.getElementById('hbRoomPrice').textContent = '±' + HB_SERIES[s].room.toLocaleString() + ' 元/间';
+    document.getElementById('hbBathPrice').textContent = '±' + HB_SERIES[s].bath.toLocaleString() + ' 元/间';
+    hbRender();
+  }
+  function hbSetArea(v) { document.getElementById('hbArea').value = v; hbRender(); }
+  function hbStep(key, d) {
+    var max = key === 'rooms' ? 6 : 4;
+    hbState[key] = Math.min(Math.max(hbState[key] + d, 1), max);
+    hbRender();
+  }
+
+  function hbCalc() {
+    var s = HB_SERIES[hbState.series];
+    var area = parseFloat(document.getElementById('hbArea').value);
+    if (!area || area <= 0) return null;
+
+    var eff = Math.max(area, 70);           // 不足 70㎡ 按 70 计
+    var areaPrice, areaNote, isEst = false;
+
+    if (eff >= 90) {
+      var over = eff - 90;
+      areaPrice = s.base + over * s.unit;
+      areaNote = over > 0
+        ? '90㎡ 基准价 + ' + (Math.round(over * 10) / 10) + '㎡ × ' + s.unit.toLocaleString() + ' 元'
+        : '90㎡ 基准价（产品价）';
+    } else {
+      var a = Math.round(eff);
+      if (hbState.series === 'main') {
+        areaPrice = HB_MAIN_TABLE[a];
+        areaNote = '一房一价表 · ' + a + '㎡ 档';
+      } else {
+        areaPrice = Math.round(s.base - (90 - a) * s.unit);
+        areaNote = a + '㎡ 档 · 线性推算';
+        isEst = true;
+      }
+    }
+    if (area < 70) areaNote += '（不足 70㎡ 按 70 计）';
+
+    var roomDelta = (hbState.rooms - 3) * s.room;
+    var bathDelta = (hbState.baths - 2) * s.bath;
+
+    var garbage = 0;
+    var hasElev = document.getElementById('hbElev').checked;
+    if (!hasElev) {
+      var fl = parseInt(document.getElementById('hbFloor').value, 10) || 1;
+      garbage = 5 * Math.max(fl - 1, 0) * eff;
+    }
+
+    return {
+      eff: eff, areaPrice: areaPrice, areaNote: areaNote, isEst: isEst,
+      roomDelta: roomDelta, bathDelta: bathDelta, garbage: garbage,
+      total: areaPrice + roomDelta + bathDelta + garbage
+    };
+  }
+
+  function hbRow(k, note, v, cls) {
+    return '<div class="hb-row"><span class="k">' + k + (note ? '<em>' + note + '</em>' : '') + '</span><span class="v ' + (cls || '') + '">' + v + '</span></div>';
+  }
+
+  function hbRender() {
+    document.getElementById('hbRooms').textContent = hbState.rooms;
+    document.getElementById('hbBaths').textContent = hbState.baths;
+    document.getElementById('hbFloorRow').style.display = document.getElementById('hbElev').checked ? 'none' : 'flex';
+
+    var box = document.getElementById('hbResult');
+    var r = hbCalc();
+    if (!r) {
+      box.innerHTML = '<div class="hb-result-label">参考报价</div><div class="hb-empty">☝️ 请输入计价面积开始计算</div>';
+      return;
+    }
+    var fmt = function (n) { return (n < 0 ? '−¥' : '¥') + Math.abs(Math.round(n)).toLocaleString(); };
+    var est = r.isEst ? '<span class="hb-est">估算值 · 以官方玲珑一房一价表为准</span>' : '';
+    var html = ''
+      + '<div class="hb-result-label">栖息地 L32 · ' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + ' 参考报价' + est + '</div>'
+      + '<div class="hb-total">¥' + Math.round(r.total).toLocaleString() + '</div>'
+      + '<div class="hb-total-sub">折合约 ' + Math.round(r.total / r.eff).toLocaleString() + ' 元/㎡ · 按 ' + r.eff + '㎡ 计价 · ' + hbState.rooms + ' 房 ' + hbState.baths + ' 卫</div>'
+      + hbRow('面积产品价', r.areaNote, fmt(r.areaPrice))
+      + hbRow('房间增减', hbState.rooms + ' 房（基准 3）', fmt(r.roomDelta), r.roomDelta < 0 ? 'neg' : '')
+      + hbRow('卫生间增减', hbState.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
+      + (r.garbage > 0 ? hbRow('无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', fmt(r.garbage)) : '')
+      + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
+      + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">不含升级/选配项目、远程费、中厨超限、超高区等措施费（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
+    box.innerHTML = html;
+  }
+
+  // 一房一价表（玲珑 70–89 为线性推算，标 *）
+  (function buildHbTable() {
+    var rows = '';
+    for (var a = 70; a <= 90; a++) {
+      var mainP = a === 90 ? 399800 : HB_MAIN_TABLE[a];
+      var lingP = a === 90 ? 359800 : Math.round(359800 - (90 - a) * 1799);
+      rows += '<tr><td>' + a + '㎡</td><td>' + mainP.toLocaleString() + '</td><td>' + lingP.toLocaleString() + (a < 90 ? ' *' : '') + '</td></tr>';
+    }
+    var el = document.getElementById('hbPriceTable');
+    if (el) el.innerHTML = rows;
+  })();
+
+  document.getElementById('hbArea').addEventListener('input', hbRender);
+  hbSetSeries('main');
+</script>
+
 <style>
   .calc-toast.show { opacity: 1 !important; animation: pop-in 0.28s var(--ease-out-strong); }
 
@@ -7223,6 +7632,94 @@
     .works-hero-name, .works-hero-aurora, .works-hero::before { animation: none !important; }
     #pageWorks .works-fx:hover, #pageWorks .work-card:hover { transform: none; }
     .works-svc-bg { transform: none; }
+  }
+
+  /* ===================== 栖息地 L32 ===================== */
+  .hb-card { background:var(--surface); border:1px solid var(--line); border-radius:var(--radius-card); padding:18px; margin-bottom:14px; box-shadow:var(--shadow-card); }
+  .hb-card-h { font-size:13px; font-weight:600; letter-spacing:1px; color:var(--ink-2); margin-bottom:12px; }
+  .hb-card-h b { color:var(--ink); font-size:15px; margin-right:6px; }
+  .hb-series { display:grid; grid-template-columns:1fr 1fr; gap:10px; }
+  .hb-ser { text-align:left; border:1px solid var(--line-strong); background:var(--inset); border-radius:13px; padding:14px 15px; cursor:pointer; color:var(--ink); font-family:inherit; transition:border-color .2s, background .2s, transform .15s; }
+  .hb-ser:active { transform:scale(.98); }
+  .hb-ser .hb-ser-name { font-size:15px; font-weight:700; display:flex; align-items:center; gap:7px; }
+  .hb-ser .hb-ser-price { font-size:12px; color:var(--ink-2); margin-top:5px; line-height:1.7; }
+  .hb-ser .hb-ser-price b { color:var(--accent-ink); font-size:14px; }
+  .hb-ser .hb-dot { width:8px; height:8px; border-radius:50%; border:2px solid var(--ink-3); flex:none; }
+  .hb-ser.on { border-color:var(--accent); background:var(--accent-tint); }
+  .hb-ser.on .hb-dot { border-color:var(--accent); background:var(--accent); box-shadow:0 0 8px rgba(232,93,4,.5); }
+  .hb-area-row { display:flex; align-items:center; gap:10px; }
+  .hb-area-row input { flex:1; max-width:240px; background:var(--field); border:1px solid var(--line-strong); border-radius:var(--radius-control); color:var(--ink); font-size:22px; font-weight:600; padding:12px 16px; outline:none; box-shadow:var(--shadow-inset-field); font-family:inherit; }
+  .hb-area-row input:focus { border-color:var(--accent); }
+  .hb-area-row .unit { font-size:14px; color:var(--ink-2); }
+  .hb-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
+  .hb-chip { border:1px solid var(--line-strong); background:var(--inset); color:var(--ink); font-size:13px; padding:7px 14px; border-radius:999px; cursor:pointer; font-family:inherit; transition:all .15s; }
+  .hb-chip:hover { border-color:var(--accent); color:var(--accent-ink); }
+  .hb-hint { font-size:12px; color:var(--ink-2); line-height:1.8; margin-top:12px; background:var(--inset); border-radius:10px; padding:10px 12px; }
+  .hb-adjs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
+  .hb-adj { background:var(--inset); border-radius:12px; padding:14px; }
+  .hb-adj-t { font-size:14px; font-weight:600; display:flex; justify-content:space-between; align-items:baseline; }
+  .hb-adj-t small { color:var(--ink-2); font-weight:400; font-size:12px; }
+  .hb-step { display:flex; align-items:center; gap:14px; margin-top:12px; }
+  .hb-step button { width:36px; height:36px; border-radius:11px; border:1px solid var(--line-strong); background:var(--field); color:var(--ink); font-size:18px; cursor:pointer; flex:none; transition:all .15s; }
+  .hb-step button:hover { border-color:var(--accent); color:var(--accent-ink); }
+  .hb-step .num { font-size:22px; font-weight:700; min-width:56px; text-align:center; }
+  .hb-step .num small { font-size:12px; color:var(--ink-2); font-weight:400; margin-left:2px; }
+  .hb-elev { display:flex; align-items:center; gap:10px; background:var(--inset); border-radius:12px; padding:13px 15px; cursor:pointer; font-size:14px; }
+  .hb-elev input { width:18px; height:18px; accent-color:var(--accent); cursor:pointer; }
+  .hb-floor-row { display:flex; align-items:center; gap:10px; margin-top:10px; font-size:13px; color:var(--ink-2); }
+  .hb-floor-row input { width:76px; background:var(--field); border:1px solid var(--line-strong); border-radius:9px; color:var(--ink); font-size:15px; padding:8px 10px; text-align:center; outline:none; font-family:inherit; }
+  .hb-result { border:1px solid var(--line-strong); background:linear-gradient(165deg, var(--surface) 0%, var(--inset) 100%); border-radius:var(--radius-card); padding:20px; margin-bottom:14px; box-shadow:var(--shadow-raised); }
+  .hb-result-label { font-size:12px; letter-spacing:2px; color:var(--ink-2); }
+  .hb-total { font-size:clamp(28px, 6vw, 38px); font-weight:800; color:var(--accent-ink); margin:4px 0 2px; letter-spacing:.5px; }
+  .hb-total-sub { font-size:12px; color:var(--ink-2); margin-bottom:14px; }
+  .hb-row { display:flex; justify-content:space-between; gap:12px; padding:8px 0; border-bottom:1px dashed var(--line); font-size:14px; }
+  .hb-row:last-of-type { border-bottom:none; }
+  .hb-row .k { color:var(--ink-2); }
+  .hb-row .k em { font-style:normal; font-size:11px; color:var(--ink-3); margin-left:6px; }
+  .hb-row .v { font-weight:600; white-space:nowrap; }
+  .hb-row .v.neg { color:var(--green); }
+  .hb-row.sum { border-top:1px solid var(--line-strong); margin-top:4px; padding-top:12px; font-size:15px; }
+  .hb-row.sum .v { font-size:17px; color:var(--accent-ink); }
+  .hb-est { display:inline-block; font-size:11px; color:var(--orange); background:var(--orange-tint); border-radius:6px; padding:2px 8px; margin-left:8px; vertical-align:2px; }
+  .hb-empty { text-align:center; color:var(--ink-2); font-size:14px; padding:26px 0; }
+  .hb-details { border:1px solid var(--line); border-radius:13px; background:var(--surface); margin-bottom:14px; overflow:hidden; }
+  .hb-details summary { cursor:pointer; padding:14px 18px; font-weight:600; font-size:14px; color:var(--ink); list-style:none; display:flex; align-items:center; justify-content:space-between; }
+  .hb-details summary::-webkit-details-marker { display:none; }
+  .hb-details summary::after { content:'▾'; color:var(--ink-2); transition:transform .25s; }
+  .hb-details[open] summary::after { transform:rotate(180deg); }
+  .hb-details-body { padding:0 18px 16px; font-size:13px; color:var(--ink-2); line-height:1.9; }
+  .hb-tbl { width:100%; border-collapse:collapse; font-size:13px; }
+  .hb-tbl th, .hb-tbl td { padding:7px 10px; text-align:right; border-bottom:1px solid var(--line); color:var(--ink); }
+  .hb-tbl th:first-child, .hb-tbl td:first-child { text-align:left; color:var(--ink-2); }
+  .hb-tbl thead th { color:var(--ink-2); font-weight:500; font-size:12px; }
+  .hb-tbl-wrap { overflow-x:auto; }
+  .hb-cta { display:flex; gap:10px; flex-wrap:wrap; margin:18px 0 6px; }
+  .hb-btn { flex:1; min-width:200px; border:none; border-radius:13px; padding:15px; font-size:15px; font-weight:700; cursor:pointer; font-family:inherit; transition:transform .15s, opacity .15s; }
+  .hb-btn:active { transform:scale(.98); }
+  .hb-btn-main { background:linear-gradient(135deg, var(--accent) 0%, var(--accent-edge) 100%); color:#fff; box-shadow:0 6px 20px rgba(232,93,4,.3); }
+  .hb-btn-ghost { background:var(--inset); color:var(--ink); border:1px solid var(--line-strong); }
+  .hb-src { font-size:11px; color:var(--ink-3); text-align:center; margin-top:16px; line-height:1.8; }
+  .hb-hero { text-align:center; padding:38px 18px 30px; border:1px solid var(--line); border-radius:var(--radius-window); margin-bottom:16px; background: radial-gradient(60% 80% at 50% 0%, rgba(94,163,102,.12), transparent 70%), linear-gradient(180deg, var(--surface), var(--page)); position:relative; overflow:hidden; }
+  .hb-hero-en { font-size:11px; letter-spacing:7px; color:#8fae8a; text-transform:uppercase; margin-bottom:14px; }
+  .hb-hero-name { font-size:clamp(30px, 7vw, 44px); font-weight:800; letter-spacing:6px; background:linear-gradient(120deg, #f5f0eb 20%, #a9cf9f 60%, #7fae72 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
+  .hb-hero-sub { font-size:13px; color:var(--ink-2); margin-top:10px; letter-spacing:2px; }
+  .hb-hero-line { width:56px; height:1px; background:linear-gradient(90deg, transparent, #a9cf9f, transparent); margin:18px auto; }
+  .hb-hero-quote { font-size:14px; color:var(--ink); letter-spacing:3px; }
+  .hb-hero-desc { font-size:13px; color:var(--ink-2); max-width:520px; margin:14px auto 0; line-height:2; }
+  .hb-sys-grid { display:grid; grid-template-columns:repeat(auto-fit, minmax(260px, 1fr)); gap:12px; }
+  .hb-sys { background:var(--inset); border-radius:13px; padding:15px; border:1px solid var(--line); }
+  .hb-sys-t { font-size:14px; font-weight:700; display:flex; align-items:center; gap:8px; margin-bottom:9px; }
+  .hb-sys-t .ico { width:30px; height:30px; border-radius:9px; display:flex; align-items:center; justify-content:center; font-size:15px; background:var(--accent-tint); flex:none; }
+  .hb-sys ul { list-style:none; font-size:12.5px; color:var(--ink-2); line-height:1.95; }
+  .hb-sys li::before { content:'·'; color:var(--accent); font-weight:700; margin-right:7px; }
+  .hb-line-card { background:var(--inset); border:1px solid var(--line); border-radius:13px; padding:17px; }
+  .hb-line-name { font-size:16px; font-weight:800; letter-spacing:1px; }
+  .hb-line-price { margin-top:8px; font-size:22px; font-weight:800; color:var(--accent-ink); }
+  .hb-line-price small { font-size:12px; color:var(--ink-2); font-weight:400; }
+  .hb-line-feats { display:flex; flex-wrap:wrap; gap:6px; margin-top:12px; }
+  .hb-line-feats span { font-size:11.5px; color:var(--ink-2); background:var(--surface); border:1px solid var(--line); border-radius:7px; padding:3px 9px; }
+  @media (max-width:560px) {
+    .hb-series, .hb-adjs { grid-template-columns:1fr; }
   }
 </style>
 <script src="works/works-data.js"></script>
