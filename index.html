@@ -71,7 +71,8 @@
       radial-gradient(52% 38% at 84% -4%, rgba(232, 93, 4, 0.06), transparent 70%),
       radial-gradient(46% 34% at 4% 104%, rgba(179, 84, 30, 0.04), transparent 70%),
       repeating-linear-gradient(-45deg, transparent 0, transparent 9px, var(--stripe) 9px, var(--stripe) 10px);
-    background-attachment: fixed;
+    /* 不用 fixed：Intel 核显（如 Iris 6100）上 background-attachment:fixed 会触发 Chrome GPU 合成失败、整页黑屏 */
+    background-attachment: scroll;
     color: var(--ink); line-height: 1.6;
     -webkit-font-smoothing: antialiased; text-rendering: optimizelegibility;
   }
