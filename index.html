@@ -1639,121 +1639,13 @@
       </button>
     </div>
 
-    <div class="menu-group-label">报价与工期</div>
+    <div class="menu-group-label">装修秘籍</div>
     <div class="menu-grid">
-      <button class="menu-item" onclick="showCalculator()">
-        <span class="mi-icon bg-green">🧮</span>
+      <button class="menu-item" onclick="showSecrets()">
+        <span class="mi-icon bg-purple">📖</span>
         <span class="mi-body">
-          <span class="mi-title">装修费用计算器</span>
-          <span class="mi-desc" style="display:block;">半包 + 主材逐项估算</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showTimeline()">
-        <span class="mi-icon bg-blue">📅</span>
-        <span class="mi-body">
-          <span class="mi-title">工期规划器</span>
-          <span class="mi-desc" style="display:block;">标准约6个月 · 选日期出排期</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showPayment()">
-        <span class="mi-icon bg-orange">💰</span>
-        <span class="mi-body">
-          <span class="mi-title">付款节点计划</span>
-          <span class="mi-desc" style="display:block;">分期付款 · 先验收后付款</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-    </div>
-
-    <div class="menu-group-label">开工前准备</div>
-    <div class="menu-grid">
-      <button class="menu-item" onclick="showHandover()">
-        <span class="mi-icon bg-cyan">🔑</span>
-        <span class="mi-body">
-          <span class="mi-title">收房验收</span>
-          <span class="mi-desc" style="display:block;">交房时查裂缝渗漏门窗</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showGaps()">
-        <span class="mi-icon bg-orange">📑</span>
-        <span class="mi-body">
-          <span class="mi-title">报价漏项核对</span>
-          <span class="mi-desc" style="display:block;">签约前对照报价单查漏</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showTips()">
-        <span class="mi-icon bg-green">📚</span>
-        <span class="mi-body">
-          <span class="mi-title">装修锦囊</span>
-          <span class="mi-desc" style="display:block;">环保选材 · 收纳 · 儿童房</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-    </div>
-
-    <div class="menu-group-label">避坑与验收</div>
-    <div class="menu-grid">
-      <button class="menu-item" onclick="showPitfalls()">
-        <span class="mi-icon bg-red">🛡️</span>
-        <span class="mi-body">
-          <span class="mi-title">增项避坑清单</span>
-          <span class="mi-desc" style="display:block;">签约前逐条核对防加价</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showChecklist()">
-        <span class="mi-icon bg-cyan">✅</span>
-        <span class="mi-body">
-          <span class="mi-title">验收自查清单</span>
-          <span class="mi-desc" style="display:block;">逐项打勾 · 进度保存本地</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showInspect()">
-        <span class="mi-icon bg-brown">✍️</span>
-        <span class="mi-body">
-          <span class="mi-title">监工签字单</span>
-          <span class="mi-desc" style="display:block;">分工种判定 · 双方签字</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showFaq()">
-        <span class="mi-icon bg-purple">💬</span>
-        <span class="mi-body">
-          <span class="mi-title">装修百问</span>
-          <span class="mi-desc" style="display:block;">高频问题一次说清</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-    </div>
-
-    <div class="menu-group-label">服务与标准</div>
-    <div class="menu-grid">
-      <button class="menu-item" onclick="showStandards()">
-        <span class="mi-icon bg-indigo">📋</span>
-        <span class="mi-body">
-          <span class="mi-title">国标施工标准</span>
-          <span class="mi-desc" style="display:block;">GB 规范要点速查</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showHealthHome()">
-        <span class="mi-icon bg-teal">📖</span>
-        <span class="mi-body">
-          <span class="mi-title">产品手册</span>
-          <span class="mi-desc" style="display:block;">2026 版在线预览（需密码）</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showReno()">
-        <span class="mi-icon bg-blue">🔄</span>
-        <span class="mi-body">
-          <span class="mi-title">老房翻新流程</span>
-          <span class="mi-desc" style="display:block;">二手房 / 旧房 11 阶段指南</span>
+          <span class="mi-title">装修秘籍</span>
+          <span class="mi-desc" style="display:block;">报价工期 · 开工准备 · 避坑验收 · 标准速查</span>
         </span>
         <span class="mi-arrow">›</span>
       </button>
@@ -7244,6 +7136,141 @@
   </div>
 </div>
 
+<!-- ==================== 装修秘籍（工具合集） ==================== -->
+<div class="page" id="pageSecrets">
+  <div class="top-nav">
+    <div class="back" onclick="backHome('pageSecrets')">← 返回</div>
+    <div class="title">📖 装修秘籍</div>
+    <div class="spacer"></div>
+  </div>
+  <div class="container" style="padding-bottom:60px;">
+    <div class="feat-head">
+      <div class="fh-title">一本装修秘籍，从报价用到验收</div>
+      <div class="fh-sub">四大板块 · 13 个实用工具：先算钱排期，再做开工准备，施工中避坑，完工后按国标验收。</div>
+    </div>
+
+    <div class="menu-group-label">报价与工期</div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="showCalculator()">
+        <span class="mi-icon bg-green">🧮</span>
+        <span class="mi-body">
+          <span class="mi-title">装修费用计算器</span>
+          <span class="mi-desc" style="display:block;">半包 + 主材逐项估算</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showTimeline()">
+        <span class="mi-icon bg-blue">📅</span>
+        <span class="mi-body">
+          <span class="mi-title">工期规划器</span>
+          <span class="mi-desc" style="display:block;">标准约6个月 · 选日期出排期</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showPayment()">
+        <span class="mi-icon bg-orange">💰</span>
+        <span class="mi-body">
+          <span class="mi-title">付款节点计划</span>
+          <span class="mi-desc" style="display:block;">分期付款 · 先验收后付款</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+    </div>
+
+    <div class="menu-group-label">开工前准备</div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="showHandover()">
+        <span class="mi-icon bg-cyan">🔑</span>
+        <span class="mi-body">
+          <span class="mi-title">收房验收</span>
+          <span class="mi-desc" style="display:block;">交房时查裂缝渗漏门窗</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showGaps()">
+        <span class="mi-icon bg-orange">📑</span>
+        <span class="mi-body">
+          <span class="mi-title">报价漏项核对</span>
+          <span class="mi-desc" style="display:block;">签约前对照报价单查漏</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showTips()">
+        <span class="mi-icon bg-green">📚</span>
+        <span class="mi-body">
+          <span class="mi-title">装修锦囊</span>
+          <span class="mi-desc" style="display:block;">环保选材 · 收纳 · 儿童房</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+    </div>
+
+    <div class="menu-group-label">避坑与验收</div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="showPitfalls()">
+        <span class="mi-icon bg-red">🛡️</span>
+        <span class="mi-body">
+          <span class="mi-title">增项避坑清单</span>
+          <span class="mi-desc" style="display:block;">签约前逐条核对防加价</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showChecklist()">
+        <span class="mi-icon bg-cyan">✅</span>
+        <span class="mi-body">
+          <span class="mi-title">验收自查清单</span>
+          <span class="mi-desc" style="display:block;">逐项打勾 · 进度保存本地</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showInspect()">
+        <span class="mi-icon bg-brown">✍️</span>
+        <span class="mi-body">
+          <span class="mi-title">监工签字单</span>
+          <span class="mi-desc" style="display:block;">分工种判定 · 双方签字</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showFaq()">
+        <span class="mi-icon bg-purple">💬</span>
+        <span class="mi-body">
+          <span class="mi-title">装修百问</span>
+          <span class="mi-desc" style="display:block;">高频问题一次说清</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+    </div>
+
+    <div class="menu-group-label">服务与标准</div>
+    <div class="menu-grid">
+      <button class="menu-item" onclick="showStandards()">
+        <span class="mi-icon bg-indigo">📋</span>
+        <span class="mi-body">
+          <span class="mi-title">国标施工标准</span>
+          <span class="mi-desc" style="display:block;">GB 规范要点速查</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showHealthHome()">
+        <span class="mi-icon bg-teal">📖</span>
+        <span class="mi-body">
+          <span class="mi-title">产品手册</span>
+          <span class="mi-desc" style="display:block;">2026 版在线预览（需密码）</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+      <button class="menu-item" onclick="showReno()">
+        <span class="mi-icon bg-blue">🔄</span>
+        <span class="mi-body">
+          <span class="mi-title">老房翻新流程</span>
+          <span class="mi-desc" style="display:block;">二手房 / 旧房 11 阶段指南</span>
+        </span>
+        <span class="mi-arrow">›</span>
+      </button>
+    </div>
+  </div>
+</div>
+
 <script>
   /* ================= 栖息地 L32 计价 ================= */
   var HB_MAIN_TABLE = {70:366800,71:368300,72:369800,73:371300,74:372800,75:374300,76:375900,77:377500,78:379100,79:380700,80:382300,81:384000,82:385700,83:387400,84:389100,85:390800,86:392600,87:394400,88:396200,89:398000};
@@ -7255,6 +7282,7 @@
 
   function showHabitatCalc() { goToPage('pageHabitatCalc'); hbRender(); }
   function showHabitatIntro() { goToPage('pageHabitat'); }
+  function showSecrets() { goToPage('pageSecrets'); }
 
   function hbSetSeries(s) {
     hbState.series = s;
