@@ -7143,7 +7143,10 @@
     <div id="hbPaneIntro">
 
     <div class="hb-hero">
-      <img class="hb-hero-img" src="habitat-hero.jpg" alt="栖息地 L32 建筑实景" width="1400" height="1061" loading="eager" decoding="async">
+      <div class="hb-hero-imgwrap">
+        <img class="hb-hero-img" src="habitat-hero.jpg" alt="栖息地 L32 建筑实景" width="1400" height="1061" loading="eager" decoding="async">
+        <div class="hb-hero-img-title" aria-hidden="true"><span class="en">Habit@</span><span class="cn">栖息地</span></div>
+      </div>
       <img class="hb-hero-title-img" src="habitat-title.jpg" alt="你好，我们是 Habit@栖息地" width="1224" height="1176" loading="lazy" decoding="async">
       <div class="hb-hero-sub">L32 旗舰三居 · 智能新住宅整装</div>
       <div class="hb-hero-line"></div>
@@ -7932,6 +7935,18 @@
   .hb-src { font-size:11px; color:var(--ink-3); text-align:center; margin-top:16px; line-height:1.8; }
   .hb-hero { text-align:center; padding:38px 18px 30px; border:1px solid var(--line); border-radius:var(--radius-window); margin-bottom:16px; background: radial-gradient(60% 80% at 50% 0%, rgba(94,163,102,.12), transparent 70%), linear-gradient(180deg, var(--surface), var(--page)); position:relative; overflow:hidden; }
   .hb-hero-img { width:100%; max-width:560px; height:auto; border-radius:14px; display:block; margin:0 auto; box-shadow: var(--shadow-card); }
+  .hb-hero-imgwrap { position:relative; max-width:560px; margin:0 auto; }
+  .hb-hero-imgwrap .hb-hero-img { box-shadow: var(--shadow-card); }
+  .hb-hero-img-title {
+    position:absolute; left:50%; bottom:8%; transform:translateX(-50%);
+    display:flex; align-items:baseline; gap:0.28em; white-space:nowrap;
+    padding:0.32em 0.9em 0.4em; border-radius:999px;
+    background: rgba(255,255,255,0.58); backdrop-filter: blur(6px); -webkit-backdrop-filter: blur(6px);
+    box-shadow: 0 2px 14px rgba(20,22,18,0.12);
+    color:#17181a; line-height:1;
+  }
+  .hb-hero-img-title .en { font-family:-apple-system, "Helvetica Neue", Arial, sans-serif; font-weight:800; font-size:clamp(19px, 5.4vw, 30px); letter-spacing:0.01em; }
+  .hb-hero-img-title .cn { font-family:-apple-system, "PingFang SC", "Microsoft YaHei", sans-serif; font-weight:800; font-size:clamp(21px, 6vw, 34px); letter-spacing:0.14em; text-indent:0.02em; }
   .hb-hero-title-img { width:min(400px, 88%); height:auto; border-radius:12px; display:block; margin:14px auto 0; border:1px solid var(--line); }
   .hb-hero-en { font-size:11px; letter-spacing:7px; color:#6b8f60; text-transform:uppercase; margin-bottom:14px; }
   .hb-hero-name { font-size:clamp(30px, 7vw, 44px); font-weight:800; letter-spacing:6px; background:linear-gradient(120deg, #45683c 20%, #64914f 60%, #4c7440 100%); -webkit-background-clip:text; background-clip:text; -webkit-text-fill-color:transparent; }
