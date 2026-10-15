@@ -1577,19 +1577,11 @@
   <div class="home-tools">
     <div class="menu-group-label">栖息地 L32 整装</div>
     <div class="menu-grid">
-      <button class="menu-item" onclick="showHabitatCalc()">
-        <span class="mi-icon bg-green">🏠</span>
-        <span class="mi-body">
-          <span class="mi-title">栖息地平方计价</span>
-          <span class="mi-desc" style="display:block;">输入面积 · L32 五套系即时报价</span>
-        </span>
-        <span class="mi-arrow">›</span>
-      </button>
-      <button class="menu-item" onclick="showHabitatIntro()">
+      <button class="menu-item" style="grid-column:1/-1;" onclick="showHabitatIntro()">
         <span class="mi-icon bg-teal">🌿</span>
         <span class="mi-body">
-          <span class="mi-title">栖息地套系介绍</span>
-          <span class="mi-desc" style="display:block;">玲珑 · 悠然/逸境/悦然/魅力</span>
+          <span class="mi-title">MHOO.栖息地</span>
+          <span class="mi-desc" style="display:block;">套系介绍 · 输入面积即时计价</span>
         </span>
         <span class="mi-arrow">›</span>
       </button>
@@ -6863,14 +6855,21 @@
   <div class="work-lb-cap" id="workLightboxCap"></div>
 </div>
 
-<!-- ==================== 栖息地 L32 平方计价 ==================== -->
-<div class="page" id="pageHabitatCalc">
+<!-- ==================== MHOO.栖息地（套系介绍 + 平方计价，页内标签切换） ==================== -->
+<div class="page" id="pageHabitat">
   <div class="top-nav">
-    <div class="back" onclick="backHome('pageHabitatCalc')">← 返回</div>
-    <div class="title">🏠 栖息地 · 平方计价</div>
+    <div class="back" onclick="backHome('pageHabitat')">← 返回</div>
+    <div class="title">MHOO.栖息地</div>
     <div class="spacer"></div>
   </div>
   <div class="container" style="padding-bottom:60px;">
+
+    <div class="insp-tabs">
+      <button type="button" class="insp-tab active" id="hbTabIntro" onclick="hbSwitchTab('intro')">🌿 套系介绍</button>
+      <button type="button" class="insp-tab" id="hbTabCalc" onclick="hbSwitchTab('calc')">🏠 平方计价</button>
+    </div>
+
+    <div id="hbPaneCalc" style="display:none;">
 
     <div class="feat-head">
       <div class="fh-title">输入计价面积，立即出价</div>
@@ -6974,20 +6973,12 @@
     </details>
 
     <div class="hb-cta">
-      <button class="hb-btn hb-btn-main" type="button" onclick="showHabitatIntro()">🌿 查看套系配置介绍</button>
+      <button class="hb-btn hb-btn-main" type="button" onclick="hbSwitchTab('intro')">🌿 查看套系配置介绍</button>
     </div>
     <div class="hb-src">数据来源：栖息地 L32 计价原则和计价方式 3.0 / 一房一价查询表 3.0 / 增减配置清单 3.0（资料整理于 2026-09）<br>价格随产品迭代调整，请以栖息地官方最新报价为准。</div>
-  </div>
-</div>
+    </div><!-- /hbPaneCalc -->
 
-<!-- ==================== 栖息地 L32 套系介绍 ==================== -->
-<div class="page" id="pageHabitat">
-  <div class="top-nav">
-    <div class="back" onclick="backHome('pageHabitat')">← 返回</div>
-    <div class="title">🌿 栖息地 · 套系介绍</div>
-    <div class="spacer"></div>
-  </div>
-  <div class="container" style="padding-bottom:60px;">
+    <div id="hbPaneIntro">
 
     <div class="hb-hero">
       <div class="hb-hero-en">Habitat · L32</div>
@@ -7129,9 +7120,10 @@
     </div>
 
     <div class="hb-cta">
-      <button class="hb-btn hb-btn-main" type="button" onclick="showHabitatCalc()">🏠 输入面积，立即计价</button>
+      <button class="hb-btn hb-btn-main" type="button" onclick="hbSwitchTab('calc')">🏠 输入面积，立即计价</button>
     </div>
     <div class="hb-src">资料来源：栖息地 L32 标准配置清单 / 玲珑套系标准配置清单 / 增减配置清单 3.0（配置信息更新于 2026-04）<br>栖息地产品持续迭代，请以官方最新公开信息为准 · www.habitat.cn</div>
+    </div><!-- /hbPaneIntro -->
   </div>
 </div>
 
@@ -7279,8 +7271,18 @@
   };
   var hbState = { series:'main', rooms:3, baths:2 };
 
-  function showHabitatCalc() { goToPage('pageHabitatCalc'); hbRender(); }
-  function showHabitatIntro() { goToPage('pageHabitat'); }
+  function showHabitatCalc() { goToPage('pageHabitat'); hbSwitchTab('calc'); }
+  function showHabitatIntro() { goToPage('pageHabitat'); hbSwitchTab('intro'); }
+  // 合并页内切换：套系介绍 / 平方计价
+  function hbSwitchTab(which) {
+    var calc = which === 'calc';
+    document.getElementById('hbPaneIntro').style.display = calc ? 'none' : '';
+    document.getElementById('hbPaneCalc').style.display = calc ? '' : 'none';
+    document.getElementById('hbTabIntro').classList.toggle('active', !calc);
+    document.getElementById('hbTabCalc').classList.toggle('active', calc);
+    if (calc) hbRender();
+    window.scrollTo(0, 0);
+  }
   function showSecrets() { goToPage('pageSecrets'); }
 
   function hbSetSeries(s) {
