@@ -20,6 +20,7 @@
 <meta name="twitter:description" content="透明报价 · 所见即所得。个性半包参考价与费用计算器。">
 <meta name="twitter:image" content="https://choklin96-crypto.github.io/zhuangxiu-website/qrcode-poster.jpg">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Cdefs%3E%3ClinearGradient id='g' x1='0' y1='0' x2='0' y2='1'%3E%3Cstop offset='0' stop-color='%23221b13'/%3E%3Cstop offset='1' stop-color='%230f0d0a'/%3E%3C/linearGradient%3E%3ClinearGradient id='g2' x1='0' y1='0' x2='1' y2='1'%3E%3Cstop offset='0' stop-color='%23e8b264'/%3E%3Cstop offset='0.5' stop-color='%23f0c878'/%3E%3Cstop offset='1' stop-color='%23c9853a'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect x='2' y='2' width='60' height='60' rx='16' fill='url(%23g)'/%3E%3Crect x='2.75' y='2.75' width='58.5' height='58.5' rx='15.25' fill='none' stroke='url(%23g2)' stroke-width='1.4'/%3E%3Cg fill='none' stroke='url(%23g2)' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M32 50 C27 50 23.2 46.8 22.7 42 C22.3 38.4 23.4 35.7 25.4 33.7 L38.6 33.7 C40.6 35.7 41.7 38.4 41.3 42 C40.8 46.8 37 50 32 50 Z' stroke-width='3'/%3E%3Cpath d='M32 33.7 L32 48.8' stroke-width='2'/%3E%3Cpath d='M27.5 47.9 C26.8 43.6 27 39 28.1 34.4' stroke-width='2'/%3E%3Cpath d='M36.5 47.9 C37.2 43.6 37 39 35.9 34.4' stroke-width='2'/%3E%3Cpath d='M32.3 33.4 C29.3 29.5 28.7 23.1 31 16.8 C33.8 19.6 34.4 26.8 32.3 33.4 Z' stroke-width='3'/%3E%3Cpath d='M30.4 33.6 C24.2 32.4 19.3 27.1 18.8 19.6 C25.9 20.5 30.8 26.1 31 33.6 Z' stroke-width='3'/%3E%3Cpath d='M33.6 33.6 C39.8 32.4 44.7 27.1 45.2 19.6 C38.1 20.5 33.2 26.1 33 33.6 Z' stroke-width='3'/%3E%3C/g%3E%3Cpath d='M49 9.5 L50.1 12.4 L53 13.5 L50.1 14.6 L49 17.5 L47.9 14.6 L45 13.5 L47.9 12.4 Z' fill='url(%23g2)'/%3E%3C/svg%3E">
+<script>try{if(localStorage.getItem('zx-theme')==='dark')document.documentElement.setAttribute('data-theme','dark')}catch(e){}</script>
 <style>
   /* ============================================================
      设计令牌 —— 浅色主题（暖象牙白 + 香槟金 + 品牌橙），
@@ -62,7 +63,147 @@
     --radius-window: 22px;
     --ease-out-strong: cubic-bezier(0.23, 1, 0.32, 1);
     --ease-link: cubic-bezier(0.16, 1, 0.3, 1);
+    color-scheme: light;
   }
+
+  /* ============================================================
+     夜间模式（原深色主题）：html[data-theme="dark"]
+     令牌整组回钉为深色，字面色规则逐条还原 —— 与浅色改版前的
+     深色设计保持一致；作品集页两种模式下均为深色画廊。
+     ============================================================ */
+  html[data-theme="dark"] {
+    color-scheme: dark;
+    --page: #0e0e10;
+    --canvas: #141416;
+    --surface: #1c1c1f;
+    --inset: #161618;
+    --hover: #222225;
+    --hover-2: #2a2a2d;
+    --ink: #e8e4de;
+    --ink-2: #8a8578;
+    --ink-3: #5e5a50;
+    --line: #2a2a2d;
+    --line-strong: #363639;
+    --field: #1a1a1d;
+    --stripe: rgba(255,255,255,0.015);
+    --accent: #e85d04;
+    --accent-ink: #f09050;
+    --accent-edge: #c24d03;
+    --accent-tint: rgba(232, 93, 4, 0.15);
+    --terra: #c4652a;
+    --green: #4caf50;
+    --green-tint: rgba(76, 175, 80, 0.12);
+    --orange: #ff9800;
+    --orange-tint: rgba(255, 152, 0, 0.12);
+    --red: #ef5350;
+    --red-tint: rgba(239, 83, 80, 0.12);
+    --shadow-hairline: 0 0 0 1px var(--line);
+    --shadow-btn: 0 0 0 1px var(--line-strong), 0 1px 3px rgba(0, 0, 0, 0.3);
+    --shadow-card: 0 0 0 1px var(--line), 0 1px 3px rgba(0, 0, 0, 0.2), 0 4px 12px rgba(0, 0, 0, 0.15);
+    --shadow-raised: 0 0 0 1px var(--line), 0 4px 16px rgba(0, 0, 0, 0.3);
+    --shadow-overlay: 0 0 0 1px var(--line), 0 12px 40px rgba(0, 0, 0, 0.4);
+    --shadow-inset-field: inset 0 1px 3px rgba(0, 0, 0, 0.25);
+  }
+
+  /* —— 夜间模式：字面色还原 —— */
+  html[data-theme="dark"] body {
+    background-image:
+      radial-gradient(52% 38% at 84% -4%, rgba(232, 93, 4, 0.06), transparent 70%),
+      radial-gradient(46% 34% at 4% 104%, rgba(179, 84, 30, 0.04), transparent 70%),
+      repeating-linear-gradient(-45deg, transparent 0, transparent 9px, var(--stripe) 9px, var(--stripe) 10px);
+  }
+  html[data-theme="dark"] .top-nav {
+    background: rgba(28, 28, 31, 0.9);
+    box-shadow: 0 1px 0 var(--line), 0 2px 12px rgba(0, 0, 0, 0.2);
+  }
+  html[data-theme="dark"] .page-login {
+    background:
+      radial-gradient(90% 60% at 78% 8%, rgba(232, 93, 4, 0.22), transparent 65%),
+      linear-gradient(180deg, rgba(42, 27, 15, 0.72) 0%, rgba(32, 20, 11, 0.78) 60%, rgba(24, 14, 7, 0.86) 100%),
+      url('cover.jpg') center 32% / cover no-repeat,
+      linear-gradient(170deg, #3a2417 0%, #2b1a10 55%, #1d1109 100%);
+    color: #fff;
+  }
+  html[data-theme="dark"] .auth-card {
+    background: rgba(28, 28, 31, 0.96);
+    box-shadow: var(--shadow-overlay), 0 24px 64px rgba(0, 0, 0, 0.5);
+  }
+  html[data-theme="dark"] .page-home {
+    background:
+      radial-gradient(92% 46% at 50% 24%, rgba(232, 93, 4, 0.08), transparent 72%),
+      linear-gradient(180deg, rgba(14, 14, 16, 0.5) 0%, rgba(14, 14, 16, 0.3) 42%, rgba(14, 14, 16, 0.6) 100%),
+      url('cover.jpg') center 30% / cover no-repeat,
+      linear-gradient(170deg, #1a1a1d 0%, #141416 48%, #0e0e10 100%);
+    color: #e8e4de;
+  }
+  html[data-theme="dark"] .process-hero {
+    background:
+      radial-gradient(80% 80% at 82% 0%, rgba(244, 140, 6, 0.24), transparent 62%),
+      linear-gradient(180deg, rgba(42, 27, 15, 0.68) 0%, rgba(34, 21, 12, 0.74) 55%, rgba(26, 15, 8, 0.84) 100%),
+      url('cover.jpg') center 26% / cover no-repeat,
+      linear-gradient(165deg, #3a2417 0%, #2b1a10 55%, #211308 100%);
+    color: #fff;
+  }
+  html[data-theme="dark"] .process-hero p { color: rgba(255, 240, 224, 0.6); }
+  html[data-theme="dark"] #brandSplash {
+    background:
+      radial-gradient(85% 60% at 50% 28%, rgba(232, 93, 4, 0.3), transparent 65%),
+      radial-gradient(60% 45% at 50% 80%, rgba(224, 167, 92, 0.14), transparent 70%),
+      linear-gradient(170deg, #3a2417 0%, #2b1a10 55%, #1d1109 100%);
+  }
+  html[data-theme="dark"] #brandSplash .bs-logo { filter: drop-shadow(0 0 28px rgba(247, 160, 82, 0.45)); }
+  html[data-theme="dark"] #brandSplash .bs-mark { stroke: #f7dcae; }
+  html[data-theme="dark"] #brandSplash .bs-dot { fill: #f7dcae; }
+  html[data-theme="dark"] #brandSplash .bs-name { color: #f5e2c4; }
+  html[data-theme="dark"] #brandSplash .bs-line { color: rgba(244, 222, 190, 0.55); }
+  html[data-theme="dark"] #brandSplash .bs-skip { color: rgba(244, 222, 190, 0.34); }
+  html[data-theme="dark"] .hero-lockup .hl-name {
+    background-image: linear-gradient(168deg, #c9974a 0%, #e0b060 30%, #f0c878 48%, #b08530 78%, #d0a040 100%);
+  }
+  html[data-theme="dark"] .hero-lockup .hl-sub { color: #a09080; }
+  html[data-theme="dark"] .hero-lockup .hl-en { color: #8a7a60; }
+  html[data-theme="dark"] .home-card, html[data-theme="dark"] .home-tools {
+    background: rgba(28, 28, 31, 0.9);
+    box-shadow: var(--shadow-overlay), 0 22px 56px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  html[data-theme="dark"] .tqh-num, html[data-theme="dark"] .tq-vtotal .tv-num {
+    background-image: linear-gradient(120deg, #f09050 15%, var(--terra) 95%);
+  }
+  html[data-theme="dark"] .wx-card inner, html[data-theme="dark"] .wx-inner {
+    background: rgba(28, 28, 31, 0.85);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+    border-color: rgba(255, 255, 255, 0.06);
+  }
+  html[data-theme="dark"] .bg-blue { background: rgba(33, 150, 243, 0.15); color: #64b5f6; }
+  html[data-theme="dark"] .bg-orange { background: rgba(232, 93, 4, 0.15); color: #f09050; }
+  html[data-theme="dark"] .bg-green { background: rgba(76, 175, 80, 0.15); color: #81c784; }
+  html[data-theme="dark"] .bg-purple { background: rgba(156, 39, 176, 0.15); color: #ce93d8; }
+  html[data-theme="dark"] .bg-red { background: rgba(239, 83, 80, 0.15); color: #ef9a9a; }
+  html[data-theme="dark"] .bg-teal { background: rgba(0, 150, 136, 0.15); color: #80cbc4; }
+  html[data-theme="dark"] .bg-brown { background: rgba(121, 85, 72, 0.15); color: #bcaaa4; }
+  html[data-theme="dark"] .bg-pink { background: rgba(233, 30, 99, 0.15); color: #f48fb1; }
+  html[data-theme="dark"] .bg-indigo { background: rgba(63, 81, 181, 0.15); color: #9fa8da; }
+  html[data-theme="dark"] .bg-cyan { background: rgba(0, 188, 212, 0.15); color: #80deea; }
+  html[data-theme="dark"] .hb-hero-en { color: #8fae8a; }
+  html[data-theme="dark"] .hb-hero-name {
+    background-image: linear-gradient(120deg, #f5f0eb 20%, #a9cf9f 60%, #7fae72 100%);
+  }
+
+  /* —— 日间/夜间切换按钮 —— */
+  #themeToggle {
+    position: fixed; bottom: 18px; right: 16px; z-index: 1500;
+    width: 40px; height: 40px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 17px; line-height: 1; cursor: pointer; font-family: inherit;
+    background: rgba(255, 255, 255, 0.88); color: var(--ink);
+    border: 1px solid var(--line); box-shadow: var(--shadow-btn);
+    backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+    transition: transform 0.15s var(--ease-out-strong);
+  }
+  #themeToggle:hover { transform: scale(1.06); }
+  #themeToggle:active { transform: scale(0.92); }
+  html[data-theme="dark"] #themeToggle { background: rgba(28, 28, 31, 0.88); }
 
   * { margin: 0; padding: 0; box-sizing: border-box; }
   body {
@@ -1327,6 +1468,26 @@
 </style>
 </head>
 <body>
+<button id="themeToggle" type="button" aria-label="切换日间/夜间模式" title="日间 / 夜间模式">🌙</button>
+<script>
+  (function () {
+    var btn = document.getElementById('themeToggle');
+    var meta = document.querySelector('meta[name="theme-color"]');
+    function apply(t) {
+      document.documentElement.setAttribute('data-theme', t);
+      if (meta) meta.setAttribute('content', t === 'dark' ? '#0e0e10' : '#f7f5f0');
+      if (btn) btn.textContent = t === 'dark' ? '☀️' : '🌙';
+    }
+    var saved = 'light';
+    try { saved = localStorage.getItem('zx-theme') === 'dark' ? 'dark' : 'light'; } catch (e) {}
+    apply(saved);
+    if (btn) btn.addEventListener('click', function () {
+      var next = document.documentElement.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+      try { localStorage.setItem('zx-theme', next); } catch (e) {}
+      apply(next);
+    });
+  })();
+</script>
 
 <!-- ============ 品牌开场 ============ -->
 <div id="brandSplash" role="presentation" aria-hidden="true">
