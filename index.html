@@ -7025,7 +7025,10 @@
   <div class="top-nav">
     <div class="back" onclick="backHome('pageHabitat')">← 返回</div>
     <div class="title">MHOO.栖息地</div>
-    <div class="spacer"></div>
+    <div class="nav-actions no-print" id="hbNavExport" style="display:none;">
+      <button onclick="exportHbCsv()" class="nav-btn">📊 导出表格</button>
+      <button onclick="printActivePage('平方计价')" class="nav-btn">🖨 导出 PDF</button>
+    </div>
   </div>
   <div class="container" style="padding-bottom:60px;">
 
@@ -7572,6 +7575,7 @@
     document.getElementById('hbPaneCalc').style.display = calc ? '' : 'none';
     document.getElementById('hbTabIntro').classList.toggle('active', !calc);
     document.getElementById('hbTabCalc').classList.toggle('active', calc);
+    document.getElementById('hbNavExport').style.display = calc ? '' : 'none';
     if (calc) hbRender();
     window.scrollTo(0, 0);
   }
@@ -7751,6 +7755,28 @@
       + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
       + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">未填写项按 0 计；升级/选配、远程费、空调特殊安装、7m 以上超高另议（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
     box.innerHTML = html;
+  }
+
+  // 导出表格（与全案总价表导出同形式：CSV 下载）
+  function exportHbCsv() {
+    var r = hbCalc();
+    if (!r) { showCalcToast('☝️ 请先输入计价面积'); return; }
+    var rows = [['栖息地平方计价（' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + '）', '', '', '']];
+    rows.push(['计价面积', r.eff + '㎡', '户型', r.rooms + ' 房 ' + r.baths + ' 卫'], []);
+    rows.push(['分类', '项目', '参考说明', '参考价']);
+    rows.push(['面积产品', '面积产品价', r.areaNote, Math.round(r.areaPrice)]);
+    if (r.roomDelta) rows.push(['增减配置', '房间增减', r.rooms + ' 房（基准 3）', Math.round(r.roomDelta)]);
+    if (r.bathDelta) rows.push(['增减配置', '卫生间增减', r.baths + ' 卫（基准 2）', Math.round(r.bathDelta)]);
+    if (r.garbage) rows.push(['特殊措施', '无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', Math.round(r.garbage)]);
+    if (r.demo) rows.push(['拆除包', hbState.demo === 'fine' ? '精装拆除包' : '毛坯拆除包', r.demoNote, Math.round(r.demo)]);
+    if (r.wall) rows.push(['新砌墙体', '新砌墙体', r.wallNote, Math.round(r.wall)]);
+    if (r.heat) rows.push(['地暖', '地暖', r.heatNote, Math.round(r.heat)]);
+    if (r.kitchenFee) rows.push(['特殊措施', '中厨超限费', r.kitchenNote, Math.round(r.kitchenFee)]);
+    if (r.highFee) rows.push(['特殊措施', '超高层高措施费', r.highNote, Math.round(r.highFee)]);
+    if (r.carryFee) rows.push(['特殊措施', '超限材料搬运', r.carryNote, Math.round(r.carryFee)]);
+    rows.push(['参考合计（按 ' + r.eff + '㎡ 计价）', '', '', Math.round(r.total)], []);
+    rows.push(['备注', '未填写项按 0 计；升级/选配、远程费、空调特殊安装、7m 以上超高另议；此为资料整理的参考价，签约以栖息地官方报价单为准。']);
+    downloadCsv('平方计价-' + document.getElementById('hbArea').value + '㎡-' + stampDate(), rows);
   }
 
   // 一房一价表（70–89 两列均为官方原值；90 为基准价）
