@@ -7171,6 +7171,45 @@
       <div class="hb-hint">依据报价单「地暖」项：含分集水器、地暖管、热电执行器、地暖垫层及回填、智能控制模块、分集水器背板。样本项目按 110㎡ × 180 元/㎡ = 19,800 元计。</div>
     </div>
 
+    <!-- ⑧ 特殊措施（按需另计） -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>⑧</b>特殊措施 <span style="font-weight:400;">（标配外按需另计，不需要就留 0）</span></div>
+      <div class="hb-adj">
+        <div class="hb-adj-t">中厨面积 <small id="hbKitchenLimit">限 7㎡ · 超出 1,399 元/㎡</small></div>
+        <div class="hb-num-row">
+          <input type="number" id="hbKitchen" min="0" max="100" step="0.1" value="0" oninput="hbRender()">
+          <small>㎡（方案中厨面积，超出限值部分计费）</small>
+        </div>
+      </div>
+      <div class="hb-adj" style="margin-top:12px;">
+        <div class="hb-adj-t">超高层高措施费 <small id="hbHighRate">3.2–4m · 40 元/㎡</small></div>
+        <div class="hb-wall-chips">
+          <button class="hb-chip on" id="hbHighH32" type="button" onclick="hbSetHighTier('h32')">3.2–4m</button>
+          <button class="hb-chip" id="hbHighH45" type="button" onclick="hbSetHighTier('h45')">4–5m</button>
+          <button class="hb-chip" id="hbHighH56" type="button" onclick="hbSetHighTier('h56')">5–6m</button>
+          <button class="hb-chip" id="hbHighH67" type="button" onclick="hbSetHighTier('h67')">6–7m</button>
+        </div>
+        <div class="hb-adjs" style="margin-top:12px;">
+          <div class="hb-num-row" style="margin-top:0;">
+            <input type="number" id="hbHighRooms" min="0" max="50" step="1" value="0" oninput="hbRender()">
+            <small>间超高房间</small>
+          </div>
+          <div class="hb-num-row" style="margin-top:0;">
+            <input type="number" id="hbHighArea" min="0" max="2000" step="1" value="0" oninput="hbRender()">
+            <small>㎡ 超高总面积</small>
+          </div>
+        </div>
+      </div>
+      <div class="hb-adj" style="margin-top:12px; display:none;" id="hbCarryBox">
+        <div class="hb-adj-t">超限材料搬运 <small id="hbCarryRate">600 元/件</small></div>
+        <div class="hb-num-row">
+          <input type="number" id="hbCarry" min="0" max="200" step="1" value="0" oninput="hbRender()">
+          <small>件（外包装对角＞2.7m，无电梯人工搬运）</small>
+        </div>
+      </div>
+      <div class="hb-hint">中厨超限：超出限值部分 1,399 元/㎡，不足 1㎡ 按 1㎡ 计，不足限值不退不抵（限值按《计价方式 3.0》：套内＜80㎡ 限 7㎡ · 80–120㎡ 限 8㎡ · 120–160㎡ 限 10㎡ · 160–260㎡ 限 12㎡）。超高区：结构楼板底到地面完成面 ≥3.2m 按投影面积计，每间不足 8㎡ 按 8㎡。搬运：无电梯 7 层内 600 元/件，每升一层 +50 元/件，有电梯已含。7m 以上超高、远程费、空调特殊安装等以官方现场评估为准。</div>
+    </div>
+
     <!-- 结果 -->
     <div class="hb-result" id="hbResult"></div>
 
@@ -7509,10 +7548,17 @@
     fix: 420,
     brick: { lt100:{rate:240,label:'墙厚＜100mm'}, m100_150:{rate:270,label:'100–150mm'}, gt150:{rate:320,label:'＞150mm'} }
   };
-  var hbState = { series:'main', demo:'none', brickTier:'lt100' };
+  // 超高层高措施费（元/㎡），摘自报价单 11-施工项目表
+  var HB_HIGH = { h32:{rate:40,label:'3.2–4m'}, h45:{rate:75,label:'4–5m'}, h56:{rate:115,label:'5–6m'}, h67:{rate:155,label:'6–7m'} };
+  var hbState = { series:'main', demo:'none', brickTier:'lt100', highTier:'h32' };
   // 数量输入直读（自填，带边界保护）
   function hbNum(id, def, min, max) {
     var v = parseInt(document.getElementById(id).value, 10);
+    if (isNaN(v)) v = def;
+    return Math.min(Math.max(v, min), max);
+  }
+  function hbNumF(id, def, min, max) {
+    var v = parseFloat(document.getElementById(id).value);
     if (isNaN(v)) v = def;
     return Math.min(Math.max(v, min), max);
   }
@@ -7556,6 +7602,14 @@
     document.getElementById('hbBrickGt').classList.toggle('on', tier === 'gt150');
     hbRender();
   }
+  function hbSetHighTier(tier) {
+    hbState.highTier = tier;
+    document.getElementById('hbHighH32').classList.toggle('on', tier === 'h32');
+    document.getElementById('hbHighH45').classList.toggle('on', tier === 'h45');
+    document.getElementById('hbHighH56').classList.toggle('on', tier === 'h56');
+    document.getElementById('hbHighH67').classList.toggle('on', tier === 'h67');
+    hbRender();
+  }
 
   function hbCalc() {
     var s = HB_SERIES[hbState.series];
@@ -7583,11 +7637,39 @@
     var roomDelta = (rooms - 3) * s.room;
     var bathDelta = (baths - 2) * s.bath;
 
-    var garbage = 0;
+    var garbage = 0, carryFee = 0, carryNote = '';
     var hasElev = document.getElementById('hbElev').checked;
     if (!hasElev) {
       var fl = parseInt(document.getElementById('hbFloor').value, 10) || 1;
       garbage = 5 * Math.max(fl - 1, 0) * eff;
+      var carryN = hbNum('hbCarry', 0, 0, 200);
+      if (carryN > 0) {
+        var per = 600 + Math.max(fl - 7, 0) * 50;
+        carryFee = per * carryN;
+        carryNote = per.toLocaleString() + ' 元/件 × ' + carryN + ' 件 · ' + fl + ' 层';
+      }
+    }
+
+    // 中厨超限：档位限值按《计价方式 3.0》，超出 1,399 元/㎡（不足 1㎡ 按 1㎡ 计）
+    var kitArea = hbNumF('hbKitchen', 0, 0, 100);
+    var kLimit = eff < 80 ? 7 : eff < 120 ? 8 : eff < 160 ? 10 : 12;
+    var kitchenFee = 0, kitchenNote = '';
+    if (kitArea > kLimit) {
+      var kOver = kitArea - kLimit;
+      var kCeil = Math.ceil(kOver - 1e-9);
+      kitchenFee = kCeil * 1399;
+      kitchenNote = '限 ' + kLimit + '㎡ · 超出 ' + (Math.round(kOver * 10) / 10) + '㎡ · 按 ' + kCeil + '㎡ 计';
+    }
+
+    // 超高层高措施费：每间不足 8㎡ 按 8㎡ 计
+    var highRooms = hbNum('hbHighRooms', 0, 0, 50);
+    var highArea = hbNum('hbHighArea', 0, 0, 2000);
+    var highFee = 0, highNote = '';
+    if (highRooms > 0 && highArea > 0) {
+      var billable = Math.max(highArea, 8 * highRooms);
+      var hRate = HB_HIGH[hbState.highTier].rate;
+      highFee = hRate * billable;
+      highNote = HB_HIGH[hbState.highTier].label + ' · ' + hRate + ' 元/㎡ × ' + billable + '㎡' + (billable > highArea ? '（不足 8㎡/间 按 8㎡/间 计）' : '');
     }
 
     var demo = 0, demoNote = '';
@@ -7622,7 +7704,10 @@
       demo: demo, demoNote: demoNote,
       wall: wall, wallNote: wallNote,
       heat: heat, heatNote: heatNote,
-      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall + heat
+      kitchenFee: kitchenFee, kitchenNote: kitchenNote,
+      highFee: highFee, highNote: highNote,
+      carryFee: carryFee, carryNote: carryNote,
+      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall + heat + kitchenFee + highFee + carryFee
     };
   }
 
@@ -7637,6 +7722,9 @@
       document.getElementById('hbDemoRate').textContent = '¥' + rate + ' /㎡';
     }
     document.getElementById('hbBrickRate').textContent = HB_WALL.brick[hbState.brickTier].rate.toLocaleString() + ' 元/㎡';
+    document.getElementById('hbCarryBox').style.display = document.getElementById('hbElev').checked ? 'none' : '';
+    document.getElementById('hbCarryRate').textContent = (600 + Math.max((parseInt(document.getElementById('hbFloor').value, 10) || 1) - 7, 0) * 50).toLocaleString() + ' 元/件';
+    document.getElementById('hbHighRate').textContent = HB_HIGH[hbState.highTier].label + ' · ' + HB_HIGH[hbState.highTier].rate + ' 元/㎡';
 
     var box = document.getElementById('hbResult');
     var r = hbCalc();
@@ -7644,6 +7732,7 @@
       box.innerHTML = '<div class="hb-result-label">参考报价</div><div class="hb-empty">☝️ 请输入计价面积开始计算</div>';
       return;
     }
+    document.getElementById('hbKitchenLimit').textContent = '限 ' + (r.eff < 80 ? 7 : r.eff < 120 ? 8 : r.eff < 160 ? 10 : 12) + '㎡ · 超出 1,399 元/㎡';
     var fmt = function (n) { return (n < 0 ? '−¥' : '¥') + Math.abs(Math.round(n)).toLocaleString(); };
     var html = ''
       + '<div class="hb-result-label">栖息地 L32 · ' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + ' 参考报价</div>'
@@ -7656,8 +7745,11 @@
       + (r.demo > 0 ? hbRow('拆除包 · ' + (hbState.demo === 'fine' ? '精装' : '毛坯'), r.demoNote, fmt(r.demo)) : '')
       + (r.wall > 0 ? hbRow('新砌墙体', r.wallNote, fmt(r.wall)) : '')
       + (r.heat > 0 ? hbRow('地暖', r.heatNote, fmt(r.heat)) : '')
+      + (r.kitchenFee > 0 ? hbRow('中厨超限费', r.kitchenNote, fmt(r.kitchenFee)) : '')
+      + (r.highFee > 0 ? hbRow('超高层高措施费', r.highNote, fmt(r.highFee)) : '')
+      + (r.carryFee > 0 ? hbRow('超限材料搬运', r.carryNote, fmt(r.carryFee)) : '')
       + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
-      + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">不含升级/选配项目、远程费、中厨超限、超高区等措施费（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
+      + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">未填写项按 0 计；升级/选配、远程费、空调特殊安装、7m 以上超高另议（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
     box.innerHTML = html;
   }
 
