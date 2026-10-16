@@ -7038,7 +7038,7 @@
 
     <div class="feat-head">
       <div class="fh-title">输入计价面积，立即出价</div>
-      <div class="fh-sub">依据栖息地《L32 计价原则和计价方式 3.0》《一房一价表 3.0》（2026-09 版资料）整理。结果为参考价，最终以栖息地官方报价为准。</div>
+      <div class="fh-sub">依据栖息地《L32 计价原则和计价方式 3.0》《一房一价表 3.0》及两份 L32 对客报价单（悠然逸境悦然魅力 / 玲珑，V1.0-0907）整理。结果为参考价，最终以栖息地官方报价为准。</div>
     </div>
 
     <!-- ① 套系 -->
@@ -7110,6 +7110,21 @@
       </div>
     </div>
 
+    <!-- ⑤ 拆除包（可选） -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>⑤</b>拆除包 <span style="font-weight:400;">（可选，按城市计价；实际报价中常由客户自理）</span></div>
+      <div class="hb-chips">
+        <button class="hb-chip on" id="hbDemoNone" type="button" onclick="hbSetDemo('none')">不需要</button>
+        <button class="hb-chip" id="hbDemoFine" type="button" onclick="hbSetDemo('fine')">精装拆除包</button>
+        <button class="hb-chip" id="hbDemoRough" type="button" onclick="hbSetDemo('rough')">毛坯拆除包</button>
+      </div>
+      <div class="hb-city-row" id="hbDemoRow" style="display:none;">
+        <select id="hbCity" class="hb-city" onchange="hbRender()"></select>
+        <span class="unit" id="hbDemoRate"></span>
+      </div>
+      <div class="hb-hint" id="hbDemoHint" style="display:none;">按全屋套内（计价）面积 × 城市单价计算；精装包适用于带瓷砖/木地板原装修的拆除修复，毛坯包适用于毛坯房。不含垃圾外运及物业收取的垃圾费。</div>
+    </div>
+
     <!-- 结果 -->
     <div class="hb-result" id="hbResult"></div>
 
@@ -7118,11 +7133,11 @@
       <div class="hb-details-body">
         <div class="hb-tbl-wrap">
           <table class="hb-tbl">
-            <thead><tr><th>计价面积</th><th>悠然/逸境/悦然/魅力</th><th>玲珑<sup>*</sup></th></tr></thead>
+            <thead><tr><th>计价面积</th><th>悠然/逸境/悦然/魅力</th><th>玲珑</th></tr></thead>
             <tbody id="hbPriceTable"></tbody>
           </table>
         </div>
-        <p style="margin-top:10px;">* 玲珑 70–89㎡ 为按「90㎡ 基准价 − 面积差 × 1,799 元」的线性估算，仅供横向参考；官方按《L32-玲珑一房一价表》执行。悠然/逸境/悦然/魅力列为官方一房一价原值。</p>
+        <p style="margin-top:10px;">两列均为官方一房一价表原值（70–89㎡ 每㎡ 递增单价并不固定）；90㎡ 起按 90㎡ 基准价 + 超出面积 × 超面积单价（悠然/逸境/悦然/魅力 2,199 元/㎡ · 玲珑 1,799 元/㎡）。</p>
       </div>
     </details>
 
@@ -7140,7 +7155,7 @@
     <div class="hb-cta">
       <button class="hb-btn hb-btn-main" type="button" onclick="hbSwitchTab('intro')">🌿 查看套系配置介绍</button>
     </div>
-    <div class="hb-src">数据来源：栖息地 L32 计价原则和计价方式 3.0 / 一房一价查询表 3.0 / 增减配置清单 3.0（资料整理于 2026-09）<br>价格随产品迭代调整，请以栖息地官方最新报价为准。</div>
+    <div class="hb-src">数据来源：栖息地 L32 计价原则和计价方式 3.0 / 一房一价查询表 3.0 / 增减配置清单 3.0 / L32 对客报价单 ×2（悠然逸境悦然魅力、玲珑，V1.0-0907，2026-09）<br>价格随产品迭代调整，请以栖息地官方最新报价为准。</div>
     </div><!-- /hbPaneCalc -->
 
     <div id="hbPaneIntro">
@@ -7435,11 +7450,14 @@
 <script>
   /* ================= 栖息地 L32 计价 ================= */
   var HB_MAIN_TABLE = {70:366800,71:368300,72:369800,73:371300,74:372800,75:374300,76:375900,77:377500,78:379100,79:380700,80:382300,81:384000,82:385700,83:387400,84:389100,85:390800,86:392600,87:394400,88:396200,89:398000};
+  var HB_LINGLONG_TABLE = {70:330800,71:332100,72:333400,73:334700,74:336000,75:337300,76:338700,77:340100,78:341500,79:342900,80:344300,81:345800,82:347300,83:348800,84:350300,85:351800,86:353400,87:355000,88:356600,89:358200};
   var HB_SERIES = {
     main:     { base:399800, unit:2199, room:13800, bath:19800 },
     linglong: { base:359800, unit:1799, room:12800, bath:15800 }
   };
-  var hbState = { series:'main', rooms:3, baths:2 };
+  // 拆除包城市单价 [精装, 毛坯]（元/㎡），摘自对客报价单城市价目表
+  var HB_DEMO = { '北京':[130,55], '上海':[130,55], '杭州':[120,50], '武汉':[120,50], '成都':[115,48], '重庆':[115,48], '广州':[100,30], '深圳':[100,30], '常州':[120,50] };
+  var hbState = { series:'main', rooms:3, baths:2, demo:'none' };
 
   function showHabitatCalc() { goToPage('pageHabitat'); hbSwitchTab('calc'); }
   function showHabitatIntro() { goToPage('pageHabitat'); hbSwitchTab('intro'); }
@@ -7464,8 +7482,17 @@
     hbRender();
   }
   function hbSetArea(v) { document.getElementById('hbArea').value = v; hbRender(); }
+  function hbSetDemo(mode) {
+    hbState.demo = mode;
+    document.getElementById('hbDemoNone').classList.toggle('on', mode === 'none');
+    document.getElementById('hbDemoFine').classList.toggle('on', mode === 'fine');
+    document.getElementById('hbDemoRough').classList.toggle('on', mode === 'rough');
+    document.getElementById('hbDemoRow').style.display = mode === 'none' ? 'none' : 'flex';
+    document.getElementById('hbDemoHint').style.display = mode === 'none' ? 'none' : '';
+    hbRender();
+  }
   function hbStep(key, d) {
-    var max = key === 'rooms' ? 6 : 4;
+    var max = key === 'rooms' ? 6 : 6;
     hbState[key] = Math.min(Math.max(hbState[key] + d, 1), max);
     hbRender();
   }
@@ -7476,7 +7503,7 @@
     if (!area || area <= 0) return null;
 
     var eff = Math.max(area, 70);           // 不足 70㎡ 按 70 计
-    var areaPrice, areaNote, isEst = false;
+    var areaPrice, areaNote;
 
     if (eff >= 90) {
       var over = eff - 90;
@@ -7486,14 +7513,8 @@
         : '90㎡ 基准价（产品价）';
     } else {
       var a = Math.round(eff);
-      if (hbState.series === 'main') {
-        areaPrice = HB_MAIN_TABLE[a];
-        areaNote = '一房一价表 · ' + a + '㎡ 档';
-      } else {
-        areaPrice = Math.round(s.base - (90 - a) * s.unit);
-        areaNote = a + '㎡ 档 · 线性推算';
-        isEst = true;
-      }
+      areaPrice = (hbState.series === 'main' ? HB_MAIN_TABLE : HB_LINGLONG_TABLE)[a];
+      areaNote = '一房一价表 · ' + a + '㎡ 档';
     }
     if (area < 70) areaNote += '（不足 70㎡ 按 70 计）';
 
@@ -7507,10 +7528,19 @@
       garbage = 5 * Math.max(fl - 1, 0) * eff;
     }
 
+    var demo = 0, demoNote = '';
+    if (hbState.demo !== 'none') {
+      var city = document.getElementById('hbCity').value;
+      var rate = HB_DEMO[city][hbState.demo === 'fine' ? 0 : 1];
+      demo = rate * eff;
+      demoNote = rate.toLocaleString() + ' 元/㎡ × ' + city + ' · ' + eff + '㎡';
+    }
+
     return {
-      eff: eff, areaPrice: areaPrice, areaNote: areaNote, isEst: isEst,
+      eff: eff, areaPrice: areaPrice, areaNote: areaNote,
       roomDelta: roomDelta, bathDelta: bathDelta, garbage: garbage,
-      total: areaPrice + roomDelta + bathDelta + garbage
+      demo: demo, demoNote: demoNote,
+      total: areaPrice + roomDelta + bathDelta + garbage + demo
     };
   }
 
@@ -7522,6 +7552,10 @@
     document.getElementById('hbRooms').textContent = hbState.rooms;
     document.getElementById('hbBaths').textContent = hbState.baths;
     document.getElementById('hbFloorRow').style.display = document.getElementById('hbElev').checked ? 'none' : 'flex';
+    if (hbState.demo !== 'none') {
+      var rate = HB_DEMO[document.getElementById('hbCity').value][hbState.demo === 'fine' ? 0 : 1];
+      document.getElementById('hbDemoRate').textContent = '¥' + rate + ' /㎡';
+    }
 
     var box = document.getElementById('hbResult');
     var r = hbCalc();
@@ -7530,30 +7564,41 @@
       return;
     }
     var fmt = function (n) { return (n < 0 ? '−¥' : '¥') + Math.abs(Math.round(n)).toLocaleString(); };
-    var est = r.isEst ? '<span class="hb-est">估算值 · 以官方玲珑一房一价表为准</span>' : '';
     var html = ''
-      + '<div class="hb-result-label">栖息地 L32 · ' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + ' 参考报价' + est + '</div>'
+      + '<div class="hb-result-label">栖息地 L32 · ' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + ' 参考报价</div>'
       + '<div class="hb-total">¥' + Math.round(r.total).toLocaleString() + '</div>'
       + '<div class="hb-total-sub">折合约 ' + Math.round(r.total / r.eff).toLocaleString() + ' 元/㎡ · 按 ' + r.eff + '㎡ 计价 · ' + hbState.rooms + ' 房 ' + hbState.baths + ' 卫</div>'
       + hbRow('面积产品价', r.areaNote, fmt(r.areaPrice))
       + hbRow('房间增减', hbState.rooms + ' 房（基准 3）', fmt(r.roomDelta), r.roomDelta < 0 ? 'neg' : '')
       + hbRow('卫生间增减', hbState.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
       + (r.garbage > 0 ? hbRow('无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', fmt(r.garbage)) : '')
+      + (r.demo > 0 ? hbRow('拆除包 · ' + (hbState.demo === 'fine' ? '精装' : '毛坯'), r.demoNote, fmt(r.demo)) : '')
       + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
       + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">不含升级/选配项目、远程费、中厨超限、超高区等措施费（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
     box.innerHTML = html;
   }
 
-  // 一房一价表（玲珑 70–89 为线性推算，标 *）
+  // 一房一价表（70–89 两列均为官方原值；90 为基准价）
   (function buildHbTable() {
     var rows = '';
     for (var a = 70; a <= 90; a++) {
       var mainP = a === 90 ? 399800 : HB_MAIN_TABLE[a];
-      var lingP = a === 90 ? 359800 : Math.round(359800 - (90 - a) * 1799);
-      rows += '<tr><td>' + a + '㎡</td><td>' + mainP.toLocaleString() + '</td><td>' + lingP.toLocaleString() + (a < 90 ? ' *' : '') + '</td></tr>';
+      var lingP = a === 90 ? 359800 : HB_LINGLONG_TABLE[a];
+      rows += '<tr><td>' + a + '㎡</td><td>' + mainP.toLocaleString() + '</td><td>' + lingP.toLocaleString() + '</td></tr>';
     }
     var el = document.getElementById('hbPriceTable');
     if (el) el.innerHTML = rows;
+  })();
+
+  // 拆除包城市下拉（与报价单城市价目表同序）
+  (function buildDemoCity() {
+    var el = document.getElementById('hbCity');
+    if (!el) return;
+    var opts = '';
+    Object.keys(HB_DEMO).forEach(function (c) {
+      opts += '<option value="' + c + '">' + c + '（精装 ' + HB_DEMO[c][0] + ' / 毛坯 ' + HB_DEMO[c][1] + ' 元/㎡）</option>';
+    });
+    el.innerHTML = opts;
   })();
 
   document.getElementById('hbArea').addEventListener('input', hbRender);
@@ -7894,6 +7939,11 @@
   .hb-chips { display:flex; flex-wrap:wrap; gap:8px; margin-top:12px; }
   .hb-chip { border:1px solid var(--line-strong); background:var(--inset); color:var(--ink); font-size:13px; padding:7px 14px; border-radius:999px; cursor:pointer; font-family:inherit; transition:all .15s; }
   .hb-chip:hover { border-color:var(--accent); color:var(--accent-ink); }
+  .hb-chip.on { border-color:var(--accent); background:var(--accent-tint); color:var(--accent-ink); font-weight:600; }
+  .hb-city-row { display:flex; align-items:center; gap:10px; margin-top:12px; }
+  .hb-city { flex:1; max-width:280px; background:var(--field); border:1px solid var(--line-strong); border-radius:var(--radius-control); color:var(--ink); font-size:14px; font-weight:600; padding:11px 14px; outline:none; font-family:inherit; }
+  .hb-city:focus { border-color:var(--accent); }
+  .hb-city-row .unit { font-size:14px; color:var(--accent-ink); font-weight:600; white-space:nowrap; }
   .hb-hint { font-size:12px; color:var(--ink-2); line-height:1.8; margin-top:12px; background:var(--inset); border-radius:10px; padding:10px 12px; }
   .hb-adjs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .hb-adj { background:var(--inset); border-radius:12px; padding:14px; }
