@@ -7213,6 +7213,23 @@
       <div class="hb-hint">中厨超限：超出限值部分 1,399 元/㎡，不足 1㎡ 按 1㎡ 计，不足限值不退不抵（限值按《计价方式 3.0》：套内＜80㎡ 限 7㎡ · 80–120㎡ 限 8㎡ · 120–160㎡ 限 10㎡ · 160–260㎡ 限 12㎡）。超高区：结构楼板底到地面完成面 ≥3.2m 按投影面积计，每间不足 8㎡ 按 8㎡。搬运：无电梯 7 层内 600 元/件，每升一层 +50 元/件，有电梯已含。7m 以上超高、远程费、空调特殊安装等以官方现场评估为准。</div>
     </div>
 
+    <!-- ⑨ 定制柜增配 -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>⑨</b>定制柜增配 <span style="font-weight:400;">（标配含 40㎡ 投影，超出部分补差价）</span></div>
+      <div class="hb-adj">
+        <div class="hb-adj-t">柜门花色 <small id="hbCabRate">2,399 元/㎡</small></div>
+        <div class="hb-wall-chips">
+          <button class="hb-chip on" id="hbCabPaint" type="button" onclick="hbSetCabFinish('paint')">烤漆柜门</button>
+          <button class="hb-chip" id="hbCabMela" type="button" onclick="hbSetCabFinish('melamine')">免漆柜门</button>
+        </div>
+        <div class="hb-num-row" style="margin-top:12px;">
+          <input type="number" id="hbCabOver" min="0" max="500" step="1" value="0" oninput="hbRender()">
+          <small>㎡ 超出标配的投影面积</small>
+        </div>
+      </div>
+      <div class="hb-hint">标配含 40㎡ 木作柜投影面积（主套系烤漆柜门 / 玲珑免漆柜门），超出部分按报价单可选价补差：烤漆 2,399 元/㎡；免漆 1,899 元/㎡，每满 5㎡ 优惠 2,695 元（折 1,360 元/㎡），每增选 2 投影另赠 1 抽屉（主套系免漆备注）。依据《L32 对客报价单》03-木作柜。</div>
+    </div>
+
     <!-- 结果 -->
     <div class="hb-result" id="hbResult"></div>
 
@@ -7553,7 +7570,8 @@
   };
   // 超高层高措施费（元/㎡），摘自报价单 11-施工项目表
   var HB_HIGH = { h32:{rate:40,label:'3.2–4m'}, h45:{rate:75,label:'4–5m'}, h56:{rate:115,label:'5–6m'}, h67:{rate:155,label:'6–7m'} };
-  var hbState = { series:'main', demo:'none', brickTier:'lt100', highTier:'h32' };
+  var HB_CAB = { paint:{rate:2399}, melamine:{rate:1899} };   // 定制柜超出标配价：烤漆 2399 / 免漆 1899（免漆每满 5㎡ 优惠 2695）
+  var hbState = { series:'main', demo:'none', brickTier:'lt100', highTier:'h32', cabFinish:'paint' };
   // 数量输入直读（自填，带边界保护）
   function hbNum(id, def, min, max) {
     var v = parseInt(document.getElementById(id).value, 10);
@@ -7587,6 +7605,13 @@
     document.getElementById('hbSerLinglong').classList.toggle('on', s === 'linglong');
     document.getElementById('hbRoomPrice').textContent = '±' + HB_SERIES[s].room.toLocaleString() + ' 元/间';
     document.getElementById('hbBathPrice').textContent = '±' + HB_SERIES[s].bath.toLocaleString() + ' 元/间';
+    document.getElementById('hbCabPaint').style.display = s === 'main' ? '' : 'none';
+    hbSetCabFinish(s === 'main' ? 'paint' : 'melamine');
+  }
+  function hbSetCabFinish(f) {
+    hbState.cabFinish = f;
+    document.getElementById('hbCabPaint').classList.toggle('on', f === 'paint');
+    document.getElementById('hbCabMela').classList.toggle('on', f === 'melamine');
     hbRender();
   }
   function hbSetArea(v) { document.getElementById('hbArea').value = v; hbRender(); }
@@ -7701,6 +7726,16 @@
     var heat = 0, heatNote = '';
     if (heatArea > 0) { heat = heatArea * 180; heatNote = '180 元/㎡ × ' + heatArea + '㎡（按套内面积）'; }
 
+    // 定制柜增配：标配含 40㎡ 投影，超出部分按可选价补差；免漆每满 5㎡ 优惠 2,695 元（折 1,360 元/㎡）
+    var cabOver = hbNum('hbCabOver', 0, 0, 500);
+    var cab = 0, cabNote = '';
+    if (cabOver > 0) {
+      var cabRate = (hbState.series === 'main' && hbState.cabFinish === 'paint') ? HB_CAB.paint.rate : HB_CAB.melamine.rate;
+      var cabDisc = cabRate === HB_CAB.melamine.rate ? Math.floor(cabOver / 5) * 2695 : 0;
+      cab = cabOver * cabRate - cabDisc;
+      cabNote = cabRate.toLocaleString() + ' 元/㎡ × 超出 ' + cabOver + '㎡（投影）' + (cabDisc ? ' · 每满 5㎡ 优惠 2,695 元，共 −' + cabDisc.toLocaleString() : '');
+    }
+
     return {
       eff: eff, areaPrice: areaPrice, areaNote: areaNote,
       rooms: rooms, baths: baths,
@@ -7708,10 +7743,11 @@
       demo: demo, demoNote: demoNote,
       wall: wall, wallNote: wallNote,
       heat: heat, heatNote: heatNote,
+      cab: cab, cabNote: cabNote,
       kitchenFee: kitchenFee, kitchenNote: kitchenNote,
       highFee: highFee, highNote: highNote,
       carryFee: carryFee, carryNote: carryNote,
-      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall + heat + kitchenFee + highFee + carryFee
+      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall + heat + cab + kitchenFee + highFee + carryFee
     };
   }
 
@@ -7729,6 +7765,7 @@
     document.getElementById('hbCarryBox').style.display = document.getElementById('hbElev').checked ? 'none' : '';
     document.getElementById('hbCarryRate').textContent = (600 + Math.max((parseInt(document.getElementById('hbFloor').value, 10) || 1) - 7, 0) * 50).toLocaleString() + ' 元/件';
     document.getElementById('hbHighRate').textContent = HB_HIGH[hbState.highTier].label + ' · ' + HB_HIGH[hbState.highTier].rate + ' 元/㎡';
+    document.getElementById('hbCabRate').textContent = (hbState.series === 'main' && hbState.cabFinish === 'paint') ? '2,399 元/㎡' : '1,899 元/㎡ · 每满 5㎡ 优惠 2,695 元';
 
     var box = document.getElementById('hbResult');
     var r = hbCalc();
@@ -7745,6 +7782,7 @@
       + hbRow('面积产品价', r.areaNote, fmt(r.areaPrice))
       + hbRow('房间增减', r.rooms + ' 房（基准 3）', fmt(r.roomDelta), r.roomDelta < 0 ? 'neg' : '')
       + hbRow('卫生间增减', r.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
+      + (r.cab > 0 ? hbRow('定制柜增配', r.cabNote, fmt(r.cab)) : '')
       + (r.garbage > 0 ? hbRow('无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', fmt(r.garbage)) : '')
       + (r.demo > 0 ? hbRow('拆除包 · ' + (hbState.demo === 'fine' ? '精装' : '毛坯'), r.demoNote, fmt(r.demo)) : '')
       + (r.wall > 0 ? hbRow('新砌墙体', r.wallNote, fmt(r.wall)) : '')
@@ -7767,6 +7805,7 @@
     rows.push(['面积产品', '面积产品价', r.areaNote, Math.round(r.areaPrice)]);
     if (r.roomDelta) rows.push(['增减配置', '房间增减', r.rooms + ' 房（基准 3）', Math.round(r.roomDelta)]);
     if (r.bathDelta) rows.push(['增减配置', '卫生间增减', r.baths + ' 卫（基准 2）', Math.round(r.bathDelta)]);
+    if (r.cab) rows.push(['定制柜增配', '超出标配 40㎡ 投影', r.cabNote, Math.round(r.cab)]);
     if (r.garbage) rows.push(['特殊措施', '无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', Math.round(r.garbage)]);
     if (r.demo) rows.push(['拆除包', hbState.demo === 'fine' ? '精装拆除包' : '毛坯拆除包', r.demoNote, Math.round(r.demo)]);
     if (r.wall) rows.push(['新砌墙体', '新砌墙体', r.wallNote, Math.round(r.wall)]);
