@@ -7081,18 +7081,16 @@
       <div class="hb-adjs">
         <div class="hb-adj">
           <div class="hb-adj-t">房间数 <small id="hbRoomPrice">±13,800 元/间</small></div>
-          <div class="hb-step">
-            <button type="button" onclick="hbStep('rooms',-1)" aria-label="减少房间">−</button>
-            <div class="num"><span id="hbRooms">3</span><small>间</small></div>
-            <button type="button" onclick="hbStep('rooms',1)" aria-label="增加房间">＋</button>
+          <div class="hb-num-row">
+            <input type="number" id="hbRooms" min="1" max="6" step="1" value="3" oninput="hbRender()">
+            <small>间</small>
           </div>
         </div>
         <div class="hb-adj">
           <div class="hb-adj-t">卫生间数 <small id="hbBathPrice">±19,800 元/间</small></div>
-          <div class="hb-step">
-            <button type="button" onclick="hbStep('baths',-1)" aria-label="减少卫生间">−</button>
-            <div class="num"><span id="hbBaths">2</span><small>间</small></div>
-            <button type="button" onclick="hbStep('baths',1)" aria-label="增加卫生间">＋</button>
+          <div class="hb-num-row">
+            <input type="number" id="hbBaths" min="1" max="6" step="1" value="2" oninput="hbRender()">
+            <small>间</small>
           </div>
         </div>
       </div>
@@ -7131,18 +7129,16 @@
       <div class="hb-adjs">
         <div class="hb-adj">
           <div class="hb-adj-t">地梁浇筑 <small>180 元/米</small></div>
-          <div class="hb-step">
-            <button type="button" onclick="hbWallStep('beam',-1,100)" aria-label="减少地梁">−</button>
-            <div class="num"><span id="hbWallBeam">0</span><small>米</small></div>
-            <button type="button" onclick="hbWallStep('beam',1,100)" aria-label="增加地梁">＋</button>
+          <div class="hb-num-row">
+            <input type="number" id="hbWallBeam" min="0" max="100" step="1" value="0" oninput="hbRender()">
+            <small>米</small>
           </div>
         </div>
         <div class="hb-adj">
           <div class="hb-adj-t">墙体局部加固 <small>420 元/㎡</small></div>
-          <div class="hb-step">
-            <button type="button" onclick="hbWallStep('fix',-1,100)" aria-label="减少加固">−</button>
-            <div class="num"><span id="hbWallFix">0</span><small>㎡</small></div>
-            <button type="button" onclick="hbWallStep('fix',1,100)" aria-label="增加加固">＋</button>
+          <div class="hb-num-row">
+            <input type="number" id="hbWallFix" min="0" max="100" step="1" value="0" oninput="hbRender()">
+            <small>㎡</small>
           </div>
         </div>
       </div>
@@ -7153,13 +7149,26 @@
           <button class="hb-chip" id="hbBrickMid" type="button" onclick="hbSetWallTier('m100_150')">100–150mm</button>
           <button class="hb-chip" id="hbBrickGt" type="button" onclick="hbSetWallTier('gt150')">＞150mm</button>
         </div>
-        <div class="hb-step">
-          <button type="button" onclick="hbWallStep('brick',-1,300)" aria-label="减少砌块">−</button>
-          <div class="num"><span id="hbWallBrick">0</span><small>㎡</small></div>
-          <button type="button" onclick="hbWallStep('brick',1,300)" aria-label="增加砌块">＋</button>
+        <div class="hb-num-row">
+          <input type="number" id="hbWallBrick" min="0" max="300" step="1" value="0" oninput="hbRender()">
+          <small>㎡（单面面积）</small>
         </div>
       </div>
       <div class="hb-hint">依据报价单「新建墙体」附表：地梁按实际浇筑长度（有防水房间需浇筑地梁）；砌块砌筑按墙体单面面积计算、不含洞口面积、含墙面抹灰；加固指非基底标配产品产生的加固费用。工程量以施工方案实测为准。</div>
+    </div>
+
+    <!-- ⑦ 地暖（可选） -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>⑦</b>地暖 <span style="font-weight:400;">（可选，按套内面积计价）</span></div>
+      <div class="hb-adj">
+        <div class="hb-adj-t">地暖面积 <small>180 元/㎡</small></div>
+        <div class="hb-num-row">
+          <input type="number" id="hbHeatArea" min="0" max="500" step="1" value="0" oninput="hbRender()">
+          <small>㎡（按套内面积计算）</small>
+        </div>
+      </div>
+      <div class="hb-boiler">🔥 热源锅炉：<b>客户自备 · 不计价</b><span>（栖息地默认以中央空调水机两联供为热源）</span></div>
+      <div class="hb-hint">依据报价单「地暖」项：含分集水器、地暖管、热电执行器、地暖垫层及回填、智能控制模块、分集水器背板。样本项目按 110㎡ × 180 元/㎡ = 19,800 元计。</div>
     </div>
 
     <!-- 结果 -->
@@ -7500,7 +7509,13 @@
     fix: 420,
     brick: { lt100:{rate:240,label:'墙厚＜100mm'}, m100_150:{rate:270,label:'100–150mm'}, gt150:{rate:320,label:'＞150mm'} }
   };
-  var hbState = { series:'main', rooms:3, baths:2, demo:'none', wall:{ beam:0, brick:0, tier:'lt100', fix:0 } };
+  var hbState = { series:'main', demo:'none', brickTier:'lt100' };
+  // 数量输入直读（自填，带边界保护）
+  function hbNum(id, def, min, max) {
+    var v = parseInt(document.getElementById(id).value, 10);
+    if (isNaN(v)) v = def;
+    return Math.min(Math.max(v, min), max);
+  }
 
   function showHabitatCalc() { goToPage('pageHabitat'); hbSwitchTab('calc'); }
   function showHabitatIntro() { goToPage('pageHabitat'); hbSwitchTab('intro'); }
@@ -7534,18 +7549,8 @@
     document.getElementById('hbDemoHint').style.display = mode === 'none' ? 'none' : '';
     hbRender();
   }
-  function hbStep(key, d) {
-    var max = key === 'rooms' ? 6 : 6;
-    hbState[key] = Math.min(Math.max(hbState[key] + d, 1), max);
-    hbRender();
-  }
-  function hbWallStep(key, d, max) {
-    var w = hbState.wall;
-    w[key] = Math.min(Math.max(w[key] + d, 0), max);
-    hbRender();
-  }
   function hbSetWallTier(tier) {
-    hbState.wall.tier = tier;
+    hbState.brickTier = tier;
     document.getElementById('hbBrickLt').classList.toggle('on', tier === 'lt100');
     document.getElementById('hbBrickMid').classList.toggle('on', tier === 'm100_150');
     document.getElementById('hbBrickGt').classList.toggle('on', tier === 'gt150');
@@ -7573,8 +7578,10 @@
     }
     if (area < 70) areaNote += '（不足 70㎡ 按 70 计）';
 
-    var roomDelta = (hbState.rooms - 3) * s.room;
-    var bathDelta = (hbState.baths - 2) * s.bath;
+    var rooms = hbNum('hbRooms', 3, 1, 6);
+    var baths = hbNum('hbBaths', 2, 1, 6);
+    var roomDelta = (rooms - 3) * s.room;
+    var bathDelta = (baths - 2) * s.bath;
 
     var garbage = 0;
     var hasElev = document.getElementById('hbElev').checked;
@@ -7592,21 +7599,30 @@
     }
 
     var wall = 0, wallNote = '';
-    var W = hbState.wall, wallParts = [];
-    if (W.beam > 0) { wall += W.beam * HB_WALL.beam; wallParts.push('地梁 ' + W.beam + ' 米'); }
-    if (W.brick > 0) {
-      wall += W.brick * HB_WALL.brick[W.tier].rate;
-      wallParts.push('砌块 ' + W.brick + '㎡ · ' + HB_WALL.brick[W.tier].label);
+    var wallBeam = hbNum('hbWallBeam', 0, 0, 100);
+    var wallBrick = hbNum('hbWallBrick', 0, 0, 300);
+    var wallFix = hbNum('hbWallFix', 0, 0, 100);
+    var wallParts = [];
+    if (wallBeam > 0) { wall += wallBeam * HB_WALL.beam; wallParts.push('地梁 ' + wallBeam + ' 米'); }
+    if (wallBrick > 0) {
+      wall += wallBrick * HB_WALL.brick[hbState.brickTier].rate;
+      wallParts.push('砌块 ' + wallBrick + '㎡ · ' + HB_WALL.brick[hbState.brickTier].label);
     }
-    if (W.fix > 0) { wall += W.fix * HB_WALL.fix; wallParts.push('加固 ' + W.fix + '㎡'); }
+    if (wallFix > 0) { wall += wallFix * HB_WALL.fix; wallParts.push('加固 ' + wallFix + '㎡'); }
     if (wallParts.length) wallNote = wallParts.join(' · ');
+
+    var heatArea = hbNum('hbHeatArea', 0, 0, 500);
+    var heat = 0, heatNote = '';
+    if (heatArea > 0) { heat = heatArea * 180; heatNote = '180 元/㎡ × ' + heatArea + '㎡（按套内面积）'; }
 
     return {
       eff: eff, areaPrice: areaPrice, areaNote: areaNote,
+      rooms: rooms, baths: baths,
       roomDelta: roomDelta, bathDelta: bathDelta, garbage: garbage,
       demo: demo, demoNote: demoNote,
       wall: wall, wallNote: wallNote,
-      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall
+      heat: heat, heatNote: heatNote,
+      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall + heat
     };
   }
 
@@ -7615,17 +7631,12 @@
   }
 
   function hbRender() {
-    document.getElementById('hbRooms').textContent = hbState.rooms;
-    document.getElementById('hbBaths').textContent = hbState.baths;
     document.getElementById('hbFloorRow').style.display = document.getElementById('hbElev').checked ? 'none' : 'flex';
     if (hbState.demo !== 'none') {
       var rate = HB_DEMO[document.getElementById('hbCity').value][hbState.demo === 'fine' ? 0 : 1];
       document.getElementById('hbDemoRate').textContent = '¥' + rate + ' /㎡';
     }
-    document.getElementById('hbWallBeam').textContent = hbState.wall.beam;
-    document.getElementById('hbWallBrick').textContent = hbState.wall.brick;
-    document.getElementById('hbWallFix').textContent = hbState.wall.fix;
-    document.getElementById('hbBrickRate').textContent = HB_WALL.brick[hbState.wall.tier].rate.toLocaleString() + ' 元/㎡';
+    document.getElementById('hbBrickRate').textContent = HB_WALL.brick[hbState.brickTier].rate.toLocaleString() + ' 元/㎡';
 
     var box = document.getElementById('hbResult');
     var r = hbCalc();
@@ -7637,13 +7648,14 @@
     var html = ''
       + '<div class="hb-result-label">栖息地 L32 · ' + (hbState.series === 'main' ? '悠然/逸境/悦然/魅力' : '玲珑') + ' 参考报价</div>'
       + '<div class="hb-total">¥' + Math.round(r.total).toLocaleString() + '</div>'
-      + '<div class="hb-total-sub">折合约 ' + Math.round(r.total / r.eff).toLocaleString() + ' 元/㎡ · 按 ' + r.eff + '㎡ 计价 · ' + hbState.rooms + ' 房 ' + hbState.baths + ' 卫</div>'
+      + '<div class="hb-total-sub">折合约 ' + Math.round(r.total / r.eff).toLocaleString() + ' 元/㎡ · 按 ' + r.eff + '㎡ 计价 · ' + r.rooms + ' 房 ' + r.baths + ' 卫</div>'
       + hbRow('面积产品价', r.areaNote, fmt(r.areaPrice))
-      + hbRow('房间增减', hbState.rooms + ' 房（基准 3）', fmt(r.roomDelta), r.roomDelta < 0 ? 'neg' : '')
-      + hbRow('卫生间增减', hbState.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
+      + hbRow('房间增减', r.rooms + ' 房（基准 3）', fmt(r.roomDelta), r.roomDelta < 0 ? 'neg' : '')
+      + hbRow('卫生间增减', r.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
       + (r.garbage > 0 ? hbRow('无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', fmt(r.garbage)) : '')
       + (r.demo > 0 ? hbRow('拆除包 · ' + (hbState.demo === 'fine' ? '精装' : '毛坯'), r.demoNote, fmt(r.demo)) : '')
       + (r.wall > 0 ? hbRow('新砌墙体', r.wallNote, fmt(r.wall)) : '')
+      + (r.heat > 0 ? hbRow('地暖', r.heatNote, fmt(r.heat)) : '')
       + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
       + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">不含升级/选配项目、远程费、中厨超限、超高区等措施费（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
     box.innerHTML = html;
@@ -8017,6 +8029,12 @@
   .hb-city-row .unit { font-size:14px; color:var(--accent-ink); font-weight:600; white-space:nowrap; }
   .hb-wall-chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:11px; }
   .hb-wall-chips .hb-chip { padding:6px 12px; font-size:12px; }
+  .hb-num-row { display:flex; align-items:center; gap:8px; margin-top:12px; }
+  .hb-num-row input { flex:1; max-width:150px; background:var(--field); border:1px solid var(--line-strong); border-radius:var(--radius-control); color:var(--ink); font-size:18px; font-weight:600; padding:10px 12px; text-align:center; outline:none; font-family:inherit; }
+  .hb-num-row input:focus { border-color:var(--accent); }
+  .hb-num-row small { font-size:12px; color:var(--ink-2); }
+  .hb-boiler { display:flex; align-items:center; gap:6px; flex-wrap:wrap; background:var(--inset); border-radius:12px; padding:12px 15px; font-size:13px; margin-top:12px; color:var(--ink-2); }
+  .hb-boiler b { color:var(--ink); }
   .hb-hint { font-size:12px; color:var(--ink-2); line-height:1.8; margin-top:12px; background:var(--inset); border-radius:10px; padding:10px 12px; }
   .hb-adjs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .hb-adj { background:var(--inset); border-radius:12px; padding:14px; }
