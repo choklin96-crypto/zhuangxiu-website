@@ -7125,6 +7125,43 @@
       <div class="hb-hint" id="hbDemoHint" style="display:none;">按全屋套内（计价）面积 × 城市单价计算；精装包适用于带瓷砖/木地板原装修的拆除修复，毛坯包适用于毛坯房。不含垃圾外运及物业收取的垃圾费。</div>
     </div>
 
+    <!-- ⑥ 新砌墙体（可选） -->
+    <div class="hb-card">
+      <div class="hb-card-h"><b>⑥</b>新砌墙体 <span style="font-weight:400;">（可选，按实际工程量计价）</span></div>
+      <div class="hb-adjs">
+        <div class="hb-adj">
+          <div class="hb-adj-t">地梁浇筑 <small>180 元/米</small></div>
+          <div class="hb-step">
+            <button type="button" onclick="hbWallStep('beam',-1,100)" aria-label="减少地梁">−</button>
+            <div class="num"><span id="hbWallBeam">0</span><small>米</small></div>
+            <button type="button" onclick="hbWallStep('beam',1,100)" aria-label="增加地梁">＋</button>
+          </div>
+        </div>
+        <div class="hb-adj">
+          <div class="hb-adj-t">墙体局部加固 <small>420 元/㎡</small></div>
+          <div class="hb-step">
+            <button type="button" onclick="hbWallStep('fix',-1,100)" aria-label="减少加固">−</button>
+            <div class="num"><span id="hbWallFix">0</span><small>㎡</small></div>
+            <button type="button" onclick="hbWallStep('fix',1,100)" aria-label="增加加固">＋</button>
+          </div>
+        </div>
+      </div>
+      <div class="hb-adj" style="margin-top:12px;">
+        <div class="hb-adj-t">砌块砌筑 <small id="hbBrickRate">240 元/㎡</small></div>
+        <div class="hb-wall-chips">
+          <button class="hb-chip on" id="hbBrickLt" type="button" onclick="hbSetWallTier('lt100')">墙厚＜100mm</button>
+          <button class="hb-chip" id="hbBrickMid" type="button" onclick="hbSetWallTier('m100_150')">100–150mm</button>
+          <button class="hb-chip" id="hbBrickGt" type="button" onclick="hbSetWallTier('gt150')">＞150mm</button>
+        </div>
+        <div class="hb-step">
+          <button type="button" onclick="hbWallStep('brick',-1,300)" aria-label="减少砌块">−</button>
+          <div class="num"><span id="hbWallBrick">0</span><small>㎡</small></div>
+          <button type="button" onclick="hbWallStep('brick',1,300)" aria-label="增加砌块">＋</button>
+        </div>
+      </div>
+      <div class="hb-hint">依据报价单「新建墙体」附表：地梁按实际浇筑长度（有防水房间需浇筑地梁）；砌块砌筑按墙体单面面积计算、不含洞口面积、含墙面抹灰；加固指非基底标配产品产生的加固费用。工程量以施工方案实测为准。</div>
+    </div>
+
     <!-- 结果 -->
     <div class="hb-result" id="hbResult"></div>
 
@@ -7457,7 +7494,13 @@
   };
   // 拆除包城市单价 [精装, 毛坯]（元/㎡），摘自对客报价单城市价目表
   var HB_DEMO = { '北京':[130,55], '上海':[130,55], '杭州':[120,50], '武汉':[120,50], '成都':[115,48], '重庆':[115,48], '广州':[100,30], '深圳':[100,30], '常州':[120,50] };
-  var hbState = { series:'main', rooms:3, baths:2, demo:'none' };
+  // 新砌墙体单价，摘自报价单「新建墙体」附表
+  var HB_WALL = {
+    beam: 180,
+    fix: 420,
+    brick: { lt100:{rate:240,label:'墙厚＜100mm'}, m100_150:{rate:270,label:'100–150mm'}, gt150:{rate:320,label:'＞150mm'} }
+  };
+  var hbState = { series:'main', rooms:3, baths:2, demo:'none', wall:{ beam:0, brick:0, tier:'lt100', fix:0 } };
 
   function showHabitatCalc() { goToPage('pageHabitat'); hbSwitchTab('calc'); }
   function showHabitatIntro() { goToPage('pageHabitat'); hbSwitchTab('intro'); }
@@ -7494,6 +7537,18 @@
   function hbStep(key, d) {
     var max = key === 'rooms' ? 6 : 6;
     hbState[key] = Math.min(Math.max(hbState[key] + d, 1), max);
+    hbRender();
+  }
+  function hbWallStep(key, d, max) {
+    var w = hbState.wall;
+    w[key] = Math.min(Math.max(w[key] + d, 0), max);
+    hbRender();
+  }
+  function hbSetWallTier(tier) {
+    hbState.wall.tier = tier;
+    document.getElementById('hbBrickLt').classList.toggle('on', tier === 'lt100');
+    document.getElementById('hbBrickMid').classList.toggle('on', tier === 'm100_150');
+    document.getElementById('hbBrickGt').classList.toggle('on', tier === 'gt150');
     hbRender();
   }
 
@@ -7536,11 +7591,22 @@
       demoNote = rate.toLocaleString() + ' 元/㎡ × ' + city + ' · ' + eff + '㎡';
     }
 
+    var wall = 0, wallNote = '';
+    var W = hbState.wall, wallParts = [];
+    if (W.beam > 0) { wall += W.beam * HB_WALL.beam; wallParts.push('地梁 ' + W.beam + ' 米'); }
+    if (W.brick > 0) {
+      wall += W.brick * HB_WALL.brick[W.tier].rate;
+      wallParts.push('砌块 ' + W.brick + '㎡ · ' + HB_WALL.brick[W.tier].label);
+    }
+    if (W.fix > 0) { wall += W.fix * HB_WALL.fix; wallParts.push('加固 ' + W.fix + '㎡'); }
+    if (wallParts.length) wallNote = wallParts.join(' · ');
+
     return {
       eff: eff, areaPrice: areaPrice, areaNote: areaNote,
       roomDelta: roomDelta, bathDelta: bathDelta, garbage: garbage,
       demo: demo, demoNote: demoNote,
-      total: areaPrice + roomDelta + bathDelta + garbage + demo
+      wall: wall, wallNote: wallNote,
+      total: areaPrice + roomDelta + bathDelta + garbage + demo + wall
     };
   }
 
@@ -7556,6 +7622,10 @@
       var rate = HB_DEMO[document.getElementById('hbCity').value][hbState.demo === 'fine' ? 0 : 1];
       document.getElementById('hbDemoRate').textContent = '¥' + rate + ' /㎡';
     }
+    document.getElementById('hbWallBeam').textContent = hbState.wall.beam;
+    document.getElementById('hbWallBrick').textContent = hbState.wall.brick;
+    document.getElementById('hbWallFix').textContent = hbState.wall.fix;
+    document.getElementById('hbBrickRate').textContent = HB_WALL.brick[hbState.wall.tier].rate.toLocaleString() + ' 元/㎡';
 
     var box = document.getElementById('hbResult');
     var r = hbCalc();
@@ -7573,6 +7643,7 @@
       + hbRow('卫生间增减', hbState.baths + ' 卫（基准 2）', fmt(r.bathDelta), r.bathDelta < 0 ? 'neg' : '')
       + (r.garbage > 0 ? hbRow('无电梯垃圾下楼费', '5 元/层/㎡ ×（层数−1）', fmt(r.garbage)) : '')
       + (r.demo > 0 ? hbRow('拆除包 · ' + (hbState.demo === 'fine' ? '精装' : '毛坯'), r.demoNote, fmt(r.demo)) : '')
+      + (r.wall > 0 ? hbRow('新砌墙体', r.wallNote, fmt(r.wall)) : '')
       + '<div class="hb-row sum"><span class="k">参考合计</span><span class="v">¥' + Math.round(r.total).toLocaleString() + '</span></div>'
       + '<div style="font-size:11px;color:var(--ink-3);margin-top:12px;line-height:1.8;">不含升级/选配项目、远程费、中厨超限、超高区等措施费（见下方速查）；此为资料整理的参考价，签约以栖息地官方报价单为准。</div>';
     box.innerHTML = html;
@@ -7944,6 +8015,8 @@
   .hb-city { flex:1; max-width:280px; background:var(--field); border:1px solid var(--line-strong); border-radius:var(--radius-control); color:var(--ink); font-size:14px; font-weight:600; padding:11px 14px; outline:none; font-family:inherit; }
   .hb-city:focus { border-color:var(--accent); }
   .hb-city-row .unit { font-size:14px; color:var(--accent-ink); font-weight:600; white-space:nowrap; }
+  .hb-wall-chips { display:flex; gap:6px; flex-wrap:wrap; margin-top:11px; }
+  .hb-wall-chips .hb-chip { padding:6px 12px; font-size:12px; }
   .hb-hint { font-size:12px; color:var(--ink-2); line-height:1.8; margin-top:12px; background:var(--inset); border-radius:10px; padding:10px 12px; }
   .hb-adjs { display:grid; grid-template-columns:1fr 1fr; gap:12px; }
   .hb-adj { background:var(--inset); border-radius:12px; padding:14px; }
